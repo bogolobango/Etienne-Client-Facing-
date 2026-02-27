@@ -20,12 +20,12 @@ const iconMap = {
 }
 
 const colorMap = {
-  call: 'text-[#3B82F6] bg-[#3B82F6]/10',
+  call: 'text-[#2D5BFF] bg-[#2D5BFF]/10',
   sms: 'text-[#00D4AA] bg-[#00D4AA]/10',
-  booking: 'text-[#8B5CF6] bg-[#8B5CF6]/10',
-  alert: 'text-[#FFB547] bg-[#FFB547]/10',
+  booking: 'text-[#7B61FF] bg-[#7B61FF]/10',
+  alert: 'text-[#FF8C42] bg-[#FF8C42]/10',
   revenue: 'text-[#00D4AA] bg-[#00D4AA]/10',
-  web: 'text-[#3B82F6] bg-[#3B82F6]/10',
+  web: 'text-[#2D5BFF] bg-[#2D5BFF]/10',
 }
 
 const defaultActivities: Activity[] = [
@@ -59,9 +59,9 @@ export function ActivityFeed({ activities = defaultActivities, maxItems = 8 }: A
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.05, duration: 0.3 }}
-            className="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.02] transition-colors"
+            className="flex items-start gap-3 p-3 rounded-xl hover:bg-[#7B61FF]/[0.03] transition-colors"
           >
-            <div className={cn('p-1.5 rounded-md mt-0.5', colorMap[activity.type])}>
+            <div className={cn('p-1.5 rounded-lg mt-0.5', colorMap[activity.type])}>
               <Icon className="w-3.5 h-3.5" />
             </div>
             <div className="flex-1 min-w-0">

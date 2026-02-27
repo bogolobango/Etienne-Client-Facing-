@@ -31,6 +31,12 @@
   --accent-blue: #3B82F6;
   --accent-purple: #8B5CF6;
 
+  /* Orb colors from reference site */
+  --orb-blue: #2D5BFF;
+  --orb-teal: #00D4AA;
+  --orb-purple: #7B61FF;
+  --orb-orange: #FF8C42;
+
   --text-primary: #F1F5F9;
   --text-secondary: #94A3B8;
   --text-tertiary: #64748B;
@@ -56,7 +62,7 @@
   --destructive-foreground: #F1F5F9;
   --border: rgba(255, 255, 255, 0.06);
   --input: rgba(255, 255, 255, 0.06);
-  --ring: #00D4AA;
+  --ring: #7B61FF;
   --chart-1: #00D4AA;
   --chart-2: #3B82F6;
   --chart-3: #8B5CF6;
@@ -96,7 +102,138 @@ body {
   font-family: 'Geist Mono', 'JetBrains Mono', monospace;
 }
 
-/* Scrollbar styling */
+/* ================================================================
+   GRADIENT ORB SYSTEM — from reference site
+   ================================================================ */
+
+.gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform, opacity;
+}
+
+.orb-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+@keyframes orb-float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25%      { transform: translate(30px, -25px) scale(1.05); }
+  50%      { transform: translate(-15px, 20px) scale(0.97); }
+  75%      { transform: translate(25px, 10px) scale(1.03); }
+}
+
+@keyframes orb-float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  20%      { transform: translate(-25px, 15px) scale(1.04); }
+  40%      { transform: translate(15px, -30px) scale(0.96); }
+  60%      { transform: translate(-20px, -10px) scale(1.02); }
+  80%      { transform: translate(30px, 20px) scale(0.98); }
+}
+
+@keyframes orb-float-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  30%      { transform: translate(20px, 30px) scale(0.95); }
+  60%      { transform: translate(-30px, -15px) scale(1.06); }
+  80%      { transform: translate(10px, -25px) scale(0.98); }
+}
+
+/* ================================================================
+   CARD STYLES — Premium glassmorphism with purple hover
+   ================================================================ */
+
+.card-premium {
+  background: rgba(26, 31, 53, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  border: 1px solid rgba(123, 97, 255, 0.08);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.2),
+    0 1px 2px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.card-premium:hover {
+  border-color: rgba(123, 97, 255, 0.25);
+  box-shadow:
+    0 4px 16px rgba(123, 97, 255, 0.12),
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+.card-on-alt {
+  background: rgba(26, 31, 53, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 1rem;
+  border: 1px solid rgba(123, 97, 255, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.card-on-alt:hover {
+  border-color: rgba(123, 97, 255, 0.25);
+  box-shadow:
+    0 6px 20px rgba(123, 97, 255, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Icon containers with purple gradient tint */
+.icon-container-lg {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, rgba(123, 97, 255, 0.15) 0%, rgba(123, 97, 255, 0.06) 100%);
+  border: 1px solid rgba(123, 97, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 2px 8px rgba(123, 97, 255, 0.1);
+}
+
+/* Stat/Hero number styling */
+.stat-number {
+  font-family: 'Geist Mono', 'JetBrains Mono', monospace;
+  letter-spacing: -0.02em;
+}
+
+/* Button pill with glow */
+.btn-primary-pill {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.btn-primary-pill:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 24px rgba(123, 97, 255, 0.3);
+}
+
+.btn-primary-pill:active {
+  transform: scale(0.99);
+}
+
+/* ================================================================
+   SCROLLBAR
+   ================================================================ */
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -105,14 +242,20 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(123, 97, 255, 0.15);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(123, 97, 255, 0.3);
 }
 
 /* Chart grid lines */
 .recharts-cartesian-grid line {
   stroke: rgba(255, 255, 255, 0.04);
+}
+
+/* Section dot pattern overlay */
+.dot-pattern {
+  background-image: radial-gradient(circle, rgba(123, 97, 255, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
 }

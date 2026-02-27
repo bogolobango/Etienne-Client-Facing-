@@ -14,7 +14,7 @@ function getHeatmapColor(value: number): string {
   if (value >= 65) return 'bg-[#00D4AA]/60'
   if (value >= 50) return 'bg-[#FFB547]/60'
   if (value >= 30) return 'bg-[#FFB547]/30'
-  return 'bg-white/[0.04]'
+  return 'bg-[#7B61FF]/[0.06]'
 }
 
 // Deterministic heatmap data
@@ -69,7 +69,7 @@ export function UtilizationDashboard() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link to="/scheduling" className="p-2 rounded-lg hover:bg-white/[0.04] text-[#94A3B8] transition-colors">
+        <Link to="/scheduling" className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
@@ -82,7 +82,7 @@ export function UtilizationDashboard() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+        className="card-premium p-6"
       >
         <h3 className="text-sm font-medium text-[#94A3B8] mb-4">
           Capacity Heatmap — {selectedLocation === 'all' ? 'All Locations' : locations.find(l => l.id === selectedLocation)?.name}
@@ -110,7 +110,7 @@ export function UtilizationDashboard() {
                     transition={{ delay: (dayIdx * 9 + hourIdx) * 0.01 }}
                     className={cn(
                       'h-10 rounded-md flex items-center justify-center text-xs font-mono transition-colors',
-                      value === 0 ? 'bg-white/[0.02] text-[#64748B]' : getHeatmapColor(value),
+                      value === 0 ? 'bg-[#7B61FF]/[0.03] text-[#64748B]' : getHeatmapColor(value),
                       value >= 65 ? 'text-[#0A0F1C] font-medium' : 'text-[#94A3B8]'
                     )}
                   >
@@ -126,7 +126,7 @@ export function UtilizationDashboard() {
         <div className="flex items-center gap-4 mt-4">
           <span className="text-xs text-[#64748B]">Low</span>
           <div className="flex gap-1">
-            {['bg-white/[0.04]', 'bg-[#FFB547]/30', 'bg-[#FFB547]/60', 'bg-[#00D4AA]/60', 'bg-[#00D4AA]'].map((color, i) => (
+            {['bg-[#7B61FF]/[0.06]', 'bg-[#FFB547]/30', 'bg-[#FFB547]/60', 'bg-[#00D4AA]/60', 'bg-[#00D4AA]'].map((color, i) => (
               <div key={i} className={cn('w-8 h-4 rounded-sm', color)} />
             ))}
           </div>
@@ -140,7 +140,7 @@ export function UtilizationDashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+          className="card-premium p-6"
         >
           <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Utilization by Location</h3>
           <div className="h-[250px]">
@@ -149,7 +149,7 @@ export function UtilizationDashboard() {
                 <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
                 <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94A3B8', fontSize: 12 }} width={120} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#1A1F35', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#F1F5F9' }}
+                  contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
                   formatter={(value: number) => [`${value}%`, 'Utilization']}
                 />
                 <Bar dataKey="utilization" fill="#00D4AA" radius={[0, 4, 4, 0]} />
@@ -163,7 +163,7 @@ export function UtilizationDashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+          className="card-premium p-6"
         >
           <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Revenue per Provider Hour</h3>
           <div className="h-[250px]">
@@ -172,7 +172,7 @@ export function UtilizationDashboard() {
                 <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} tickFormatter={(v) => `$${v}`} />
                 <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94A3B8', fontSize: 12 }} width={120} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#1A1F35', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#F1F5F9' }}
+                  contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
                   formatter={(value: number) => [`$${value}/hr`, 'Revenue']}
                 />
                 <Bar dataKey="revenuePerHour" fill="#3B82F6" radius={[0, 4, 4, 0]} />

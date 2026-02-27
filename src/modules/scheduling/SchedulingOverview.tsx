@@ -83,7 +83,7 @@ export function SchedulingOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+          className="card-premium p-6"
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-[#94A3B8]">Today's Timeline</h3>
@@ -93,7 +93,7 @@ export function SchedulingOverview() {
           </div>
           <div className="space-y-2">
             {(todayAppts.length > 0 ? todayAppts : filteredAppts.slice(0, 8)).map((appt) => (
-              <div key={appt.id} className="flex items-center gap-4 p-3 rounded-lg border border-white/[0.06] bg-white/[0.02]">
+              <div key={appt.id} className="flex items-center gap-4 p-3 rounded-lg border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03]">
                 <div className="text-sm font-mono text-[#94A3B8] w-20 shrink-0">
                   {appt.startTime}
                 </div>
@@ -164,7 +164,7 @@ export function SchedulingOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+          className="card-premium p-6"
         >
           <h3 className="text-sm font-medium text-[#94A3B8] mb-4">No-Show Rate Trend</h3>
           <div className="h-[250px]">
@@ -173,7 +173,7 @@ export function SchedulingOverview() {
                 <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 11 }} interval={6} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} tickFormatter={(v) => `${v.toFixed(0)}%`} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#1A1F35', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#F1F5F9' }}
+                  contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
                   formatter={(value: number) => [`${value.toFixed(1)}%`, 'No-Show Rate']}
                 />
                 <Line type="monotone" dataKey="noShowRate" stroke="#FF6B6B" strokeWidth={2} dot={false} />
@@ -187,7 +187,7 @@ export function SchedulingOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-          className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+          className="card-premium p-6"
         >
           <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Utilization Rate Trend</h3>
           <div className="h-[250px]">
@@ -196,7 +196,7 @@ export function SchedulingOverview() {
                 <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 11 }} interval={6} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} tickFormatter={(v) => `${v.toFixed(0)}%`} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#1A1F35', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#F1F5F9' }}
+                  contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
                   formatter={(value: number) => [`${value.toFixed(1)}%`, 'Utilization']}
                 />
                 <Line type="monotone" dataKey="utilization" stroke="#00D4AA" strokeWidth={2} dot={false} />
@@ -212,7 +212,7 @@ export function SchedulingOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="lg:col-span-2 rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+          className="lg:col-span-2 card-premium p-6"
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-[#94A3B8]">High No-Show Risk</h3>
@@ -244,7 +244,7 @@ export function SchedulingOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35 }}
-          className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+          className="card-premium p-6"
         >
           <h3 className="text-sm font-medium text-[#94A3B8] mb-4">AI Agents</h3>
           <div className="space-y-2">

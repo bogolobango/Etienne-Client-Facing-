@@ -78,7 +78,7 @@ export function IntelligenceOverview() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+            className="card-premium p-6"
           >
             <h3 className="text-sm font-medium text-[#94A3B8] mb-4">AI Suggested Actions</h3>
             <div className="space-y-3">
@@ -99,7 +99,7 @@ export function IntelligenceOverview() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+            className="card-premium p-6"
           >
             <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Team Leaderboard</h3>
             <div className="space-y-3">
@@ -111,7 +111,7 @@ export function IntelligenceOverview() {
               ].map((person, i) => (
                 <div key={i} className={cn(
                   'flex items-center justify-between p-3 rounded-lg',
-                  person.name === 'You' ? 'border border-[#00D4AA]/20 bg-[#00D4AA]/5' : 'border border-white/[0.06] bg-white/[0.02]'
+                  person.name === 'You' ? 'border border-[#00D4AA]/20 bg-[#00D4AA]/5' : 'border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03]'
                 )}>
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-mono text-[#64748B] w-4">#{i + 1}</span>
@@ -195,7 +195,7 @@ export function IntelligenceOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="lg:col-span-2 rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+          className="lg:col-span-2 card-premium p-6"
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-[#94A3B8]">Location Revenue Comparison</h3>
@@ -209,7 +209,7 @@ export function IntelligenceOverview() {
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 11 }} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#1A1F35', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#F1F5F9' }}
+                  contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
                   formatter={(value: number) => [formatCurrency(value)]}
                 />
                 <Bar dataKey="revenue" fill="#00D4AA" radius={[4, 4, 0, 0]} name="Revenue" />
@@ -224,7 +224,7 @@ export function IntelligenceOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-          className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+          className="card-premium p-6"
         >
           <h3 className="text-sm font-medium text-[#94A3B8] mb-4">AI Opportunities</h3>
           <div className="space-y-3">
@@ -244,7 +244,7 @@ export function IntelligenceOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+          className="card-premium p-6"
         >
           <h3 className="text-sm font-medium text-[#94A3B8] mb-4">AI Agents</h3>
           <div className="space-y-2">

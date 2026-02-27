@@ -53,7 +53,7 @@ export function Reports() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link to="/intelligence" className="p-2 rounded-lg hover:bg-white/[0.04] text-[#94A3B8] transition-colors">
+        <Link to="/intelligence" className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div className="flex-1">
@@ -70,7 +70,7 @@ export function Reports() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+        className="card-premium p-6"
       >
         <div className="flex items-center gap-2 mb-4">
           <FileText className="w-4 h-4 text-[#8B5CF6]" />
@@ -107,7 +107,7 @@ export function Reports() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05 }}
-            className="p-4 rounded-xl border border-white/[0.06] bg-[#1A1F35]"
+            className="p-4 card-premium"
           >
             <p className="text-xs text-[#64748B] mb-1">{metric.label}</p>
             <p className="text-xl font-mono font-semibold text-[#F1F5F9]">{metric.value}</p>
@@ -124,13 +124,13 @@ export function Reports() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+        className="card-premium p-6"
       >
         <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Location Breakdown</h3>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-white/[0.06]">
+              <tr className="border-b border-[#7B61FF]/[0.08]">
                 <th className="text-left text-xs text-[#64748B] font-medium pb-3 pr-4">Location</th>
                 <th className="text-right text-xs text-[#64748B] font-medium pb-3 px-4">Revenue</th>
                 <th className="text-right text-xs text-[#64748B] font-medium pb-3 px-4">Bookings</th>
@@ -140,7 +140,7 @@ export function Reports() {
             </thead>
             <tbody>
               {locSummaries.map((loc) => (
-                <tr key={loc.name} className="border-b border-white/[0.06] last:border-b-0">
+                <tr key={loc.name} className="border-b border-[#7B61FF]/[0.08] last:border-b-0">
                   <td className="py-3 pr-4 text-sm font-medium text-[#F1F5F9]">{loc.name}</td>
                   <td className="text-right py-3 px-4 font-mono text-sm text-[#F1F5F9]">{formatCurrency(loc.revenue)}</td>
                   <td className="text-right py-3 px-4 font-mono text-sm text-[#94A3B8]">{loc.bookings}</td>
@@ -162,7 +162,7 @@ export function Reports() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25 }}
-        className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+        className="card-premium p-6"
       >
         <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Past Reports</h3>
         <div className="space-y-2">
@@ -170,7 +170,7 @@ export function Reports() {
             const start = new Date(now.getTime() - (weeksAgo + 1) * 7 * 86400000)
             const end = new Date(now.getTime() - weeksAgo * 7 * 86400000)
             return (
-              <div key={weeksAgo} className="flex items-center justify-between p-3 rounded-lg border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-colors cursor-pointer">
+              <div key={weeksAgo} className="flex items-center justify-between p-3 rounded-lg border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03] hover:border-[#7B61FF]/[0.2] transition-all duration-200 cursor-pointer">
                 <div className="flex items-center gap-3">
                   <Calendar className="w-4 h-4 text-[#64748B]" />
                   <span className="text-sm text-[#F1F5F9]">

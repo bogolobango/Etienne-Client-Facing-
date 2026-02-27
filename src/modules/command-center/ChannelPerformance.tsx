@@ -47,7 +47,7 @@ export function ChannelPerformance() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link to="/command-center" className="p-2 rounded-lg hover:bg-white/[0.04] text-[#94A3B8] transition-colors">
+        <Link to="/command-center" className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
@@ -60,7 +60,7 @@ export function ChannelPerformance() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+        className="card-premium p-6"
       >
         <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Avg Response Time (90-Day Trend)</h3>
         <div className="h-[300px]">
@@ -80,7 +80,7 @@ export function ChannelPerformance() {
                 tickFormatter={(v) => v < 60 ? `${Math.round(v)}s` : `${(v / 60).toFixed(0)}m`}
               />
               <Tooltip
-                contentStyle={{ backgroundColor: '#1A1F35', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#F1F5F9' }}
+                contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
                 formatter={(value: number) => [value < 60 ? `${Math.round(value)}s` : `${(value / 60).toFixed(1)}m`, 'Avg Response']}
               />
               <Area type="monotone" dataKey="responseTime" stroke="#3B82F6" strokeWidth={2} fill="url(#responseGrad)" />
@@ -95,7 +95,7 @@ export function ChannelPerformance() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+          className="card-premium p-6"
         >
           <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Calls: Answered vs Missed</h3>
           <div className="h-[250px]">
@@ -103,7 +103,7 @@ export function ChannelPerformance() {
               <BarChart data={callData}>
                 <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 11 }} interval={6} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} />
-                <Tooltip contentStyle={{ backgroundColor: '#1A1F35', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#F1F5F9' }} />
+                <Tooltip contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }} />
                 <Bar dataKey="answered" fill="#00D4AA" radius={[3, 3, 0, 0]} name="Answered" />
                 <Bar dataKey="missed" fill="#FF6B6B" radius={[3, 3, 0, 0]} name="Missed" />
               </BarChart>
@@ -116,7 +116,7 @@ export function ChannelPerformance() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+          className="card-premium p-6"
         >
           <h3 className="text-sm font-medium text-[#94A3B8] mb-4">AI Resolved vs Escalated</h3>
           <div className="h-[250px]">
@@ -124,7 +124,7 @@ export function ChannelPerformance() {
               <LineChart data={resolutionData}>
                 <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 11 }} interval={6} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} />
-                <Tooltip contentStyle={{ backgroundColor: '#1A1F35', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#F1F5F9' }} />
+                <Tooltip contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }} />
                 <Line type="monotone" dataKey="aiResolved" stroke="#00D4AA" strokeWidth={2} dot={false} name="AI Resolved" />
                 <Line type="monotone" dataKey="escalated" stroke="#FFB547" strokeWidth={2} dot={false} name="Escalated" />
               </LineChart>

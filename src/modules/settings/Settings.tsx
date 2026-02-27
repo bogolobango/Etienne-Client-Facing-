@@ -64,10 +64,10 @@ export function Settings() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05 }}
-            className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+            className="card-premium p-6"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 rounded-lg bg-white/[0.04]">
+              <div className="p-2 rounded-lg bg-[#7B61FF]/[0.06]">
                 <Icon className="w-4 h-4 text-[#94A3B8]" />
               </div>
               <div>
@@ -78,7 +78,7 @@ export function Settings() {
 
             <div className="space-y-3">
               {section.items.map((item) => (
-                <div key={item.label} className="flex items-center justify-between p-3 rounded-lg border border-white/[0.06] bg-white/[0.02]">
+                <div key={item.label} className="flex items-center justify-between p-3 rounded-lg border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03]">
                   <span className="text-sm text-[#94A3B8]">{item.label}</span>
                   {'toggle' in item ? (
                     <div className="w-10 h-5 rounded-full bg-[#00D4AA] relative cursor-pointer">

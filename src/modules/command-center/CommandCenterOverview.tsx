@@ -87,7 +87,7 @@ export function CommandCenterOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+          className="card-premium p-6"
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-[#94A3B8]">Live Queue</h3>
@@ -99,7 +99,7 @@ export function CommandCenterOverview() {
             {activeConvos.slice(0, 8).map((convo) => (
               <div
                 key={convo.id}
-                className="flex items-center justify-between p-3 rounded-lg border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-colors cursor-pointer"
+                className="flex items-center justify-between p-3 rounded-lg border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03] hover:border-[#7B61FF]/[0.2] transition-all duration-200 cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <div className={cn(
@@ -175,7 +175,7 @@ export function CommandCenterOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+          className="card-premium p-6"
         >
           <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Channel Breakdown</h3>
           <div className="h-[200px]">
@@ -196,9 +196,9 @@ export function CommandCenterOverview() {
                 </Pie>
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#1A1F35',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    borderRadius: '8px',
+                    backgroundColor: 'rgba(26, 31, 53, 0.95)',
+                    border: '1px solid rgba(123, 97, 255, 0.15)',
+                    borderRadius: '12px',
                     color: '#F1F5F9',
                   }}
                 />
@@ -220,7 +220,7 @@ export function CommandCenterOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-          className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+          className="card-premium p-6"
         >
           <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Resolution Breakdown</h3>
           <div className="h-[200px]">
@@ -241,9 +241,9 @@ export function CommandCenterOverview() {
                 </Pie>
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#1A1F35',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    borderRadius: '8px',
+                    backgroundColor: 'rgba(26, 31, 53, 0.95)',
+                    border: '1px solid rgba(123, 97, 255, 0.15)',
+                    borderRadius: '12px',
                     color: '#F1F5F9',
                   }}
                 />
@@ -265,7 +265,7 @@ export function CommandCenterOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+          className="card-premium p-6"
         >
           <h3 className="text-sm font-medium text-[#94A3B8] mb-4">AI Agents</h3>
           <div className="space-y-2">
@@ -286,7 +286,7 @@ export function CommandCenterOverview() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.35 }}
-        className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+        className="card-premium p-6"
       >
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-medium text-[#94A3B8]">Calls Answered vs Missed (Weekly)</h3>
@@ -301,9 +301,9 @@ export function CommandCenterOverview() {
               <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#1A1F35',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: '8px',
+                  backgroundColor: 'rgba(26, 31, 53, 0.95)',
+                  border: '1px solid rgba(123, 97, 255, 0.15)',
+                  borderRadius: '12px',
                   color: '#F1F5F9',
                 }}
               />

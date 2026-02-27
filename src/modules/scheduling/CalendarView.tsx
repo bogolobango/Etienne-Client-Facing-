@@ -42,7 +42,7 @@ export function CalendarView() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
-        <Link to="/scheduling" className="p-2 rounded-lg hover:bg-white/[0.04] text-[#94A3B8] transition-colors">
+        <Link to="/scheduling" className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div className="flex-1">
@@ -52,7 +52,7 @@ export function CalendarView() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setDateOffset((d) => d - 1)}
-            className="p-2 rounded-lg hover:bg-white/[0.04] text-[#94A3B8] transition-colors"
+            className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -61,7 +61,7 @@ export function CalendarView() {
           </span>
           <button
             onClick={() => setDateOffset((d) => d + 1)}
-            className="p-2 rounded-lg hover:bg-white/[0.04] text-[#94A3B8] transition-colors"
+            className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -88,13 +88,13 @@ export function CalendarView() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="rounded-xl border border-white/[0.06] bg-[#1A1F35] overflow-hidden"
+        className="card-premium overflow-hidden"
       >
         {/* Provider headers */}
-        <div className="grid border-b border-white/[0.06]" style={{ gridTemplateColumns: `80px repeat(${displayProviders.length}, 1fr)` }}>
-          <div className="p-3 border-r border-white/[0.06]" />
+        <div className="grid border-b border-[#7B61FF]/[0.08]" style={{ gridTemplateColumns: `80px repeat(${displayProviders.length}, 1fr)` }}>
+          <div className="p-3 border-r border-[#7B61FF]/[0.08]" />
           {displayProviders.map((provider) => (
-            <div key={provider} className="p-3 border-r border-white/[0.06] last:border-r-0">
+            <div key={provider} className="p-3 border-r border-[#7B61FF]/[0.08] last:border-r-0">
               <p className="text-sm font-medium text-[#F1F5F9] text-center truncate">{provider}</p>
             </div>
           ))}
@@ -105,10 +105,10 @@ export function CalendarView() {
           {timeSlots.map((time) => (
             <div
               key={time}
-              className="grid border-b border-white/[0.06] last:border-b-0"
+              className="grid border-b border-[#7B61FF]/[0.08] last:border-b-0"
               style={{ gridTemplateColumns: `80px repeat(${displayProviders.length}, 1fr)` }}
             >
-              <div className="p-2 border-r border-white/[0.06] flex items-start">
+              <div className="p-2 border-r border-[#7B61FF]/[0.08] flex items-start">
                 <span className="text-xs text-[#64748B] font-mono">{time}</span>
               </div>
               {displayProviders.map((provider) => {
@@ -116,12 +116,12 @@ export function CalendarView() {
                   (a) => a.provider === provider && a.startTime === time
                 )
                 return (
-                  <div key={provider} className="p-1 border-r border-white/[0.06] last:border-r-0 min-h-[48px]">
+                  <div key={provider} className="p-1 border-r border-[#7B61FF]/[0.08] last:border-r-0 min-h-[48px]">
                     {appt && (
                       <div
                         className={cn(
                           'p-2 rounded-md border-l-2 cursor-pointer hover:opacity-80 transition-opacity',
-                          serviceColors[appt.service] || 'border-l-[#94A3B8] bg-white/[0.02]'
+                          serviceColors[appt.service] || 'border-l-[#94A3B8] bg-[#7B61FF]/[0.03]'
                         )}
                       >
                         <p className="text-xs font-medium text-[#F1F5F9] truncate">{appt.clientName}</p>

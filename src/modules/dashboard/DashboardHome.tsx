@@ -156,7 +156,7 @@ export function DashboardHome() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="lg:col-span-2 rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+              className="lg:col-span-2 card-premium p-6"
             >
               <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Revenue Trend (30 days)</h3>
               <div className="h-[280px]">
@@ -183,10 +183,11 @@ export function DashboardHome() {
                     />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: '#1A1F35',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        borderRadius: '8px',
+                        backgroundColor: 'rgba(26, 31, 53, 0.95)',
+                        border: '1px solid rgba(123, 97, 255, 0.15)',
+                        borderRadius: '12px',
                         color: '#F1F5F9',
+                        backdropFilter: 'blur(12px)',
                       }}
                       formatter={(value: number) => [formatCurrency(value), 'Revenue']}
                     />
@@ -207,7 +208,7 @@ export function DashboardHome() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+              className="card-premium p-6"
             >
               <h3 className="text-sm font-medium text-[#94A3B8] mb-4">AI Opportunities</h3>
               <div className="space-y-3">
@@ -254,7 +255,7 @@ export function DashboardHome() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35 }}
-              className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+              className="card-premium p-6"
             >
               <h3 className="text-sm font-medium text-[#94A3B8] mb-4">AI Agents</h3>
               <div className="space-y-2">
@@ -269,7 +270,7 @@ export function DashboardHome() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="lg:col-span-2 rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+              className="lg:col-span-2 card-premium p-6"
             >
               <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Live Activity</h3>
               <ActivityFeed />
@@ -282,7 +283,7 @@ export function DashboardHome() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.45 }}
-              className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+              className="card-premium p-6"
             >
               <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Location Performance</h3>
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -291,7 +292,7 @@ export function DashboardHome() {
                   return (
                     <div
                       key={loc.id}
-                      className="p-4 rounded-lg border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-colors"
+                      className="p-4 rounded-lg border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03] hover:border-[#7B61FF]/[0.2] transition-all duration-200"
                     >
                       <p className="text-sm font-medium text-[#F1F5F9]">{loc.name}</p>
                       <p className="text-xs text-[#64748B]">{loc.city}, {loc.state}</p>
@@ -352,7 +353,7 @@ export function DashboardHome() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+              className="card-premium p-6"
             >
               <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Today's Tasks</h3>
               <div className="space-y-3">
@@ -363,7 +364,7 @@ export function DashboardHome() {
                   { task: 'Call back Maria L. — asked about package pricing', priority: 'pending' },
                   { task: 'Check in on waitlist patients for tomorrow', priority: 'ai_handling' },
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 p-3 rounded-lg border border-white/[0.06] bg-white/[0.02]">
+                  <div key={i} className="flex items-center gap-3 p-3 rounded-lg border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03]">
                     <div className={cn(
                       'w-2 h-2 rounded-full shrink-0',
                       item.priority === 'urgent' ? 'bg-[#FF6B6B]' :
@@ -380,7 +381,7 @@ export function DashboardHome() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+              className="card-premium p-6"
             >
               <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Recent Activity</h3>
               <ActivityFeed maxItems={6} />

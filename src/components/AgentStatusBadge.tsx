@@ -44,7 +44,7 @@ export function AgentStatusBadge({ agent, compact = false }: AgentStatusBadgePro
   }
 
   return (
-    <div className="flex items-center justify-between p-3 rounded-lg border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-colors">
+    <div className="flex items-center justify-between p-3 rounded-xl border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03] hover:border-[#7B61FF]/[0.2] hover:bg-[#7B61FF]/[0.06] transition-all duration-200">
       <div className="flex items-center gap-3">
         <div className={cn('relative w-2.5 h-2.5 rounded-full ring-4', config.color, config.ring)}>
           {config.pulse && (

@@ -52,7 +52,7 @@ export function ConversationInbox() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
-        <Link to="/command-center" className="p-2 rounded-lg hover:bg-white/[0.04] text-[#94A3B8] transition-colors">
+        <Link to="/command-center" className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
@@ -63,9 +63,9 @@ export function ConversationInbox() {
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 h-[calc(100vh-180px)]">
         {/* Conversation List */}
-        <div className="lg:col-span-2 rounded-xl border border-white/[0.06] bg-[#1A1F35] flex flex-col overflow-hidden">
+        <div className="lg:col-span-2 card-premium flex flex-col overflow-hidden">
           {/* Search */}
-          <div className="p-3 border-b border-white/[0.06]">
+          <div className="p-3 border-b border-[#7B61FF]/[0.08]">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
               <input
@@ -73,7 +73,7 @@ export function ConversationInbox() {
                 placeholder="Search conversations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 bg-white/[0.04] border border-white/[0.06] rounded-lg text-sm text-[#F1F5F9] placeholder:text-[#64748B] outline-none focus:border-[#00D4AA]/50"
+                className="w-full pl-9 pr-3 py-2 bg-[#7B61FF]/[0.06] border border-[#7B61FF]/[0.08] rounded-lg text-sm text-[#F1F5F9] placeholder:text-[#64748B] outline-none focus:border-[#00D4AA]/50"
               />
             </div>
           </div>
@@ -87,8 +87,8 @@ export function ConversationInbox() {
                   key={convo.id}
                   onClick={() => setSelectedConvo(convo)}
                   className={cn(
-                    'p-3 border-b border-white/[0.06] cursor-pointer transition-colors',
-                    selectedConvo?.id === convo.id ? 'bg-white/[0.04]' : 'hover:bg-white/[0.02]'
+                    'p-3 border-b border-[#7B61FF]/[0.08] cursor-pointer transition-colors',
+                    selectedConvo?.id === convo.id ? 'bg-[#7B61FF]/[0.06]' : 'hover:bg-[#7B61FF]/[0.03]'
                   )}
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -117,11 +117,11 @@ export function ConversationInbox() {
         </div>
 
         {/* Conversation Detail */}
-        <div className="lg:col-span-3 rounded-xl border border-white/[0.06] bg-[#1A1F35] flex flex-col overflow-hidden">
+        <div className="lg:col-span-3 card-premium flex flex-col overflow-hidden">
           {selectedConvo ? (
             <>
               {/* Header */}
-              <div className="p-4 border-b border-white/[0.06]">
+              <div className="p-4 border-b border-[#7B61FF]/[0.08]">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-lg font-medium text-[#F1F5F9]">{selectedConvo.clientName}</p>
@@ -172,7 +172,7 @@ export function ConversationInbox() {
                     <div className={cn(
                       'max-w-[70%] p-3 rounded-lg text-sm',
                       msg.role === 'client'
-                        ? 'bg-white/[0.04] text-[#F1F5F9]'
+                        ? 'bg-[#7B61FF]/[0.06] text-[#F1F5F9]'
                         : msg.role === 'ai'
                         ? 'bg-[#8B5CF6]/10 text-[#F1F5F9]'
                         : 'bg-[#00D4AA]/10 text-[#F1F5F9]'
@@ -197,12 +197,12 @@ export function ConversationInbox() {
               </div>
 
               {/* Reply box */}
-              <div className="p-3 border-t border-white/[0.06]">
+              <div className="p-3 border-t border-[#7B61FF]/[0.08]">
                 <div className="flex items-center gap-2">
                   <input
                     type="text"
                     placeholder="Type a response or let AI suggest..."
-                    className="flex-1 px-3 py-2 bg-white/[0.04] border border-white/[0.06] rounded-lg text-sm text-[#F1F5F9] placeholder:text-[#64748B] outline-none focus:border-[#00D4AA]/50"
+                    className="flex-1 px-3 py-2 bg-[#7B61FF]/[0.06] border border-[#7B61FF]/[0.08] rounded-lg text-sm text-[#F1F5F9] placeholder:text-[#64748B] outline-none focus:border-[#00D4AA]/50"
                   />
                   <button className="p-2 bg-[#00D4AA] rounded-lg hover:bg-[#00D4AA]/90 transition-colors">
                     <Send className="w-4 h-4 text-[#0A0F1C]" />

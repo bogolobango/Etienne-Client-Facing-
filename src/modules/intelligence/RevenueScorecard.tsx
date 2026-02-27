@@ -72,7 +72,7 @@ export function RevenueScorecard() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link to="/intelligence" className="p-2 rounded-lg hover:bg-white/[0.04] text-[#94A3B8] transition-colors">
+        <Link to="/intelligence" className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
@@ -85,7 +85,7 @@ export function RevenueScorecard() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+        className="card-premium p-6"
       >
         <h3 className="text-sm font-medium text-[#94A3B8] mb-4">ROI Dashboard: Before EIP vs After EIP</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -107,7 +107,7 @@ export function RevenueScorecard() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="p-4 rounded-lg border border-white/[0.06] bg-white/[0.02]"
+                className="p-4 rounded-lg border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03]"
               >
                 <p className="text-xs text-[#64748B] mb-3">{item.metric}</p>
                 <div className="grid grid-cols-2 gap-3">
@@ -135,7 +135,7 @@ export function RevenueScorecard() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+        className="card-premium p-6"
       >
         <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Revenue Recovery Trend (90 Days)</h3>
         <div className="h-[280px]">
@@ -150,7 +150,7 @@ export function RevenueScorecard() {
               <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 11 }} interval={14} />
               <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} tickFormatter={(v) => `$${v}`} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#1A1F35', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#F1F5F9' }}
+                contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
                 formatter={(value: number) => [formatCurrency(value), 'Recovered']}
               />
               <Area type="monotone" dataKey="recovered" stroke="#00D4AA" strokeWidth={2} fill="url(#recoverGrad)" />
@@ -164,13 +164,13 @@ export function RevenueScorecard() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15 }}
-        className="rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6"
+        className="card-premium p-6"
       >
         <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Location Scorecard</h3>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-white/[0.06]">
+              <tr className="border-b border-[#7B61FF]/[0.08]">
                 <th className="text-left text-xs text-[#64748B] font-medium pb-3 pr-4">Location</th>
                 <th className="text-right text-xs text-[#64748B] font-medium pb-3 px-4">Revenue</th>
                 <th className="text-right text-xs text-[#64748B] font-medium pb-3 px-4">Recovered</th>
@@ -181,7 +181,7 @@ export function RevenueScorecard() {
             </thead>
             <tbody>
               {locationScores.map((loc) => (
-                <tr key={loc.name} className="border-b border-white/[0.06] last:border-b-0 hover:bg-white/[0.02] transition-colors">
+                <tr key={loc.name} className="border-b border-[#7B61FF]/[0.08] last:border-b-0 hover:bg-[#7B61FF]/[0.03] transition-colors">
                   <td className="py-3 pr-4">
                     <p className="text-sm font-medium text-[#F1F5F9]">{loc.name}</p>
                     <p className="text-xs text-[#64748B]">{loc.city}</p>

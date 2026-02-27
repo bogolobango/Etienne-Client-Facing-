@@ -98,23 +98,24 @@ export function MetricCard({
       ref={ref}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: delay * 0.05, ease: 'easeOut' }}
+      transition={{ duration: 0.5, delay: delay * 0.08, ease: 'easeOut' }}
       onClick={onClick}
       className={cn(
-        'relative overflow-hidden rounded-xl border border-white/[0.06] bg-[#1A1F35] p-6',
-        'transition-all duration-200',
-        'hover:border-white/[0.12] hover:shadow-lg hover:shadow-black/20',
-        onClick && 'cursor-pointer hover:scale-[1.01]'
+        'card-premium relative overflow-hidden p-6',
+        onClick && 'cursor-pointer'
       )}
     >
-      <div className="flex items-start justify-between">
+      {/* Subtle inner glow */}
+      <div className="absolute inset-0 rounded-[1rem] bg-gradient-to-br from-[#7B61FF]/[0.03] to-transparent pointer-events-none" />
+
+      <div className="relative flex items-start justify-between">
         <div className="flex-1">
           <p className="text-sm text-[#94A3B8] mb-1">{label}</p>
-          <p className="text-3xl font-mono font-semibold tracking-tight text-[#F1F5F9]">
+          <p className="text-3xl font-mono font-semibold tracking-tight text-[#F1F5F9] stat-number">
             {formatValue(displayValue, format)}
           </p>
           {trend !== undefined && (
-            <div className={cn('flex items-center gap-1 mt-2 text-sm', trendColor)}>
+            <div className={cn('flex items-center gap-1 mt-2.5 text-sm', trendColor)}>
               {isPositiveTrend ? (
                 <TrendingUp className="w-4 h-4" />
               ) : (
@@ -130,7 +131,7 @@ export function MetricCard({
           )}
         </div>
         {icon && (
-          <div className="p-2 rounded-lg bg-white/[0.04] text-[#94A3B8]">
+          <div className="icon-container-lg">
             {icon}
           </div>
         )}

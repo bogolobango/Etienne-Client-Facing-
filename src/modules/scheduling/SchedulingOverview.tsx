@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion'
 import { Calendar, Users, Clock, TrendingUp, ArrowRight, AlertTriangle } from 'lucide-react'
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts'
+import { XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts'
 import { MetricCard } from '@/components/MetricCard'
 import { AgentStatusBadge } from '@/components/AgentStatusBadge'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useLocationStore } from '@/stores/useLocationStore'
-import { agentStatuses, dailyMetrics, appointments, locations } from '@/data/seed'
-import { cn, formatCurrency } from '@/lib/utils'
+import { agentStatuses, dailyMetrics, appointments } from '@/data/seed'
+import { formatCurrency } from '@/lib/utils'
 import { Link } from 'react-router-dom'
 
 export function SchedulingOverview() {
@@ -25,8 +25,6 @@ export function SchedulingOverview() {
   const avgUtil = last30.length ? last30.reduce((s, m) => s + m.utilizationRate, 0) / last30.length : 0
   const avgNoShow = last30.length ? last30.reduce((s, m) => s + m.noShowRate, 0) / last30.length : 0
   const avgRebook = last30.length ? last30.reduce((s, m) => s + m.rebookingRate, 0) / last30.length : 0
-  const totalBookings = last30.reduce((s, m) => s + m.bookings, 0)
-
   const filteredAppts = selectedLocation === 'all'
     ? appointments
     : appointments.filter((a) => a.locationId === selectedLocation)
@@ -174,7 +172,7 @@ export function SchedulingOverview() {
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} tickFormatter={(v) => `${v.toFixed(0)}%`} />
                 <Tooltip
                   contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
-                  formatter={(value: number) => [`${value.toFixed(1)}%`, 'No-Show Rate']}
+                  formatter={(value: number = 0) => [`${value.toFixed(1)}%`, 'No-Show Rate']}
                 />
                 <Line type="monotone" dataKey="noShowRate" stroke="#FF6B6B" strokeWidth={2} dot={false} />
               </LineChart>
@@ -197,7 +195,7 @@ export function SchedulingOverview() {
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} tickFormatter={(v) => `${v.toFixed(0)}%`} />
                 <Tooltip
                   contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
-                  formatter={(value: number) => [`${value.toFixed(1)}%`, 'Utilization']}
+                  formatter={(value: number = 0) => [`${value.toFixed(1)}%`, 'Utilization']}
                 />
                 <Line type="monotone" dataKey="utilization" stroke="#00D4AA" strokeWidth={2} dot={false} />
               </LineChart>

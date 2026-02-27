@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
-import { User, Bell, Shield, Palette, Zap, Globe } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { User, Bell, Zap, Globe } from 'lucide-react'
 
 export function Settings() {
   const sections = [

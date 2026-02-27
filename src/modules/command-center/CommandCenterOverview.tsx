@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion'
-import { Phone, MessageSquare, Globe, Share2, ArrowRight, Clock, CheckCircle, AlertTriangle } from 'lucide-react'
+import { Phone, MessageSquare, Globe, Share2, ArrowRight, Clock, CheckCircle } from 'lucide-react'
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts'
 import { MetricCard } from '@/components/MetricCard'
 import { AgentStatusBadge } from '@/components/AgentStatusBadge'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useLocationStore } from '@/stores/useLocationStore'
 import { agentStatuses, dailyMetrics, conversations } from '@/data/seed'
-import { cn, formatCurrency } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import { Link } from 'react-router-dom'
 
 export function CommandCenterOverview() {

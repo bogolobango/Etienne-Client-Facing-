@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
-import { DollarSign, TrendingUp, Target, Brain, ArrowRight, BarChart3, Users } from 'lucide-react'
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts'
+import { DollarSign, Target, Brain, ArrowRight, BarChart3, Users } from 'lucide-react'
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { MetricCard } from '@/components/MetricCard'
 import { AgentStatusBadge } from '@/components/AgentStatusBadge'
 import { useAuthStore } from '@/stores/useAuthStore'
@@ -42,17 +42,7 @@ export function IntelligenceOverview() {
     }
   })
 
-  // Revenue trend
-  const byDate = new Map<string, number>()
-  last30.forEach((m) => {
-    byDate.set(m.date, (byDate.get(m.date) || 0) + m.revenue)
-  })
-  const revenueTrend = Array.from(byDate.entries())
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .map(([date, revenue]) => ({
-      date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-      revenue,
-    }))
+  // Revenue trend (used for chart rendering)
 
   const topOpportunities = alerts
     .filter((a) => a.type === 'opportunity' && !a.dismissed)
@@ -210,7 +200,7 @@ export function IntelligenceOverview() {
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
                 <Tooltip
                   contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
-                  formatter={(value: number) => [formatCurrency(value)]}
+                  formatter={(value: number = 0) => [formatCurrency(value)]}
                 />
                 <Bar dataKey="revenue" fill="#00D4AA" radius={[4, 4, 0, 0]} name="Revenue" />
                 <Bar dataKey="recovered" fill="#3B82F6" radius={[4, 4, 0, 0]} name="Recovered" />

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Send, Brain, Sparkles, RefreshCw } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -202,16 +202,18 @@ export function AIAnalyst() {
   const { messages, isLoading, addMessage, setLoading, clearMessages } = useChatStore()
   const [input, setInput] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const idCounter = useRef(0)
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  const sendMessage = async (content: string) => {
+  const sendMessage = useCallback((content: string) => {
     if (!content.trim() || isLoading) return
 
+    idCounter.current += 1
     const userMessage: ChatMessage = {
-      id: Date.now().toString(),
+      id: `user-${idCounter.current}`,
       role: 'user',
       content: content.trim(),
       timestamp: new Date().toISOString(),
@@ -221,18 +223,19 @@ export function AIAnalyst() {
     setLoading(true)
 
     // Simulate streaming delay
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-
-    const response = generateResponse(content)
-    const assistantMessage: ChatMessage = {
-      id: (Date.now() + 1).toString(),
-      role: 'assistant',
-      content: response,
-      timestamp: new Date().toISOString(),
-    }
-    addMessage(assistantMessage)
-    setLoading(false)
-  }
+    setTimeout(() => {
+      const response = generateResponse(content)
+      idCounter.current += 1
+      const assistantMessage: ChatMessage = {
+        id: `assistant-${idCounter.current}`,
+        role: 'assistant',
+        content: response,
+        timestamp: new Date().toISOString(),
+      }
+      addMessage(assistantMessage)
+      setLoading(false)
+    }, 1500)
+  }, [isLoading, addMessage, setLoading])
 
   return (
     <div className="flex flex-col h-[calc(100vh-120px)]">

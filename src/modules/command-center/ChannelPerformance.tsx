@@ -81,7 +81,7 @@ export function ChannelPerformance() {
               />
               <Tooltip
                 contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
-                formatter={(value: number) => [value < 60 ? `${Math.round(value)}s` : `${(value / 60).toFixed(1)}m`, 'Avg Response']}
+                formatter={(value: number = 0) => [value < 60 ? `${Math.round(value)}s` : `${(value / 60).toFixed(1)}m`, 'Avg Response']}
               />
               <Area type="monotone" dataKey="responseTime" stroke="#3B82F6" strokeWidth={2} fill="url(#responseGrad)" />
             </AreaChart>

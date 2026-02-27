@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useLocationStore } from '@/stores/useLocationStore'
 import { appointments } from '@/data/seed'
-import { cn, formatCurrency } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import { Link } from 'react-router-dom'
 
 const serviceColors: Record<string, string> = {

@@ -189,7 +189,7 @@ export function DashboardHome() {
                         color: '#F1F5F9',
                         backdropFilter: 'blur(12px)',
                       }}
-                      formatter={(value: number) => [formatCurrency(value), 'Revenue']}
+                      formatter={(value: number = 0) => [formatCurrency(value), 'Revenue']}
                     />
                     <Area
                       type="monotone"

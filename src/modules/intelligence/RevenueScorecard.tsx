@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { ArrowLeft, TrendingUp, TrendingDown } from 'lucide-react'
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, AreaChart, Area } from 'recharts'
+import { XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts'
 import { useLocationStore } from '@/stores/useLocationStore'
 import { dailyMetrics, locations } from '@/data/seed'
 import { cn, formatCurrency } from '@/lib/utils'
@@ -151,7 +151,7 @@ export function RevenueScorecard() {
               <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} tickFormatter={(v) => `$${v}`} />
               <Tooltip
                 contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
-                formatter={(value: number) => [formatCurrency(value), 'Recovered']}
+                formatter={(value: number = 0) => [formatCurrency(value), 'Recovered']}
               />
               <Area type="monotone" dataKey="recovered" stroke="#00D4AA" strokeWidth={2} fill="url(#recoverGrad)" />
             </AreaChart>

@@ -19,7 +19,6 @@ function getHeatmapColor(value: number): string {
 
 // Deterministic heatmap data
 function generateHeatmapData(): number[][] {
-  const data: number[][] = []
   const base = [
     [65, 72, 78, 82, 85, 80, 75, 68, 55],
     [58, 68, 75, 80, 78, 72, 70, 62, 48],
@@ -150,7 +149,7 @@ export function UtilizationDashboard() {
                 <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94A3B8', fontSize: 12 }} width={120} />
                 <Tooltip
                   contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
-                  formatter={(value: number) => [`${value}%`, 'Utilization']}
+                  formatter={(value: number = 0) => [`${value}%`, 'Utilization']}
                 />
                 <Bar dataKey="utilization" fill="#00D4AA" radius={[0, 4, 4, 0]} />
               </BarChart>
@@ -173,7 +172,7 @@ export function UtilizationDashboard() {
                 <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94A3B8', fontSize: 12 }} width={120} />
                 <Tooltip
                   contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
-                  formatter={(value: number) => [`$${value}/hr`, 'Revenue']}
+                  formatter={(value: number = 0) => [`$${value}/hr`, 'Revenue']}
                 />
                 <Bar dataKey="revenuePerHour" fill="#3B82F6" radius={[0, 4, 4, 0]} />
               </BarChart>

@@ -91,7 +91,7 @@ export function MetricCard({
   }, [hasAnimated, value])
 
   const isPositiveTrend = trend !== undefined && trend >= 0
-  const trendColor = isPositiveTrend ? 'text-[#00D4AA]' : 'text-[#FF6B6B]'
+  const trendColor = isPositiveTrend ? 'text-[#7B61FF]' : 'text-[#FF6B6B]'
 
   return (
     <motion.div

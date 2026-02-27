@@ -81,13 +81,13 @@ export function Settings() {
                 <div key={item.label} className="flex items-center justify-between p-3 rounded-lg border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03]">
                   <span className="text-sm text-[#94A3B8]">{item.label}</span>
                   {'toggle' in item ? (
-                    <div className="w-10 h-5 rounded-full bg-[#00D4AA] relative cursor-pointer">
+                    <div className="w-10 h-5 rounded-full bg-[#7B61FF] relative cursor-pointer">
                       <div className="absolute right-0.5 top-0.5 w-4 h-4 rounded-full bg-white transition-transform" />
                     </div>
                   ) : 'status' in item ? (
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-[#00D4AA]" />
-                      <span className="text-sm text-[#00D4AA]">{item.value}</span>
+                      <div className="w-2 h-2 rounded-full bg-[#7B61FF]" />
+                      <span className="text-sm text-[#7B61FF]">{item.value}</span>
                     </div>
                   ) : (
                     <span className="text-sm text-[#F1F5F9]">{item.value}</span>

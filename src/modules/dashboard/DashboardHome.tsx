@@ -221,7 +221,7 @@ export function DashboardHome() {
                         ? 'border-[#FF6B6B]/20 bg-[#FF6B6B]/5 hover:border-[#FF6B6B]/40'
                         : alert.type === 'warning'
                         ? 'border-[#FFB547]/20 bg-[#FFB547]/5 hover:border-[#FFB547]/40'
-                        : 'border-[#00D4AA]/20 bg-[#00D4AA]/5 hover:border-[#00D4AA]/40'
+                        : 'border-[#7B61FF]/20 bg-[#7B61FF]/5 hover:border-[#7B61FF]/40'
                     )}
                   >
                     <div className="flex items-start gap-2">
@@ -232,7 +232,7 @@ export function DashboardHome() {
                             ? 'text-[#FF6B6B]'
                             : alert.type === 'warning'
                             ? 'text-[#FFB547]'
-                            : 'text-[#00D4AA]'
+                            : 'text-[#7B61FF]'
                         )}
                       />
                       <div>
@@ -301,7 +301,7 @@ export function DashboardHome() {
                       </p>
                       <div className="flex items-center gap-2 mt-1">
                         <span className="text-xs text-[#64748B]">Util:</span>
-                        <span className="text-xs font-mono text-[#00D4AA]">
+                        <span className="text-xs font-mono text-[#7B61FF]">
                           {locMetrics.utilization.toFixed(0)}%
                         </span>
                       </div>
@@ -368,7 +368,7 @@ export function DashboardHome() {
                     <div className={cn(
                       'w-2 h-2 rounded-full shrink-0',
                       item.priority === 'urgent' ? 'bg-[#FF6B6B]' :
-                      item.priority === 'pending' ? 'bg-[#FFB547]' : 'bg-[#00D4AA]'
+                      item.priority === 'pending' ? 'bg-[#FFB547]' : 'bg-[#7B61FF]'
                     )} />
                     <p className="text-sm text-[#F1F5F9]">{item.task}</p>
                   </div>

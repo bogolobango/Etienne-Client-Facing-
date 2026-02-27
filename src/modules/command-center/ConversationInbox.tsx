@@ -24,7 +24,7 @@ export function ConversationInbox() {
   const channelIcon = (channel: string) => {
     switch (channel) {
       case 'voice': return <Phone className="w-3.5 h-3.5 text-[#3B82F6]" />
-      case 'sms': return <MessageSquare className="w-3.5 h-3.5 text-[#00D4AA]" />
+      case 'sms': return <MessageSquare className="w-3.5 h-3.5 text-[#38BDF8]" />
       case 'web': return <Globe className="w-3.5 h-3.5 text-[#8B5CF6]" />
       case 'social': return <Share2 className="w-3.5 h-3.5 text-[#FFB547]" />
       default: return null
@@ -35,17 +35,17 @@ export function ConversationInbox() {
     switch (priority) {
       case 'urgent': return 'bg-[#FF6B6B]'
       case 'pending': return 'bg-[#FFB547]'
-      default: return 'bg-[#00D4AA]'
+      default: return 'bg-[#7B61FF]'
     }
   }
 
   const statusLabel = (status: string) => {
     switch (status) {
-      case 'ai_resolved': return { text: 'AI Resolved', color: 'text-[#00D4AA] bg-[#00D4AA]/10' }
+      case 'ai_resolved': return { text: 'AI Resolved', color: 'text-[#7B61FF] bg-[#7B61FF]/10' }
       case 'escalated': return { text: 'Escalated', color: 'text-[#FFB547] bg-[#FFB547]/10' }
       case 'in_progress': return { text: 'In Progress', color: 'text-[#3B82F6] bg-[#3B82F6]/10' }
       case 'abandoned': return { text: 'Abandoned', color: 'text-[#FF6B6B] bg-[#FF6B6B]/10' }
-      default: return { text: status, color: 'text-[#94A3B8] bg-white/5' }
+      default: return { text: status, color: 'text-[#94A3B8] bg-[#7B61FF]/[0.03]' }
     }
   }
 
@@ -73,7 +73,7 @@ export function ConversationInbox() {
                 placeholder="Search conversations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 bg-[#7B61FF]/[0.06] border border-[#7B61FF]/[0.08] rounded-lg text-sm text-[#F1F5F9] placeholder:text-[#64748B] outline-none focus:border-[#00D4AA]/50"
+                className="w-full pl-9 pr-3 py-2 bg-[#7B61FF]/[0.06] border border-[#7B61FF]/[0.08] rounded-lg text-sm text-[#F1F5F9] placeholder:text-[#64748B] outline-none focus:border-[#7B61FF]/50"
               />
             </div>
           </div>
@@ -135,7 +135,7 @@ export function ConversationInbox() {
                     </div>
                   </div>
                   {selectedConvo.status !== 'ai_resolved' && (
-                    <button className="px-4 py-2 bg-[#00D4AA] text-[#0A0F1C] rounded-lg text-sm font-medium hover:bg-[#00D4AA]/90 transition-colors">
+                    <button className="px-4 py-2 bg-[#7B61FF] text-white rounded-lg text-sm font-medium hover:bg-[#7B61FF]/90 transition-colors">
                       Take Over
                     </button>
                   )}
@@ -175,7 +175,7 @@ export function ConversationInbox() {
                         ? 'bg-[#7B61FF]/[0.06] text-[#F1F5F9]'
                         : msg.role === 'ai'
                         ? 'bg-[#8B5CF6]/10 text-[#F1F5F9]'
-                        : 'bg-[#00D4AA]/10 text-[#F1F5F9]'
+                        : 'bg-[#7B61FF]/10 text-[#F1F5F9]'
                     )}>
                       <p>{msg.content}</p>
                       <p className="text-xs text-[#64748B] mt-1">
@@ -185,11 +185,11 @@ export function ConversationInbox() {
                     {msg.role !== 'client' && (
                       <div className={cn(
                         'w-7 h-7 rounded-full flex items-center justify-center shrink-0',
-                        msg.role === 'ai' ? 'bg-[#8B5CF6]/20' : 'bg-[#00D4AA]/20'
+                        msg.role === 'ai' ? 'bg-[#8B5CF6]/20' : 'bg-[#7B61FF]/20'
                       )}>
                         {msg.role === 'ai'
                           ? <Bot className="w-3.5 h-3.5 text-[#8B5CF6]" />
-                          : <UserIcon className="w-3.5 h-3.5 text-[#00D4AA]" />}
+                          : <UserIcon className="w-3.5 h-3.5 text-[#7B61FF]" />}
                       </div>
                     )}
                   </motion.div>
@@ -202,10 +202,10 @@ export function ConversationInbox() {
                   <input
                     type="text"
                     placeholder="Type a response or let AI suggest..."
-                    className="flex-1 px-3 py-2 bg-[#7B61FF]/[0.06] border border-[#7B61FF]/[0.08] rounded-lg text-sm text-[#F1F5F9] placeholder:text-[#64748B] outline-none focus:border-[#00D4AA]/50"
+                    className="flex-1 px-3 py-2 bg-[#7B61FF]/[0.06] border border-[#7B61FF]/[0.08] rounded-lg text-sm text-[#F1F5F9] placeholder:text-[#64748B] outline-none focus:border-[#7B61FF]/50"
                   />
-                  <button className="p-2 bg-[#00D4AA] rounded-lg hover:bg-[#00D4AA]/90 transition-colors">
-                    <Send className="w-4 h-4 text-[#0A0F1C]" />
+                  <button className="p-2 bg-[#7B61FF] rounded-lg hover:bg-[#7B61FF]/90 transition-colors">
+                    <Send className="w-4 h-4 text-white" />
                   </button>
                 </div>
               </div>

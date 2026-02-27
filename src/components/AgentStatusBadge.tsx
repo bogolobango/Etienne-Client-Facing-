@@ -8,8 +8,8 @@ interface AgentStatusBadgeProps {
 
 const statusConfig = {
   online: {
-    color: 'bg-[#00D4AA]',
-    ring: 'ring-[#00D4AA]/20',
+    color: 'bg-[#7B61FF]',
+    ring: 'ring-[#7B61FF]/20',
     label: 'Online',
     pulse: true,
   },

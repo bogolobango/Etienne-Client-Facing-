@@ -87,7 +87,7 @@ export function SchedulingOverview() {
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-[#94A3B8]">Today's Timeline</h3>
-            <Link to="/scheduling/calendar" className="text-sm text-[#00D4AA] hover:underline flex items-center gap-1">
+            <Link to="/scheduling/calendar" className="text-sm text-[#7B61FF] hover:underline flex items-center gap-1">
               Full Calendar <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -216,7 +216,7 @@ export function SchedulingOverview() {
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-[#94A3B8]">High No-Show Risk</h3>
-            <Link to="/scheduling/calendar" className="text-sm text-[#00D4AA] hover:underline flex items-center gap-1">
+            <Link to="/scheduling/calendar" className="text-sm text-[#7B61FF] hover:underline flex items-center gap-1">
               View Calendar <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -252,8 +252,8 @@ export function SchedulingOverview() {
               <AgentStatusBadge key={agent.id} agent={agent} />
             ))}
           </div>
-          <div className="mt-4 p-3 rounded-lg bg-[#00D4AA]/5 border border-[#00D4AA]/20">
-            <p className="text-xs text-[#00D4AA]">
+          <div className="mt-4 p-3 rounded-lg bg-[#7B61FF]/5 border border-[#7B61FF]/20">
+            <p className="text-xs text-[#7B61FF]">
               Rebooking rate: <span className="font-mono font-semibold">{avgRebook.toFixed(1)}%</span>
             </p>
           </div>

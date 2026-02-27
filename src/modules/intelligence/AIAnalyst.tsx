@@ -311,7 +311,7 @@ export function AIAnalyst() {
                   <div className={cn(
                     'max-w-[80%] rounded-lg p-4',
                     msg.role === 'user'
-                      ? 'bg-[#00D4AA]/10 text-[#F1F5F9]'
+                      ? 'bg-[#7B61FF]/10 text-[#F1F5F9]'
                       : 'bg-[#7B61FF]/[0.03] text-[#F1F5F9]'
                   )}>
                     {msg.role === 'assistant' ? (
@@ -322,7 +322,7 @@ export function AIAnalyst() {
                           [&_p]:text-sm [&_p]:text-[#94A3B8] [&_p]:my-2
                           [&_strong]:text-[#F1F5F9]
                           [&_li]:text-sm [&_li]:text-[#94A3B8]
-                          [&_code]:text-xs [&_code]:text-[#00D4AA] [&_code]:bg-[#7B61FF]/[0.06] [&_code]:px-1 [&_code]:rounded
+                          [&_code]:text-xs [&_code]:text-[#7B61FF] [&_code]:bg-[#7B61FF]/[0.06] [&_code]:px-1 [&_code]:rounded
                           [&_pre]:bg-[#7B61FF]/[0.06] [&_pre]:rounded-lg [&_pre]:p-3 [&_pre]:overflow-x-auto
                           [&_pre_code]:bg-transparent [&_pre_code]:p-0
                           [&_table]:w-full [&_table]:text-sm

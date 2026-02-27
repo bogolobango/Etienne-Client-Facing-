@@ -60,7 +60,7 @@ export function Reports() {
           <h1 className="text-2xl font-semibold text-[#F1F5F9]">Weekly Report</h1>
           <p className="text-[#94A3B8] mt-0.5">{dateRange}</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 bg-[#00D4AA]/10 text-[#00D4AA] rounded-lg hover:bg-[#00D4AA]/20 transition-colors text-sm">
+        <button className="flex items-center gap-2 px-4 py-2 bg-[#7B61FF]/10 text-[#7B61FF] rounded-lg hover:bg-[#7B61FF]/20 transition-colors text-sm">
           <Download className="w-4 h-4" />
           Export PDF
         </button>
@@ -82,9 +82,9 @@ export function Reports() {
           <p className="text-[#94A3B8] leading-relaxed">
             This week saw <strong className="text-[#F1F5F9]">{formatCurrency(weekRevenue)}</strong> in total revenue
             across {selectedLocation === 'all' ? 'all 5 locations' : locations.find(l => l.id === selectedLocation)?.name},
-            representing a <span className={revenueChange >= 0 ? 'text-[#00D4AA]' : 'text-[#FF6B6B]'}>
+            representing a <span className={revenueChange >= 0 ? 'text-[#7B61FF]' : 'text-[#FF6B6B]'}>
               {revenueChange >= 0 ? '+' : ''}{revenueChange.toFixed(1)}%
-            </span> change week-over-week. AI systems recovered <strong className="text-[#00D4AA]">{formatCurrency(weekRecovered)}</strong> through
+            </span> change week-over-week. AI systems recovered <strong className="text-[#7B61FF]">{formatCurrency(weekRecovered)}</strong> through
             missed call follow-ups, no-show prevention, and upsell capture. The average no-show rate sits at{' '}
             <strong className="text-[#F1F5F9]">{avgNoShow.toFixed(1)}%</strong> with utilization at{' '}
             <strong className="text-[#F1F5F9]">{avgUtil.toFixed(1)}%</strong>.
@@ -111,7 +111,7 @@ export function Reports() {
           >
             <p className="text-xs text-[#64748B] mb-1">{metric.label}</p>
             <p className="text-xl font-mono font-semibold text-[#F1F5F9]">{metric.value}</p>
-            <div className={cn('flex items-center gap-1 mt-1', metric.change >= 0 ? 'text-[#00D4AA]' : 'text-[#FF6B6B]')}>
+            <div className={cn('flex items-center gap-1 mt-1', metric.change >= 0 ? 'text-[#7B61FF]' : 'text-[#FF6B6B]')}>
               {metric.change >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
               <span className="text-xs font-medium">{metric.change >= 0 ? '+' : ''}{metric.change.toFixed(1)}%</span>
             </div>
@@ -147,7 +147,7 @@ export function Reports() {
                   <td className={cn('text-right py-3 px-4 font-mono text-sm', loc.noShowRate > 15 ? 'text-[#FF6B6B]' : 'text-[#94A3B8]')}>
                     {loc.noShowRate.toFixed(1)}%
                   </td>
-                  <td className={cn('text-right py-3 pl-4 font-mono text-sm', loc.utilization >= 70 ? 'text-[#00D4AA]' : 'text-[#94A3B8]')}>
+                  <td className={cn('text-right py-3 pl-4 font-mono text-sm', loc.utilization >= 70 ? 'text-[#7B61FF]' : 'text-[#94A3B8]')}>
                     {loc.utilization.toFixed(1)}%
                   </td>
                 </tr>

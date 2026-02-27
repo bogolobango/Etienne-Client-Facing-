@@ -21,10 +21,10 @@ const iconMap = {
 
 const colorMap = {
   call: 'text-[#2D5BFF] bg-[#2D5BFF]/10',
-  sms: 'text-[#00D4AA] bg-[#00D4AA]/10',
+  sms: 'text-[#38BDF8] bg-[#38BDF8]/10',
   booking: 'text-[#7B61FF] bg-[#7B61FF]/10',
   alert: 'text-[#FF8C42] bg-[#FF8C42]/10',
-  revenue: 'text-[#00D4AA] bg-[#00D4AA]/10',
+  revenue: 'text-[#7B61FF] bg-[#7B61FF]/10',
   web: 'text-[#2D5BFF] bg-[#2D5BFF]/10',
 }
 

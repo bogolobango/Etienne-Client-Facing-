@@ -67,7 +67,7 @@ export function CalendarView() {
           </button>
           <button
             onClick={() => setDateOffset(0)}
-            className="px-3 py-1.5 text-xs bg-[#00D4AA]/10 text-[#00D4AA] rounded-lg hover:bg-[#00D4AA]/20 transition-colors ml-2"
+            className="px-3 py-1.5 text-xs bg-[#7B61FF]/10 text-[#7B61FF] rounded-lg hover:bg-[#7B61FF]/20 transition-colors ml-2"
           >
             Today
           </button>

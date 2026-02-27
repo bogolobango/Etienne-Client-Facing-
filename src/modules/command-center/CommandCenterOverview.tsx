@@ -26,13 +26,13 @@ export function CommandCenterOverview() {
 
   const channelData = [
     { name: 'Voice', value: filteredConvos.filter((c) => c.channel === 'voice').length, color: '#3B82F6' },
-    { name: 'SMS', value: filteredConvos.filter((c) => c.channel === 'sms').length, color: '#00D4AA' },
+    { name: 'SMS', value: filteredConvos.filter((c) => c.channel === 'sms').length, color: '#38BDF8' },
     { name: 'Web', value: filteredConvos.filter((c) => c.channel === 'web').length, color: '#8B5CF6' },
     { name: 'Social', value: filteredConvos.filter((c) => c.channel === 'social').length, color: '#FFB547' },
   ]
 
   const resolutionData = [
-    { name: 'AI Resolved', value: aiResolved, color: '#00D4AA' },
+    { name: 'AI Resolved', value: aiResolved, color: '#7B61FF' },
     { name: 'Escalated', value: escalated, color: '#FFB547' },
     { name: 'Abandoned', value: filteredConvos.filter((c) => c.status === 'abandoned').length, color: '#FF6B6B' },
   ]
@@ -91,7 +91,7 @@ export function CommandCenterOverview() {
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-[#94A3B8]">Live Queue</h3>
-            <Link to="/command-center/inbox" className="text-sm text-[#00D4AA] hover:underline flex items-center gap-1">
+            <Link to="/command-center/inbox" className="text-sm text-[#7B61FF] hover:underline flex items-center gap-1">
               View Inbox <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -105,7 +105,7 @@ export function CommandCenterOverview() {
                   <div className={cn(
                     'w-2 h-2 rounded-full',
                     convo.priority === 'urgent' ? 'bg-[#FF6B6B]' :
-                    convo.priority === 'pending' ? 'bg-[#FFB547]' : 'bg-[#00D4AA]'
+                    convo.priority === 'pending' ? 'bg-[#FFB547]' : 'bg-[#7B61FF]'
                   )} />
                   <div>
                     <p className="text-sm font-medium text-[#F1F5F9]">{convo.clientName}</p>
@@ -114,7 +114,7 @@ export function CommandCenterOverview() {
                 </div>
                 <div className="flex items-center gap-2">
                   {convo.channel === 'voice' && <Phone className="w-3.5 h-3.5 text-[#3B82F6]" />}
-                  {convo.channel === 'sms' && <MessageSquare className="w-3.5 h-3.5 text-[#00D4AA]" />}
+                  {convo.channel === 'sms' && <MessageSquare className="w-3.5 h-3.5 text-[#38BDF8]" />}
                   {convo.channel === 'web' && <Globe className="w-3.5 h-3.5 text-[#8B5CF6]" />}
                   {convo.channel === 'social' && <Share2 className="w-3.5 h-3.5 text-[#FFB547]" />}
                 </div>
@@ -273,8 +273,8 @@ export function CommandCenterOverview() {
               <AgentStatusBadge key={agent.id} agent={agent} />
             ))}
           </div>
-          <div className="mt-4 p-3 rounded-lg bg-[#00D4AA]/5 border border-[#00D4AA]/20">
-            <p className="text-xs text-[#00D4AA]">
+          <div className="mt-4 p-3 rounded-lg bg-[#7B61FF]/5 border border-[#7B61FF]/20">
+            <p className="text-xs text-[#7B61FF]">
               After-hours saves this month: <span className="font-mono font-semibold">{afterHoursSaves}</span>
             </p>
           </div>
@@ -290,7 +290,7 @@ export function CommandCenterOverview() {
       >
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-medium text-[#94A3B8]">Calls Answered vs Missed (Weekly)</h3>
-          <Link to="/command-center/performance" className="text-sm text-[#00D4AA] hover:underline flex items-center gap-1">
+          <Link to="/command-center/performance" className="text-sm text-[#7B61FF] hover:underline flex items-center gap-1">
             View Details <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>

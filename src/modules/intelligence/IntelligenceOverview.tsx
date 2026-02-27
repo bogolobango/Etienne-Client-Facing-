@@ -111,11 +111,11 @@ export function IntelligenceOverview() {
               ].map((person, i) => (
                 <div key={i} className={cn(
                   'flex items-center justify-between p-3 rounded-lg',
-                  person.name === 'You' ? 'border border-[#00D4AA]/20 bg-[#00D4AA]/5' : 'border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03]'
+                  person.name === 'You' ? 'border border-[#7B61FF]/20 bg-[#7B61FF]/5' : 'border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03]'
                 )}>
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-mono text-[#64748B] w-4">#{i + 1}</span>
-                    <span className={cn('text-sm font-medium', person.name === 'You' ? 'text-[#00D4AA]' : 'text-[#F1F5F9]')}>{person.name}</span>
+                    <span className={cn('text-sm font-medium', person.name === 'You' ? 'text-[#7B61FF]' : 'text-[#F1F5F9]')}>{person.name}</span>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-mono text-[#F1F5F9]">{formatCurrency(person.revenue)}</p>
@@ -141,9 +141,9 @@ export function IntelligenceOverview() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-xl border border-[#00D4AA]/20 bg-gradient-to-r from-[#00D4AA]/5 to-transparent p-8"
+        className="rounded-xl border border-[#7B61FF]/20 bg-gradient-to-r from-[#7B61FF]/5 to-transparent p-8"
       >
-        <p className="text-sm text-[#00D4AA] font-medium mb-2">Revenue Recovered This Month</p>
+        <p className="text-sm text-[#7B61FF] font-medium mb-2">Revenue Recovered This Month</p>
         <p className="text-5xl font-mono font-bold text-[#F1F5F9] tracking-tight">{formatCurrency(totalRecovered)}</p>
         <div className="flex gap-6 mt-4">
           <div>
@@ -199,7 +199,7 @@ export function IntelligenceOverview() {
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-[#94A3B8]">Location Revenue Comparison</h3>
-            <Link to="/intelligence/scorecard" className="text-sm text-[#00D4AA] hover:underline flex items-center gap-1">
+            <Link to="/intelligence/scorecard" className="text-sm text-[#7B61FF] hover:underline flex items-center gap-1">
               Full Scorecard <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -229,7 +229,7 @@ export function IntelligenceOverview() {
           <h3 className="text-sm font-medium text-[#94A3B8] mb-4">AI Opportunities</h3>
           <div className="space-y-3">
             {topOpportunities.map((opp) => (
-              <div key={opp.id} className="p-3 rounded-lg border border-[#00D4AA]/20 bg-[#00D4AA]/5 cursor-pointer hover:border-[#00D4AA]/40 transition-colors">
+              <div key={opp.id} className="p-3 rounded-lg border border-[#7B61FF]/20 bg-[#7B61FF]/5 cursor-pointer hover:border-[#7B61FF]/40 transition-colors">
                 <p className="text-sm text-[#F1F5F9] leading-snug">{opp.title}</p>
                 <p className="text-xs text-[#64748B] mt-1">Potential: {formatCurrency(opp.impact)}</p>
               </div>

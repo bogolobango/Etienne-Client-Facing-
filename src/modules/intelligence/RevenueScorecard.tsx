@@ -116,11 +116,11 @@ export function RevenueScorecard() {
                     <p className="text-lg font-mono text-[#94A3B8]">{formatVal(item.before)}</p>
                   </div>
                   <div>
-                    <p className="text-[10px] text-[#00D4AA] uppercase tracking-wider mb-1">After</p>
+                    <p className="text-[10px] text-[#7B61FF] uppercase tracking-wider mb-1">After</p>
                     <p className="text-lg font-mono text-[#F1F5F9]">{formatVal(item.after)}</p>
                   </div>
                 </div>
-                <div className={cn('flex items-center gap-1 mt-2', isPositive ? 'text-[#00D4AA]' : 'text-[#FF6B6B]')}>
+                <div className={cn('flex items-center gap-1 mt-2', isPositive ? 'text-[#7B61FF]' : 'text-[#FF6B6B]')}>
                   {isPositive ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
                   <span className="text-sm font-medium">{isPositive ? '+' : ''}{change.toFixed(1)}%</span>
                 </div>
@@ -187,7 +187,7 @@ export function RevenueScorecard() {
                     <p className="text-xs text-[#64748B]">{loc.city}</p>
                   </td>
                   <td className="text-right py-3 px-4 font-mono text-sm text-[#F1F5F9]">{formatCurrency(loc.revenue)}</td>
-                  <td className="text-right py-3 px-4 font-mono text-sm text-[#00D4AA]">{formatCurrency(loc.recovered)}</td>
+                  <td className="text-right py-3 px-4 font-mono text-sm text-[#7B61FF]">{formatCurrency(loc.recovered)}</td>
                   <td className="text-right py-3 px-4 font-mono text-sm text-[#F1F5F9]">{loc.noShowRate.toFixed(1)}%</td>
                   <td className="text-right py-3 px-4 font-mono text-sm text-[#F1F5F9]">{loc.utilization.toFixed(1)}%</td>
                   <td className="text-right py-3 pl-4 font-mono text-sm text-[#F1F5F9]">{loc.newClients}</td>

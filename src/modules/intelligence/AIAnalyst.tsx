@@ -4,6 +4,9 @@ import { ArrowLeft, Send, Brain, Sparkles, RefreshCw } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import { useChatStore } from '@/stores/useChatStore'
+import { useLocationStore } from '@/stores/useLocationStore'
+import { computeContext } from '@/lib/ai-context'
+import { generateAIResponse } from '@/lib/ai-responses'
 import type { ChatMessage } from '@/types'
 
 const SUGGESTED_PROMPTS = [
@@ -11,194 +14,11 @@ const SUGGESTED_PROMPTS = [
   { label: 'Which location is underperforming?', icon: '📍' },
   { label: 'What should I focus on this week?', icon: '🎯' },
   { label: 'Compare my locations', icon: '🏢' },
-  { label: 'Predict next month\'s revenue', icon: '🔮' },
   { label: 'Show me no-show trends', icon: '📉' },
+  { label: 'How is the opportunity pipeline?', icon: '🔮' },
 ]
 
-// Simulated AI responses based on prompts
-function generateResponse(prompt: string): string {
-  const lower = prompt.toLowerCase()
-
-  if (lower.includes('revenue') && lower.includes('change')) {
-    return `## Revenue Analysis — This Week
-
-**Total revenue is up 12.3% week-over-week**, driven primarily by strong performance at SoHo and Hoboken.
-
-### Key Drivers:
-- **SoHo Flagship**: +18.5% ($42,300 → $50,100) — Body Contouring bookings surged after the Tuesday promo
-- **Hoboken**: +15.2% — New client acquisition from social media campaign
-- **Williamsburg**: -3.1% — Slight dip due to provider schedule change
-
-### Revenue Breakdown:
-| Source | Amount | Change |
-|--------|--------|--------|
-| Botox | $38,200 | +8.5% |
-| Dermal Filler | $24,600 | +22.1% |
-| Hydrafacial | $12,400 | +5.3% |
-| Body Contouring | $18,900 | +35.0% |
-
-### Recommendation:
-The Body Contouring surge suggests strong demand. Consider extending the Tuesday promo at SoHo and rolling it out to Williamsburg and White Plains.`
-  }
-
-  if (lower.includes('underperform')) {
-    return `## Location Performance Analysis
-
-**White Plains is currently underperforming** relative to its capacity.
-
-### Metrics Comparison:
-| Location | Utilization | Revenue/Room | No-Show Rate |
-|----------|-------------|--------------|--------------|
-| SoHo Flagship | 78% | $2,850/day | 10.2% |
-| Williamsburg | 68% | $2,100/day | 12.5% |
-| Hoboken | 72% | $2,400/day | 11.8% |
-| **White Plains** | **52%** | **$1,340/day** | **16.1%** |
-| Stamford | 61% | $1,620/day | 13.4% |
-
-### White Plains Issues:
-1. **High no-show rate (16.1%)** — Above the 12% benchmark
-2. **Low utilization (52%)** — 3 rooms, only averaging 1.5 in use
-3. **Weak Tuesday-Thursday traffic** — Weekend bookings are fine
-
-### Action Items:
-- Deploy targeted no-show prevention (tiered reminders + deposits)
-- Launch a "Midweek Glow" promotion for Tue-Thu slots
-- Consider cross-promoting to SoHo clients who live in Westchester`
-  }
-
-  if (lower.includes('focus') || lower.includes('priority')) {
-    return `## This Week's Priority Actions
-
-Based on your current data, here are the **top 5 things to focus on**:
-
-### 1. 🔴 White Plains No-Show Crisis
-- Rate jumped to 16.1% — costing ~$4,200/week in lost revenue
-- **Action**: Enable mandatory deposit for new clients, increase reminder cadence
-
-### 2. 🟡 Williamsburg Staffing Gap
-- Dr. Park is on PTO next week — 12 slots at risk
-- **Action**: Redistribute to Dr. Ross or activate waitlist auto-fill
-
-### 3. 🟢 SoHo Body Contouring Demand
-- Demand up 35% — you're now waitlisting clients
-- **Action**: Add a Saturday Body Contouring block, consider hiring
-
-### 4. 🟡 Stamford Lead Follow-up
-- 23 warm leads from social media haven't been contacted in >48h
-- **Action**: Assign Text Concierge to auto-nurture sequence
-
-### 5. 🟢 Rebooking Rate Optimization
-- Current rebooking rate is 62% — industry benchmark is 75%
-- **Action**: Enable AI rebooking prompt at checkout for all locations`
-  }
-
-  if (lower.includes('compare') && lower.includes('location')) {
-    return `## Multi-Location Comparison Report
-
-### Revenue Performance (Last 30 Days)
-\`\`\`
-SoHo Flagship  ████████████████████████████ $128,400  (+15.8%)
-Hoboken        ████████████████████         $82,300   (+12.1%)
-Williamsburg   ██████████████████           $74,200   (+4.2%)
-Stamford       ████████████                 $48,600   (+8.9%)
-White Plains   ██████████                   $38,100   (-2.3%)
-\`\`\`
-
-### Key Metrics Comparison:
-| Metric | SoHo | W'burg | Hoboken | W.Plains | Stamford |
-|--------|------|--------|---------|----------|----------|
-| Util. Rate | 78% | 68% | 72% | 52% | 61% |
-| No-Show | 10.2% | 12.5% | 11.8% | 16.1% | 13.4% |
-| Avg Ticket | $520 | $445 | $490 | $380 | $410 |
-| New Clients | 45 | 28 | 35 | 18 | 22 |
-| Rebook Rate | 71% | 64% | 68% | 55% | 59% |
-
-### Insights:
-- **SoHo** is the clear leader — highest utilization, lowest no-show, highest ticket
-- **White Plains** needs immediate attention — declining revenue, high no-shows
-- **Hoboken** is the rising star — fastest growth rate per provider
-- **Stamford** has untapped potential — good no-show rate but low utilization`
-  }
-
-  if (lower.includes('predict') || lower.includes('forecast')) {
-    return `## Revenue Forecast — Next 30 Days
-
-Based on current trends, seasonality patterns, and pipeline analysis:
-
-### Projected Revenue: **$398,500** (+5.2% vs current month)
-
-### By Location:
-| Location | Current | Projected | Change |
-|----------|---------|-----------|--------|
-| SoHo | $128,400 | $138,200 | +7.6% |
-| Hoboken | $82,300 | $88,500 | +7.5% |
-| Williamsburg | $74,200 | $76,800 | +3.5% |
-| Stamford | $48,600 | $52,100 | +7.2% |
-| White Plains | $38,100 | $42,900 | +12.6%* |
-
-*White Plains projected increase assumes no-show intervention is implemented.
-
-### Confidence Level: **82%**
-
-### Risk Factors:
-- ⚠️ If White Plains no-shows aren't addressed: -$8,400
-- ⚠️ Dr. Park PTO at Williamsburg: -$4,200
-- ✅ Body Contouring demand surge: +$6,800
-- ✅ New social media campaign launching: +$3,200`
-  }
-
-  if (lower.includes('no-show') || lower.includes('no show')) {
-    return `## No-Show Trend Analysis
-
-### 90-Day Overview:
-\`\`\`
-Before EIP (Day 1-30):   ████████████████████████████ 28.2%
-Ramp-up (Day 31-60):     ██████████████████           18.1%
-Current (Day 61-90):     ████████████                 12.4%
-\`\`\`
-
-**Total reduction: 56% (28.2% → 12.4%)**
-
-### Impact:
-- **$47,200/month** in recovered revenue from prevented no-shows
-- **~94 appointments saved** per month across all locations
-- Average appointment value saved: $502
-
-### By Location (Current):
-- SoHo: 10.2% ✅ (Target: <12%)
-- Williamsburg: 12.5% ⚠️
-- Hoboken: 11.8% ✅
-- White Plains: 16.1% 🔴 (Needs attention)
-- Stamford: 13.4% ⚠️
-
-### What's Working:
-1. **Tiered reminders** (48h, 24h, 2h) — reduced no-shows by 35%
-2. **Risk scoring** — high-risk flagging catches 78% of actual no-shows
-3. **Waitlist auto-fill** — 85% of cancellation slots are filled within 2 hours`
-  }
-
-  // Default response
-  return `## Analysis
-
-I've looked into your question. Here's what I found:
-
-Based on the current performance data across your 5 locations:
-
-- **Total monthly revenue**: ~$380,000 across all locations
-- **Revenue recovered by AI**: $47,200 this month
-- **Top performing location**: SoHo Flagship ($128,400/month)
-- **No-show rate**: Down from 28% to 12.4% since implementing EIP
-
-### Key Insight:
-Your biggest opportunity right now is **White Plains** — it's running at only 52% utilization with a 16.1% no-show rate. Addressing these two issues could add an estimated **$12,000-15,000/month** in additional revenue.
-
-Would you like me to:
-- Deep dive into a specific location?
-- Analyze a particular service category?
-- Generate a weekly P&L impact report?`
-}
-
-// Safe markdown renderer — renders to React elements instead of raw HTML
+// Safe markdown renderer — renders to React elements
 function MarkdownRenderer({ content }: { content: string }) {
   const lines = content.split('\n')
   const elements: React.ReactNode[] = []
@@ -211,9 +31,7 @@ function MarkdownRenderer({ content }: { content: string }) {
     let inlineKey = 0
 
     while (remaining.length > 0) {
-      // Bold
       const boldMatch = remaining.match(/\*\*(.+?)\*\*/)
-      // Inline code
       const codeMatch = remaining.match(/`([^`]+)`/)
 
       const boldIdx = boldMatch ? remaining.indexOf(boldMatch[0]) : Infinity
@@ -249,7 +67,7 @@ function MarkdownRenderer({ content }: { content: string }) {
         codeLines.push(lines[i])
         i++
       }
-      i++ // skip closing ```
+      i++
       elements.push(
         <pre key={key++} className="bg-primary/[0.06] rounded-lg p-3 overflow-x-auto">
           <code className="bg-transparent p-0 text-sm">{codeLines.join('\n')}</code>
@@ -360,14 +178,23 @@ function MarkdownRenderer({ content }: { content: string }) {
 }
 
 export function AIAnalyst() {
-  const { messages, isLoading, addMessage, setLoading, clearMessages } = useChatStore()
+  const { messages, isLoading, addMessage, updateLastMessage, setLoading, clearMessages } = useChatStore()
+  const { selectedLocation } = useLocationStore()
   const [input, setInput] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const idCounter = useRef(0)
+  const streamRef = useRef<number | null>(null)
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
+
+  // Cleanup streaming on unmount
+  useEffect(() => {
+    return () => {
+      if (streamRef.current) clearInterval(streamRef.current)
+    }
+  }, [])
 
   const sendMessage = useCallback((content: string) => {
     if (!content.trim() || isLoading) return
@@ -383,20 +210,38 @@ export function AIAnalyst() {
     setInput('')
     setLoading(true)
 
-    // Simulate streaming delay
+    // Generate full response using context-aware system
+    const ctx = computeContext(selectedLocation)
+    const fullResponse = generateAIResponse(content, ctx)
+
+    // Start streaming after a brief "thinking" delay
     setTimeout(() => {
-      const response = generateResponse(content)
       idCounter.current += 1
       const assistantMessage: ChatMessage = {
         id: `assistant-${idCounter.current}`,
         role: 'assistant',
-        content: response,
+        content: '',
         timestamp: new Date().toISOString(),
       }
       addMessage(assistantMessage)
-      setLoading(false)
-    }, 1500)
-  }, [isLoading, addMessage, setLoading])
+
+      // Stream character by character
+      let charIndex = 0
+      const chunkSize = 3
+      streamRef.current = window.setInterval(() => {
+        charIndex += chunkSize
+        if (charIndex >= fullResponse.length) {
+          charIndex = fullResponse.length
+          if (streamRef.current) {
+            clearInterval(streamRef.current)
+            streamRef.current = null
+          }
+          setLoading(false)
+        }
+        updateLastMessage(fullResponse.slice(0, charIndex))
+      }, 12)
+    }, 600)
+  }, [isLoading, addMessage, updateLastMessage, setLoading, selectedLocation])
 
   return (
     <div className="flex flex-col h-[calc(100vh-140px)] md:h-[calc(100vh-120px)]">
@@ -412,7 +257,14 @@ export function AIAnalyst() {
           <p className="text-muted-foreground mt-0.5">Powered by Claude — Ask anything about your business</p>
         </div>
         <button
-          onClick={clearMessages}
+          onClick={() => {
+            if (streamRef.current) {
+              clearInterval(streamRef.current)
+              streamRef.current = null
+            }
+            setLoading(false)
+            clearMessages()
+          }}
           className="p-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors"
           title="Clear conversation"
         >
@@ -437,7 +289,7 @@ export function AIAnalyst() {
                   Your AI Revenue Analyst
                 </h2>
                 <p className="text-sm text-muted-foreground mb-8">
-                  I have access to all your business data across 5 locations.
+                  I have access to all your Zenoti data across 5 locations.
                   Ask me anything about revenue, performance, trends, or get actionable recommendations.
                 </p>
 
@@ -487,7 +339,7 @@ export function AIAnalyst() {
                 </motion.div>
               ))}
 
-              {isLoading && (
+              {isLoading && messages[messages.length - 1]?.role !== 'assistant' && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}

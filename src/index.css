@@ -167,6 +167,101 @@
 }
 
 /* ================================================================
+   GLOBAL TRANSITIONS — shadcn-smooth state changes everywhere
+   ================================================================ */
+
+button,
+a,
+select,
+input,
+textarea,
+[role="button"],
+[role="tab"],
+[role="option"] {
+  transition: color 0.15s ease, background-color 0.15s ease,
+              border-color 0.15s ease, box-shadow 0.15s ease,
+              opacity 0.15s ease;
+}
+
+/* ================================================================
+   FOCUS-VISIBLE — Keyboard accessibility ring
+   ================================================================ */
+
+*:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.card-premium:focus-visible,
+.card-on-alt:focus-visible {
+  outline: none;
+  border-color: rgba(124, 58, 237, 0.4);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12),
+              0 4px 16px rgba(124, 58, 237, 0.08);
+}
+
+/* ================================================================
+   BUTTON ACTIVE / PRESS STATES — Tactile click feedback
+   ================================================================ */
+
+button:active:not(:disabled),
+[role="button"]:active:not([aria-disabled="true"]) {
+  transform: scale(0.97);
+  transition-duration: 0.07s;
+}
+
+button:disabled,
+[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ================================================================
+   INPUT / SELECT / TEXTAREA POLISH
+   ================================================================ */
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+textarea,
+select {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):hover:not(:focus):not(:disabled),
+textarea:hover:not(:focus):not(:disabled),
+select:hover:not(:focus):not(:disabled) {
+  border-color: rgba(124, 58, 237, 0.25);
+}
+
+/* ================================================================
+   TABLE ROW HOVER — Elevation + left accent
+   ================================================================ */
+
+table tbody tr {
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+table tbody tr:hover {
+  background-color: rgba(124, 58, 237, 0.03);
+}
+
+table thead th {
+  transition: color 0.15s ease;
+}
+
+/* ================================================================
    UTILITY CLASSES — Used by Tailwind theme references
    ================================================================ */
 
@@ -224,6 +319,23 @@
 }
 
 /* ================================================================
+   SHADOW ELEVATION SCALE — Depth hierarchy for cards & surfaces
+   ================================================================ */
+
+.shadow-elevation-sm {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+.shadow-elevation-md {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+.shadow-elevation-lg {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.shadow-elevation-xl {
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12), 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ================================================================
    CARD STYLES — Light editorial with purple hover accent
    ================================================================ */
 
@@ -255,6 +367,23 @@
   border-color: rgba(124, 58, 237, 0.2);
   box-shadow: 0 6px 20px rgba(124, 58, 237, 0.1), 0 2px 8px rgba(0,0,0,0.06);
   transform: translateY(-2px);
+}
+
+/* Glass-morphism variant for floating surfaces */
+.card-glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 1rem;
+  border: 1px solid rgba(229, 231, 235, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  position: relative;
+  z-index: 1;
+}
+.card-glass:hover {
+  border-color: rgba(124, 58, 237, 0.2);
+  box-shadow: 0 12px 40px rgba(124, 58, 237, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 /* ================================================================
@@ -311,6 +440,23 @@
   stroke: rgba(0, 0, 0, 0.06);
 }
 
+/* Recharts tooltip — match card aesthetic */
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(229, 231, 235, 0.6) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  padding: 0.625rem 0.875rem !important;
+}
+
+/* Recharts active dot — pulse on hover */
+.recharts-active-dot circle {
+  filter: drop-shadow(0 0 6px rgba(124, 58, 237, 0.35));
+  transition: r 0.2s ease;
+}
+
 /* Dot pattern overlay */
 .dot-pattern {
   background-image: radial-gradient(circle, rgba(124, 58, 237, 0.06) 1px, transparent 1px);
@@ -318,8 +464,133 @@
 }
 
 /* ================================================================
-   ACCESSIBILITY
+   SKELETON LOADERS — Shimmer placeholder for async content
    ================================================================ */
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--muted) 0%,
+    rgba(124, 58, 237, 0.06) 40%,
+    rgba(124, 58, 237, 0.06) 60%,
+    var(--muted) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+  border-radius: 0.5rem;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-line {
+  height: 0.875rem;
+  border-radius: 0.25rem;
+}
+
+.skeleton-circle {
+  border-radius: 50%;
+}
+
+/* ================================================================
+   SCROLL FADE MASKS — Gradient hints for scrollable areas
+   ================================================================ */
+
+.scroll-fade-y {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 3%,
+    black 97%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 3%,
+    black 97%,
+    transparent 100%
+  );
+}
+
+.scroll-fade-x {
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 3%,
+    black 97%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 3%,
+    black 97%,
+    transparent 100%
+  );
+}
+
+/* ================================================================
+   MICRO-ANIMATION KEYFRAMES
+   ================================================================ */
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-scale {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-left {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-fade-in        { animation: fade-in 0.3s ease both; }
+.animate-fade-in-scale  { animation: fade-in-scale 0.25s ease both; }
+.animate-slide-in-right { animation: slide-in-right 0.3s ease both; }
+.animate-slide-in-left  { animation: slide-in-left 0.3s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-spin-slow      { animation: spin 1s linear infinite; }
+
+/* ================================================================
+   HIGH-CONTRAST & ACCESSIBILITY
+   ================================================================ */
+
+@media (prefers-contrast: more) {
+  .card-premium,
+  .card-on-alt,
+  .card-glass {
+    border-width: 2px;
+    border-color: var(--border);
+  }
+  button {
+    border: 1px solid var(--border);
+  }
+}
+
+@media (forced-colors: active) {
+  .card-premium,
+  .card-on-alt {
+    border: 1px solid CanvasText;
+  }
+  button {
+    border: 1px solid ButtonText;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

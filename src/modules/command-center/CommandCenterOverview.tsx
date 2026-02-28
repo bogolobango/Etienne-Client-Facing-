@@ -77,7 +77,7 @@ export function CommandCenterOverview() {
           <p className="text-muted-foreground mt-1">Live conversations needing attention</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           <MetricCard label="Active Conversations" value={activeConvos.length} icon={<MessageSquare className="w-5 h-5" />} delay={0} />
           <MetricCard label="Avg Response Time" value={avgResponseTime} format="time" icon={<Clock className="w-5 h-5" />} delay={1} />
           <MetricCard label="AI Handling" value={aiResolved} icon={<CheckCircle className="w-5 h-5" />} delay={2} />
@@ -133,7 +133,7 @@ export function CommandCenterOverview() {
         <p className="text-muted-foreground mt-1">AI-powered communication across all channels</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         <MetricCard
           label="Total Conversations"
           value={totalConvos}

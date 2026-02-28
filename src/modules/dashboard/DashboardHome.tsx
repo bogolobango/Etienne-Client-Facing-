@@ -110,7 +110,7 @@ export function DashboardHome() {
       {role === 'owner' ? (
         <>
           {/* Hero Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             <MetricCard
               label="Total Revenue"
               value={metrics.revenue}
@@ -286,7 +286,7 @@ export function DashboardHome() {
               className="card-premium p-6"
             >
               <h3 className="text-sm font-medium text-muted-foreground mb-4">Location Performance</h3>
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
                 {locations.map((loc) => {
                   const locMetrics = getFilteredMetrics(loc.id)
                   return (
@@ -315,7 +315,7 @@ export function DashboardHome() {
       ) : (
         /* Staff View */
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             <MetricCard
               label="Your Bookings Today"
               value={8}

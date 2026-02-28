@@ -61,9 +61,9 @@ export function ConversationInbox() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 h-[calc(100vh-180px)]">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 h-[calc(100vh-200px)] md:h-[calc(100vh-180px)]">
         {/* Conversation List */}
-        <div className="lg:col-span-2 card-premium flex flex-col overflow-hidden">
+        <div className="lg:col-span-2 card-premium flex flex-col overflow-hidden max-h-[50vh] lg:max-h-none">
           {/* Search */}
           <div className="p-3 border-b border-border">
             <div className="relative">

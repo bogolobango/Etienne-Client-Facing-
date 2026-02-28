@@ -41,23 +41,25 @@ export function CalendarView() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-3">
-        <Link to="/scheduling" className="p-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors">
-          <ArrowLeft className="w-5 h-5" />
-        </Link>
-        <div className="flex-1">
-          <h1 className="text-2xl font-semibold text-foreground">Calendar View</h1>
-          <p className="text-muted-foreground mt-0.5">{filteredAppts.length} appointments</p>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+        <div className="flex items-center gap-3">
+          <Link to="/scheduling" className="p-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors">
+            <ArrowLeft className="w-5 h-5" />
+          </Link>
+          <div className="flex-1">
+            <h1 className="text-xl md:text-2xl font-semibold text-foreground">Calendar View</h1>
+            <p className="text-muted-foreground text-sm mt-0.5">{filteredAppts.length} appointments</p>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ml-auto">
           <button
             onClick={() => setDateOffset((d) => d - 1)}
             className="p-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <span className="text-sm font-medium text-foreground min-w-[140px] text-center">
-            {baseDate.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
+          <span className="text-sm font-medium text-foreground min-w-[120px] md:min-w-[140px] text-center">
+            {baseDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
           </span>
           <button
             onClick={() => setDateOffset((d) => d + 1)}
@@ -75,7 +77,7 @@ export function CalendarView() {
       </div>
 
       {/* Service legend */}
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-2 md:gap-3">
         {Object.entries(serviceColors).map(([service, color]) => (
           <div key={service} className="flex items-center gap-1.5">
             <div className={cn('w-3 h-3 rounded-sm border-l-2', color)} />
@@ -90,8 +92,9 @@ export function CalendarView() {
         animate={{ opacity: 1 }}
         className="card-premium overflow-hidden"
       >
+       <div className="overflow-x-auto scroll-fade-x">
         {/* Provider headers */}
-        <div className="grid border-b border-border" style={{ gridTemplateColumns: `80px repeat(${displayProviders.length}, 1fr)` }}>
+        <div className="grid border-b border-border min-w-[600px]" style={{ gridTemplateColumns: `80px repeat(${displayProviders.length}, 1fr)` }}>
           <div className="p-3 border-r border-border" />
           {displayProviders.map((provider) => (
             <div key={provider} className="p-3 border-r border-border last:border-r-0">
@@ -101,7 +104,7 @@ export function CalendarView() {
         </div>
 
         {/* Time slots */}
-        <div className="max-h-[calc(100vh-320px)] overflow-y-auto scroll-fade-y">
+        <div className="max-h-[calc(100vh-360px)] md:max-h-[calc(100vh-320px)] overflow-y-auto scroll-fade-y">
           {filteredAppts.length === 0 && (
             <div className="flex flex-col items-center justify-center py-16 text-center">
               <CalendarOff className="w-10 h-10 text-muted-foreground mb-3" />
@@ -111,7 +114,7 @@ export function CalendarView() {
           {timeSlots.map((time) => (
             <div
               key={time}
-              className="grid border-b border-border last:border-b-0"
+              className="grid border-b border-border last:border-b-0 min-w-[600px]"
               style={{ gridTemplateColumns: `80px repeat(${displayProviders.length}, 1fr)` }}
             >
               <div className="p-2 border-r border-border flex items-start">
@@ -143,6 +146,7 @@ export function CalendarView() {
             </div>
           ))}
         </div>
+       </div>
       </motion.div>
     </div>
   )

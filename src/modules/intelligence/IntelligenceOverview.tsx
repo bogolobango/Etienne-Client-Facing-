@@ -57,7 +57,7 @@ export function IntelligenceOverview() {
           <p className="text-muted-foreground mt-1">Today's snapshot and AI suggestions</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           <MetricCard label="Bookings Handled" value={12} trend={8.5} icon={<BarChart3 className="w-5 h-5" />} delay={0} />
           <MetricCard label="Conversion Rate" value={82} format="percent" trend={3.2} icon={<Target className="w-5 h-5" />} delay={1} />
           <MetricCard label="Revenue Generated" value={5850} format="currency" trend={12.0} icon={<DollarSign className="w-5 h-5" />} delay={2} />
@@ -131,22 +131,22 @@ export function IntelligenceOverview() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-xl border border-primary/20 bg-gradient-to-r from-primary/5 to-transparent p-8"
+        className="rounded-xl border border-primary/20 bg-gradient-to-r from-primary/5 to-transparent p-5 md:p-8"
       >
         <p className="text-sm text-primary font-medium mb-2">Revenue Recovered This Month</p>
-        <p className="text-5xl font-mono font-bold text-foreground tracking-tight">{formatCurrency(totalRecovered)}</p>
-        <div className="flex gap-6 mt-4">
+        <p className="text-3xl md:text-5xl font-mono font-bold text-foreground tracking-tight">{formatCurrency(totalRecovered)}</p>
+        <div className="flex flex-wrap gap-4 md:gap-6 mt-4">
           <div>
             <p className="text-xs text-muted-foreground">Missed Call Recovery</p>
-            <p className="text-lg font-mono text-foreground">{formatCurrency(missedCallRecovery)}</p>
+            <p className="text-base md:text-lg font-mono text-foreground">{formatCurrency(missedCallRecovery)}</p>
           </div>
           <div>
             <p className="text-xs text-muted-foreground">No-Show Prevention</p>
-            <p className="text-lg font-mono text-foreground">{formatCurrency(noShowPrevention)}</p>
+            <p className="text-base md:text-lg font-mono text-foreground">{formatCurrency(noShowPrevention)}</p>
           </div>
           <div>
             <p className="text-xs text-muted-foreground">Upsell Capture</p>
-            <p className="text-lg font-mono text-foreground">{formatCurrency(upsellCapture)}</p>
+            <p className="text-base md:text-lg font-mono text-foreground">{formatCurrency(upsellCapture)}</p>
           </div>
         </div>
       </motion.div>

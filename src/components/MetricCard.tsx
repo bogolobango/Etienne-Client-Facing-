@@ -101,14 +101,14 @@ export function MetricCard({
       transition={{ duration: 0.5, delay: delay * 0.08, ease: 'easeOut' }}
       onClick={onClick}
       className={cn(
-        'card-premium relative overflow-hidden p-6',
+        'card-premium relative overflow-hidden p-4 md:p-6',
         onClick && 'cursor-pointer'
       )}
     >
       <div className="relative flex items-start justify-between">
-        <div className="flex-1">
-          <p className="text-sm text-muted-foreground mb-1">{label}</p>
-          <p className="text-3xl font-mono font-semibold tracking-tight text-foreground stat-number">
+        <div className="flex-1 min-w-0">
+          <p className="text-xs md:text-sm text-muted-foreground mb-1 truncate">{label}</p>
+          <p className="text-2xl md:text-3xl font-mono font-semibold tracking-tight text-foreground stat-number">
             {formatValue(displayValue, format)}
           </p>
           {trend !== undefined && (

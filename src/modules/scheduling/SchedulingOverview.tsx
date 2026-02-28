@@ -71,7 +71,7 @@ export function SchedulingOverview() {
           <p className="text-muted-foreground mt-1">{todayAppts.length} appointments scheduled</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           <MetricCard label="Today's Appointments" value={todayAppts.length} icon={<Calendar className="w-5 h-5" />} delay={0} />
           <MetricCard label="High Risk No-Shows" value={highRisk.length} icon={<AlertTriangle className="w-5 h-5" />} delay={1} />
           <MetricCard label="Waitlist Matches" value={3} icon={<Users className="w-5 h-5" />} delay={2} />
@@ -120,7 +120,7 @@ export function SchedulingOverview() {
         <p className="text-muted-foreground mt-1">AI-powered appointment optimization</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         <MetricCard
           label="Utilization Rate"
           value={avgUtil}

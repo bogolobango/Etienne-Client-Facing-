@@ -202,7 +202,7 @@ export function DashboardLayout() {
         fixed inset-y-0 left-0 z-50 w-60 transform transition-transform duration-200 ease-in-out
         md:relative md:translate-x-0
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        relative flex h-full shrink-0 flex-col border-r border-border bg-secondary
+        flex h-full shrink-0 flex-col border-r border-border bg-secondary
       `}>
         {/* Sidebar orb glow */}
         <div className="absolute -left-20 top-1/4 w-[200px] h-[200px] rounded-full bg-primary opacity-[0.03] blur-[80px] pointer-events-none" />
@@ -227,12 +227,18 @@ export function DashboardLayout() {
             <SidebarItem key={item.path} item={item} />
           ))}
         </nav>
+
+        {/* Mobile-only: Location & Role controls */}
+        <div className="md:hidden border-t border-border px-3 py-3 space-y-3">
+          <LocationSelector />
+          <RoleToggle />
+        </div>
       </aside>
 
       {/* Main column */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Topbar */}
-        <header className="flex h-16 shrink-0 items-center justify-between border-b border-border bg-background/95 backdrop-blur-sm px-6 z-10">
+        <header className="flex h-14 md:h-16 shrink-0 items-center justify-between border-b border-border bg-background/95 backdrop-blur-sm px-3 md:px-6 z-10">
           <div className="flex items-center gap-2">
             <button
               className="md:hidden p-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors"
@@ -244,9 +250,9 @@ export function DashboardLayout() {
           </div>
           <div className="hidden md:block" />
 
-          <div className="flex items-center gap-4">
-            <LocationSelector />
-            <RoleToggle />
+          <div className="flex items-center gap-2 md:gap-4">
+            <div className="hidden md:block"><LocationSelector /></div>
+            <div className="hidden md:block"><RoleToggle /></div>
 
             <button className="relative rounded-full p-2 text-muted-foreground transition-all hover:bg-primary/[0.08] hover:text-foreground">
               <Bell className="h-5 w-5" />
@@ -262,7 +268,7 @@ export function DashboardLayout() {
         </header>
 
         {/* Content area with orbs */}
-        <main className="relative flex-1 overflow-y-auto p-6">
+        <main className="relative flex-1 overflow-y-auto p-4 md:p-6">
           <GradientOrbs variant="default" />
           <div className="relative z-[1]">
             <Outlet />

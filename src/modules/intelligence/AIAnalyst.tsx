@@ -399,7 +399,7 @@ export function AIAnalyst() {
   }, [isLoading, addMessage, setLoading])
 
   return (
-    <div className="flex flex-col h-[calc(100vh-120px)]">
+    <div className="flex flex-col h-[calc(100vh-140px)] md:h-[calc(100vh-120px)]">
       <div className="flex items-center gap-3 mb-4">
         <Link to="/intelligence" className="p-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors">
           <ArrowLeft className="w-5 h-5" />
@@ -441,7 +441,7 @@ export function AIAnalyst() {
                   Ask me anything about revenue, performance, trends, or get actionable recommendations.
                 </p>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {SUGGESTED_PROMPTS.map((prompt) => (
                     <button
                       key={prompt.label}

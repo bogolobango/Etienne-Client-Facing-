@@ -195,9 +195,9 @@ export function mapDailySales(
     revenue: d.revenue ?? 0,
     bookings,
     noShows,
-    noShowRate: bookings > 0 ? noShows / bookings : 0,
+    noShowRate: bookings > 0 ? (noShows / bookings) * 100 : 0,
     responseTimeAvg: 0, // Populated by EIP command‑center
-    utilizationRate: d.utilization_rate ?? 0,
+    utilizationRate: (d.utilization_rate ?? 0) * 100,
     newClients: d.new_clients ?? 0,
     rebookingRate: 0, // Calculated separately by EIP
     callsAnswered: 0, // Populated by EIP command‑center

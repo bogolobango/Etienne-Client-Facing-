@@ -161,7 +161,7 @@ ${ctx.byLocation.map((l) => {
 ### Current Overview:
 \`\`\`
 Before EIP (baseline):   ████████████████████████████ 28.2%
-Current:                 ${'█'.repeat(Math.round(ctx.avgNoShow * 2.2))}${'░'.repeat(28 - Math.round(ctx.avgNoShow * 2.2))} ${fmtPct(ctx.avgNoShow)}
+Current:                 ${'█'.repeat(Math.round(ctx.avgNoShow / 28.2 * 28))}${'░'.repeat(28 - Math.round(ctx.avgNoShow / 28.2 * 28))} ${fmtPct(ctx.avgNoShow)}
 \`\`\`
 
 **Total reduction: ${((1 - ctx.avgNoShow / 28.2) * 100).toFixed(0)}%** (28.2% → ${fmtPct(ctx.avgNoShow)})
@@ -225,7 +225,7 @@ ${sorted.map((l) => `- ${l.name}: ${fmtPct(l.noShowRate)} ${l.noShowRate < 12 ? 
 - **High-risk appointments flagged**: ${ctx.highRiskAppts}
 
 ### Efficiency Gains:
-- Response time reduced from **~4 min** to **${ctx.avgResponseTime.toFixed(0)}s** (${((1 - ctx.avgResponseTime / 240) * 100).toFixed(0)}% improvement)
+- Response time reduced from **~4 hours** to **${ctx.avgResponseTime.toFixed(0)}s** (${((1 - ctx.avgResponseTime / 14400) * 100).toFixed(0)}% improvement)
 - After-hours coverage: **24/7** (previously 0)
 - No-show prevention: **${((1 - ctx.avgNoShow / 28.2) * 100).toFixed(0)}%** reduction
 

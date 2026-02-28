@@ -871,29 +871,29 @@ function buildDailyMetrics(): DailyMetrics[] {
       // Bookings scale roughly with revenue
       const bookings = Math.round(revenue / 380 + seededValue(dayOffset, li, 1) * 3)
 
-      // No-show rate by phase
-      const noShowRateRanges = [[0.25, 0.30], [0.15, 0.20], [0.10, 0.14]]
+      // No-show rate by phase (percentage scale: 10 = 10%)
+      const noShowRateRanges = [[25, 30], [15, 20], [10, 14]]
       const [nsMin, nsMax] = noShowRateRanges[phase]
-      const noShowRate = +(nsMin + seededValue(dayOffset, li, 2) * (nsMax - nsMin)).toFixed(3)
-      const noShows = Math.max(0, Math.round(bookings * noShowRate))
+      const noShowRate = +(nsMin + seededValue(dayOffset, li, 2) * (nsMax - nsMin)).toFixed(1)
+      const noShows = Math.max(0, Math.round(bookings * noShowRate / 100))
 
       // Response time (seconds): Phase 0 = 3.5-5 hrs, Phase 1 = 30-60s, Phase 2 = 10-28s
       const rtRanges = [[12600, 18000], [30, 60], [10, 28]]
       const [rtMin, rtMax] = rtRanges[phase]
       const responseTimeAvg = Math.round(rtMin + seededValue(dayOffset, li, 3) * (rtMax - rtMin))
 
-      // Utilization rate by phase
-      const utilRanges = [[0.45, 0.55], [0.55, 0.65], [0.65, 0.78]]
+      // Utilization rate by phase (percentage scale: 65 = 65%)
+      const utilRanges = [[45, 55], [55, 65], [65, 78]]
       const [uMin, uMax] = utilRanges[phase]
-      const utilizationRate = +(uMin + seededValue(dayOffset, li, 4) * (uMax - uMin)).toFixed(3)
+      const utilizationRate = +(uMin + seededValue(dayOffset, li, 4) * (uMax - uMin)).toFixed(1)
 
       // New clients
       const newClients = Math.round(1 + seededValue(dayOffset, li, 5) * (phase === 2 ? 5 : phase === 1 ? 3 : 2))
 
-      // Rebooking rate improves by phase
-      const rbRanges = [[0.30, 0.40], [0.40, 0.55], [0.55, 0.72]]
+      // Rebooking rate improves by phase (percentage scale: 55 = 55%)
+      const rbRanges = [[30, 40], [40, 55], [55, 72]]
       const [rbMin, rbMax] = rbRanges[phase]
-      const rebookingRate = +(rbMin + seededValue(dayOffset, li, 6) * (rbMax - rbMin)).toFixed(3)
+      const rebookingRate = +(rbMin + seededValue(dayOffset, li, 6) * (rbMax - rbMin)).toFixed(1)
 
       // Calls answered / missed
       const totalCalls = Math.round(8 + seededValue(dayOffset, li, 7) * 12)

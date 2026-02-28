@@ -11,7 +11,6 @@ import {
   ChevronDown,
   User,
   Menu,
-  X,
   PanelLeftClose,
 } from 'lucide-react'
 import { useAuthStore } from '@/stores/useAuthStore'

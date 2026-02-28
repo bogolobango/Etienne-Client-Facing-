@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Outlet, NavLink, useLocation } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard,
   Phone,
@@ -12,6 +12,7 @@ import {
   User,
   Menu,
   X,
+  PanelLeftClose,
 } from 'lucide-react'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useLocationStore } from '@/stores/useLocationStore'
@@ -166,18 +167,51 @@ function SidebarItem({ item }: { item: NavItem }) {
   )
 }
 
+function SidebarContent({ onClose, showClose }: { onClose?: () => void; showClose?: boolean }) {
+  return (
+    <>
+      {/* Sidebar orb glow */}
+      <div className="absolute -left-20 top-1/4 w-[200px] h-[200px] rounded-full bg-primary opacity-[0.03] blur-[80px] pointer-events-none" />
+
+      {/* Logo + Close button */}
+      <div className="flex h-16 items-center justify-between border-b border-border px-5">
+        <div className="flex items-center gap-2">
+          <span className="text-lg font-bold tracking-tight text-primary">GlowUp</span>
+          <span className="text-lg font-light text-foreground">Aesthetics</span>
+        </div>
+        {showClose && onClose && (
+          <button
+            className="p-1.5 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors"
+            onClick={onClose}
+          >
+            <PanelLeftClose className="h-5 w-5" />
+          </button>
+        )}
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex flex-1 flex-col gap-1 overflow-y-auto scroll-fade-y px-3 py-4">
+        {navItems.map((item) => (
+          <SidebarItem key={item.path} item={item} />
+        ))}
+      </nav>
+    </>
+  )
+}
+
 export function DashboardLayout() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
+  const [desktopCollapsed, setDesktopCollapsed] = useState(false)
   const location = useLocation()
 
-  // Close sidebar on route change (mobile)
+  // Close mobile sidebar on route change
   useEffect(() => {
-    setSidebarOpen(false)
+    setMobileSidebarOpen(false)
   }, [location.pathname])
 
   // Lock body scroll when mobile sidebar is open
   useEffect(() => {
-    if (sidebarOpen) {
+    if (mobileSidebarOpen) {
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = ''
@@ -185,70 +219,85 @@ export function DashboardLayout() {
     return () => {
       document.body.style.overflow = ''
     }
-  }, [sidebarOpen])
+  }, [mobileSidebarOpen])
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-background">
-      {/* Mobile backdrop */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden animate-fade-in"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
 
-      {/* Sidebar */}
-      <aside className={`
-        fixed inset-y-0 left-0 z-50 w-60 transform transition-transform duration-200 ease-in-out
-        md:relative md:translate-x-0
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        flex h-full shrink-0 flex-col border-r border-border bg-secondary
-      `}>
-        {/* Sidebar orb glow */}
-        <div className="absolute -left-20 top-1/4 w-[200px] h-[200px] rounded-full bg-primary opacity-[0.03] blur-[80px] pointer-events-none" />
+      {/* ── Mobile sidebar overlay ── */}
+      <AnimatePresence>
+        {mobileSidebarOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 md:hidden"
+              onClick={() => setMobileSidebarOpen(false)}
+            />
+            {/* Drawer */}
+            <motion.aside
+              key="mobile-sidebar"
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="fixed inset-y-0 left-0 z-50 w-64 flex flex-col border-r border-border bg-secondary md:hidden"
+            >
+              <SidebarContent onClose={() => setMobileSidebarOpen(false)} showClose />
 
-        {/* Logo + Close button (mobile) */}
-        <div className="flex h-16 items-center justify-between border-b border-border px-5">
-          <div className="flex items-center gap-2">
-            <span className="text-lg font-bold tracking-tight text-primary">GlowUp</span>
-            <span className="text-lg font-light text-foreground">Aesthetics</span>
-          </div>
-          <button
-            className="md:hidden p-1.5 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors"
-            onClick={() => setSidebarOpen(false)}
+              {/* Mobile-only: Location & Role controls */}
+              <div className="border-t border-border px-3 py-3 space-y-3">
+                <LocationSelector />
+                <RoleToggle />
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* ── Desktop sidebar ── */}
+      <AnimatePresence initial={false}>
+        {!desktopCollapsed && (
+          <motion.aside
+            key="desktop-sidebar"
+            initial={{ width: 0, opacity: 0 }}
+            animate={{ width: 240, opacity: 1 }}
+            exit={{ width: 0, opacity: 0 }}
+            transition={{ duration: 0.2, ease: 'easeInOut' }}
+            className="hidden md:flex h-full shrink-0 flex-col border-r border-border bg-secondary overflow-hidden"
           >
-            <X className="h-5 w-5" />
-          </button>
-        </div>
-
-        {/* Navigation */}
-        <nav className="flex flex-1 flex-col gap-1 overflow-y-auto scroll-fade-y px-3 py-4">
-          {navItems.map((item) => (
-            <SidebarItem key={item.path} item={item} />
-          ))}
-        </nav>
-
-        {/* Mobile-only: Location & Role controls */}
-        <div className="md:hidden border-t border-border px-3 py-3 space-y-3">
-          <LocationSelector />
-          <RoleToggle />
-        </div>
-      </aside>
+            <SidebarContent onClose={() => setDesktopCollapsed(true)} showClose />
+          </motion.aside>
+        )}
+      </AnimatePresence>
 
       {/* Main column */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Topbar */}
         <header className="flex h-14 md:h-16 shrink-0 items-center justify-between border-b border-border bg-background/95 backdrop-blur-sm px-3 md:px-6 z-10">
           <div className="flex items-center gap-2">
+            {/* Mobile: hamburger */}
             <button
               className="md:hidden p-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors"
-              onClick={() => setSidebarOpen(true)}
+              onClick={() => setMobileSidebarOpen(true)}
             >
               <Menu className="h-5 w-5" />
             </button>
+            {/* Desktop: reopen collapsed sidebar */}
+            {desktopCollapsed && (
+              <button
+                className="hidden md:flex p-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors"
+                onClick={() => setDesktopCollapsed(false)}
+              >
+                <Menu className="h-5 w-5" />
+              </button>
+            )}
             <span className="text-base font-bold text-primary md:hidden">GlowUp</span>
           </div>
-          <div className="hidden md:block" />
 
           <div className="flex items-center gap-2 md:gap-4">
             <div className="hidden md:block"><LocationSelector /></div>

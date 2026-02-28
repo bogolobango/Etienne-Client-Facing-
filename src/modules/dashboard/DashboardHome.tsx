@@ -118,6 +118,7 @@ export function DashboardHome() {
               trend={metrics.revenueTrend}
               trendLabel="vs prev period"
               delay={0}
+              dataSource="Zenoti"
             />
             <MetricCard
               label="Revenue Recovered"
@@ -126,6 +127,7 @@ export function DashboardHome() {
               trend={42.5}
               trendLabel="by AI"
               delay={1}
+              dataSource="Zenoti"
             />
             <MetricCard
               label="No-Show Rate"
@@ -134,6 +136,7 @@ export function DashboardHome() {
               trend={metrics.noShowTrend}
               trendLabel="vs prev period"
               delay={2}
+              dataSource="Zenoti"
             />
             <MetricCard
               label="Avg Response Time"
@@ -142,6 +145,7 @@ export function DashboardHome() {
               trend={metrics.responseTrend}
               trendLabel="vs prev period"
               delay={3}
+              dataSource="Zenoti"
             />
           </div>
 

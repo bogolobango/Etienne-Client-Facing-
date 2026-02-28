@@ -78,9 +78,9 @@ export function CommandCenterOverview() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-          <MetricCard label="Active Conversations" value={activeConvos.length} delay={0} />
-          <MetricCard label="Avg Response Time" value={avgResponseTime} format="time" delay={1} />
-          <MetricCard label="AI Handling" value={aiResolved} delay={2} />
+          <MetricCard label="Active Conversations" value={activeConvos.length} delay={0} dataSource="Zenoti" />
+          <MetricCard label="Avg Response Time" value={avgResponseTime} format="time" delay={1} dataSource="Zenoti" />
+          <MetricCard label="AI Handling" value={aiResolved} delay={2} dataSource="Zenoti" />
         </div>
 
         <motion.div
@@ -140,6 +140,7 @@ export function CommandCenterOverview() {
           trend={18.5}
           trendLabel="this month"
           delay={0}
+          dataSource="Zenoti"
         />
         <MetricCard
           label="Avg Response Time"
@@ -148,6 +149,7 @@ export function CommandCenterOverview() {
           trend={-85.2}
           trendLabel="vs before"
           delay={1}
+          dataSource="Zenoti"
         />
         <MetricCard
           label="AI Resolution Rate"
@@ -155,12 +157,14 @@ export function CommandCenterOverview() {
           format="percent"
           trend={12.3}
           delay={2}
+          dataSource="Zenoti"
         />
         <MetricCard
           label="Revenue Recovered"
           value={totalRecovered}
           format="currency"
           trend={42.0}
+          dataSource="Zenoti"
           delay={3}
         />
       </div>

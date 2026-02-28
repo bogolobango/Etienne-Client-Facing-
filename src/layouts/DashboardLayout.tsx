@@ -16,6 +16,7 @@ import {
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useLocationStore } from '@/stores/useLocationStore'
 import { GradientOrbs } from '@/components/GradientOrbs'
+import { ZenotiSyncBadge } from '@/components/ZenotiSyncBadge'
 
 const locations = [
   { id: 'soho', name: 'SoHo Flagship' },
@@ -301,6 +302,7 @@ export function DashboardLayout() {
           <div className="flex items-center gap-2 md:gap-4">
             <div className="hidden md:block"><LocationSelector /></div>
             <div className="hidden md:block"><RoleToggle /></div>
+            <div className="hidden md:block"><ZenotiSyncBadge /></div>
 
             <button className="relative rounded-full p-2 text-muted-foreground transition-all hover:bg-primary/[0.08] hover:text-foreground">
               <Bell className="h-5 w-5" />

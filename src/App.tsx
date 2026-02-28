@@ -30,6 +30,7 @@ export default function App() {
           <Route path="/intelligence/analyst" element={<AIAnalyst />} />
           <Route path="/intelligence/reports" element={<Reports />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/settings/integrations" element={<Settings />} />
         </Route>
       </Routes>
     </BrowserRouter>

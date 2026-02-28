@@ -72,9 +72,9 @@ export function SchedulingOverview() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-          <MetricCard label="Today's Appointments" value={todayAppts.length} delay={0} />
-          <MetricCard label="High Risk No-Shows" value={highRisk.length} delay={1} />
-          <MetricCard label="Waitlist Matches" value={3} delay={2} />
+          <MetricCard label="Today's Appointments" value={todayAppts.length} delay={0} dataSource="Zenoti" />
+          <MetricCard label="High Risk No-Shows" value={highRisk.length} delay={1} dataSource="Zenoti" />
+          <MetricCard label="Waitlist Matches" value={3} delay={2} dataSource="Zenoti" />
         </div>
 
         <motion.div
@@ -128,6 +128,7 @@ export function SchedulingOverview() {
           trend={18.5}
           trendLabel="vs before"
           delay={0}
+          dataSource="Zenoti"
         />
         <MetricCard
           label="No-Show Rate"
@@ -136,12 +137,14 @@ export function SchedulingOverview() {
           trend={-57.1}
           trendLabel="vs before"
           delay={1}
+          dataSource="Zenoti"
         />
         <MetricCard
           label="AI-Booked"
           value={aiBooked}
           trend={35.0}
           delay={2}
+          dataSource="Zenoti"
         />
         <MetricCard
           label="Revenue per Appt"
@@ -149,6 +152,7 @@ export function SchedulingOverview() {
           format="currency"
           trend={8.2}
           delay={3}
+          dataSource="Zenoti"
         />
       </div>
 

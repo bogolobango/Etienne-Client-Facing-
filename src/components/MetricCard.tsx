@@ -11,6 +11,7 @@ interface MetricCardProps {
   trendLabel?: string
   delay?: number
   onClick?: () => void
+  dataSource?: string
 }
 
 function formatValue(value: number, format: string): string {
@@ -41,6 +42,7 @@ export function MetricCard({
   trendLabel,
   delay = 0,
   onClick,
+  dataSource,
 }: MetricCardProps) {
   const [displayValue, setDisplayValue] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
@@ -122,6 +124,11 @@ export function MetricCard({
               <span className="text-muted-foreground ml-1">{trendLabel}</span>
             )}
           </div>
+        )}
+        {dataSource && (
+          <p className="text-[10px] text-muted-foreground/50 mt-1.5 tracking-wide uppercase">
+            via {dataSource}
+          </p>
         )}
       </div>
     </motion.div>

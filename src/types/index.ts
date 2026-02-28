@@ -118,6 +118,19 @@ export interface ChatMessage {
   timestamp: string
 }
 
+export interface Opportunity {
+  id: string
+  guestName: string
+  guestPhone: string
+  serviceInterest: string
+  source: 'phone' | 'web' | 'social' | 'walk-in'
+  status: 'new' | 'contacted' | 'booked' | 'lost'
+  locationId: string
+  estimatedRevenue: number
+  createdAt: string
+  notes: string
+}
+
 export type Role = 'owner' | 'staff'
 
 export type LocationFilter = 'all' | string

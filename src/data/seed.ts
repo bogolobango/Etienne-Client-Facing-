@@ -7,6 +7,7 @@ import type {
   DailyMetrics,
   Client,
   Alert,
+  Opportunity,
 } from '@/types'
 
 // ---------------------------------------------------------------------------
@@ -1134,4 +1135,42 @@ export const alerts: Alert[] = [
     locationId: 'soho', impact: 0, timestamp: minutesAgo(120),
     actionLabel: 'Restart Agent', dismissed: false,
   },
+]
+
+// ---------------------------------------------------------------------------
+// Opportunities
+// ---------------------------------------------------------------------------
+export const opportunities: Opportunity[] = [
+  // 8 new
+  { id: 'opp-001', guestName: 'Sophia Martinez', guestPhone: '(212) 555-0201', serviceInterest: 'Botox — Forehead & Crow\'s Feet', source: 'phone', status: 'new', locationId: 'soho', estimatedRevenue: 650, createdAt: daysAgoISO(0, 10, 15), notes: 'Called asking about pricing, seemed very interested.' },
+  { id: 'opp-002', guestName: 'Liam Chen', guestPhone: '(718) 555-0302', serviceInterest: 'Hydrafacial Platinum', source: 'web', status: 'new', locationId: 'williamsburg', estimatedRevenue: 350, createdAt: daysAgoISO(0, 14, 30), notes: 'Submitted online inquiry form.' },
+  { id: 'opp-003', guestName: 'Ava Patel', guestPhone: '(201) 555-0403', serviceInterest: 'Laser Hair Removal — Full Legs', source: 'social', status: 'new', locationId: 'hoboken', estimatedRevenue: 1200, createdAt: daysAgoISO(1, 9, 0), notes: 'DM on Instagram, wants package pricing.' },
+  { id: 'opp-004', guestName: 'Noah Williams', guestPhone: '(914) 555-0504', serviceInterest: 'CoolSculpting Consultation', source: 'phone', status: 'new', locationId: 'white-plains', estimatedRevenue: 1500, createdAt: daysAgoISO(1, 11, 45), notes: 'Referred by existing client. High intent.' },
+  { id: 'opp-005', guestName: 'Isabella Johnson', guestPhone: '(203) 555-0605', serviceInterest: 'Dermal Fillers — Lips', source: 'web', status: 'new', locationId: 'stamford', estimatedRevenue: 800, createdAt: daysAgoISO(1, 16, 0), notes: 'Browsed filler page 3 times before inquiry.' },
+  { id: 'opp-006', guestName: 'Emma Rodriguez', guestPhone: '(212) 555-0706', serviceInterest: 'Chemical Peel — VI Peel', source: 'walk-in', status: 'new', locationId: 'soho', estimatedRevenue: 450, createdAt: daysAgoISO(2, 13, 0), notes: 'Walked in asking about skin resurfacing options.' },
+  { id: 'opp-007', guestName: 'Oliver Kim', guestPhone: '(718) 555-0807', serviceInterest: 'Microneedling with PRP', source: 'social', status: 'new', locationId: 'williamsburg', estimatedRevenue: 750, createdAt: daysAgoISO(2, 10, 30), notes: 'Responded to TikTok ad about skin rejuvenation.' },
+  { id: 'opp-008', guestName: 'Charlotte Davis', guestPhone: '(201) 555-0908', serviceInterest: 'IPL Photofacial', source: 'phone', status: 'new', locationId: 'hoboken', estimatedRevenue: 500, createdAt: daysAgoISO(3, 9, 15), notes: 'Called about sun damage treatment.' },
+
+  // 7 contacted
+  { id: 'opp-009', guestName: 'James Thompson', guestPhone: '(914) 555-1009', serviceInterest: 'Botox — Full Face', source: 'web', status: 'contacted', locationId: 'white-plains', estimatedRevenue: 850, createdAt: daysAgoISO(3, 14, 0), notes: 'Follow-up call scheduled for tomorrow.' },
+  { id: 'opp-010', guestName: 'Mia Garcia', guestPhone: '(203) 555-1110', serviceInterest: 'Hydrafacial + LED Add-on', source: 'phone', status: 'contacted', locationId: 'stamford', estimatedRevenue: 400, createdAt: daysAgoISO(4, 11, 0), notes: 'Texted pricing info, awaiting response.' },
+  { id: 'opp-011', guestName: 'Ethan Brown', guestPhone: '(212) 555-1211', serviceInterest: 'Laser Hair Removal — Back', source: 'social', status: 'contacted', locationId: 'soho', estimatedRevenue: 900, createdAt: daysAgoISO(4, 15, 30), notes: 'Sent consultation booking link via DM.' },
+  { id: 'opp-012', guestName: 'Amelia Wilson', guestPhone: '(718) 555-1312', serviceInterest: 'Kybella — Double Chin', source: 'web', status: 'contacted', locationId: 'williamsburg', estimatedRevenue: 1200, createdAt: daysAgoISO(5, 10, 0), notes: 'Email sent with before/after gallery.' },
+  { id: 'opp-013', guestName: 'Lucas Taylor', guestPhone: '(201) 555-1413', serviceInterest: 'Sculptra — Cheeks', source: 'phone', status: 'contacted', locationId: 'hoboken', estimatedRevenue: 1100, createdAt: daysAgoISO(5, 13, 0), notes: 'Discussed treatment plan over phone.' },
+  { id: 'opp-014', guestName: 'Harper Anderson', guestPhone: '(914) 555-1514', serviceInterest: 'Morpheus8 — Face', source: 'walk-in', status: 'contacted', locationId: 'white-plains', estimatedRevenue: 1300, createdAt: daysAgoISO(6, 11, 30), notes: 'Came in for consult, reviewing financing options.' },
+  { id: 'opp-015', guestName: 'Benjamin Lee', guestPhone: '(203) 555-1615', serviceInterest: 'Microneedling Package (3 sessions)', source: 'social', status: 'contacted', locationId: 'stamford', estimatedRevenue: 950, createdAt: daysAgoISO(6, 9, 45), notes: 'Engaged with stories ad, sent package details.' },
+
+  // 6 booked
+  { id: 'opp-016', guestName: 'Ella Martin', guestPhone: '(212) 555-1716', serviceInterest: 'Botox — Forehead Lines', source: 'phone', status: 'booked', locationId: 'soho', estimatedRevenue: 550, createdAt: daysAgoISO(7, 10, 0), notes: 'Booked for next Tuesday at 2pm.' },
+  { id: 'opp-017', guestName: 'Alexander White', guestPhone: '(718) 555-1817', serviceInterest: 'Hydrafacial Deluxe', source: 'web', status: 'booked', locationId: 'williamsburg', estimatedRevenue: 300, createdAt: daysAgoISO(8, 14, 0), notes: 'Confirmed online booking for Saturday.' },
+  { id: 'opp-018', guestName: 'Scarlett Harris', guestPhone: '(201) 555-1918', serviceInterest: 'Laser Hair Removal — Bikini', source: 'social', status: 'booked', locationId: 'hoboken', estimatedRevenue: 600, createdAt: daysAgoISO(8, 11, 30), notes: 'Package deal secured — 6 sessions.' },
+  { id: 'opp-019', guestName: 'Daniel Clark', guestPhone: '(914) 555-2019', serviceInterest: 'CoolSculpting — Abdomen', source: 'phone', status: 'booked', locationId: 'white-plains', estimatedRevenue: 1400, createdAt: daysAgoISO(9, 9, 0), notes: 'Two-area treatment plan booked.' },
+  { id: 'opp-020', guestName: 'Grace Lewis', guestPhone: '(203) 555-2120', serviceInterest: 'Dermal Fillers — Cheeks & Lips', source: 'walk-in', status: 'booked', locationId: 'stamford', estimatedRevenue: 1100, createdAt: daysAgoISO(10, 15, 0), notes: 'Walk-in consult converted to booking.' },
+  { id: 'opp-021', guestName: 'Jack Robinson', guestPhone: '(212) 555-2221', serviceInterest: 'Chemical Peel — Jessner\'s', source: 'web', status: 'booked', locationId: 'soho', estimatedRevenue: 350, createdAt: daysAgoISO(10, 12, 0), notes: 'First-time client, booked intro offer.' },
+
+  // 4 lost
+  { id: 'opp-022', guestName: 'Aria Walker', guestPhone: '(718) 555-2322', serviceInterest: 'Morpheus8 — Body', source: 'phone', status: 'lost', locationId: 'williamsburg', estimatedRevenue: 1500, createdAt: daysAgoISO(12, 10, 0), notes: 'Price too high, went to competitor.' },
+  { id: 'opp-023', guestName: 'Henry Young', guestPhone: '(201) 555-2423', serviceInterest: 'Botox — Jawline Slimming', source: 'web', status: 'lost', locationId: 'hoboken', estimatedRevenue: 700, createdAt: daysAgoISO(14, 11, 0), notes: 'No response after 3 follow-ups.' },
+  { id: 'opp-024', guestName: 'Chloe King', guestPhone: '(914) 555-2524', serviceInterest: 'IPL Photofacial Package', source: 'social', status: 'lost', locationId: 'white-plains', estimatedRevenue: 800, createdAt: daysAgoISO(15, 14, 0), notes: 'Decided to wait until after summer.' },
+  { id: 'opp-025', guestName: 'Sebastian Wright', guestPhone: '(203) 555-2625', serviceInterest: 'Laser Hair Removal — Arms', source: 'walk-in', status: 'lost', locationId: 'stamford', estimatedRevenue: 500, createdAt: daysAgoISO(18, 16, 0), notes: 'Insurance question — not covered, declined.' },
 ]

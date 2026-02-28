@@ -58,9 +58,9 @@ export function IntelligenceOverview() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-          <MetricCard label="Bookings Handled" value={12} trend={8.5} delay={0} />
-          <MetricCard label="Conversion Rate" value={82} format="percent" trend={3.2} delay={1} />
-          <MetricCard label="Revenue Generated" value={5850} format="currency" trend={12.0} delay={2} />
+          <MetricCard label="Bookings Handled" value={12} trend={8.5} delay={0} dataSource="Zenoti" />
+          <MetricCard label="Conversion Rate" value={82} format="percent" trend={3.2} delay={1} dataSource="Zenoti" />
+          <MetricCard label="Revenue Generated" value={5850} format="currency" trend={12.0} delay={2} dataSource="Zenoti" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -159,12 +159,14 @@ export function IntelligenceOverview() {
           trend={15.8}
           trendLabel="vs prev month"
           delay={1}
+          dataSource="Zenoti"
         />
         <MetricCard
           label="New Clients"
           value={totalNewClients}
           trend={22.5}
           delay={2}
+          dataSource="Zenoti"
         />
         <MetricCard
           label="No-Show Savings"
@@ -173,6 +175,7 @@ export function IntelligenceOverview() {
           trend={-57.1}
           trendLabel="reduction"
           delay={3}
+          dataSource="Zenoti"
         />
       </div>
 

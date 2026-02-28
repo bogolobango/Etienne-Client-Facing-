@@ -198,6 +198,167 @@ Would you like me to:
 - Generate a weekly P&L impact report?`
 }
 
+// Safe markdown renderer — renders to React elements instead of raw HTML
+function MarkdownRenderer({ content }: { content: string }) {
+  const lines = content.split('\n')
+  const elements: React.ReactNode[] = []
+  let i = 0
+  let key = 0
+
+  const renderInline = (text: string): React.ReactNode[] => {
+    const parts: React.ReactNode[] = []
+    let remaining = text
+    let inlineKey = 0
+
+    while (remaining.length > 0) {
+      // Bold
+      const boldMatch = remaining.match(/\*\*(.+?)\*\*/)
+      // Inline code
+      const codeMatch = remaining.match(/`([^`]+)`/)
+
+      const boldIdx = boldMatch ? remaining.indexOf(boldMatch[0]) : Infinity
+      const codeIdx = codeMatch ? remaining.indexOf(codeMatch[0]) : Infinity
+
+      if (boldIdx === Infinity && codeIdx === Infinity) {
+        parts.push(remaining)
+        break
+      }
+
+      if (boldIdx <= codeIdx && boldMatch) {
+        if (boldIdx > 0) parts.push(remaining.slice(0, boldIdx))
+        parts.push(<strong key={`b${inlineKey++}`} className="text-foreground">{boldMatch[1]}</strong>)
+        remaining = remaining.slice(boldIdx + boldMatch[0].length)
+      } else if (codeMatch) {
+        if (codeIdx > 0) parts.push(remaining.slice(0, codeIdx))
+        parts.push(<code key={`c${inlineKey++}`} className="text-xs text-primary bg-primary/[0.06] px-1 rounded">{codeMatch[1]}</code>)
+        remaining = remaining.slice(codeIdx + codeMatch[0].length)
+      }
+    }
+
+    return parts
+  }
+
+  while (i < lines.length) {
+    const line = lines[i]
+
+    // Code blocks
+    if (line.startsWith('```')) {
+      const codeLines: string[] = []
+      i++
+      while (i < lines.length && !lines[i].startsWith('```')) {
+        codeLines.push(lines[i])
+        i++
+      }
+      i++ // skip closing ```
+      elements.push(
+        <pre key={key++} className="bg-primary/[0.06] rounded-lg p-3 overflow-x-auto">
+          <code className="bg-transparent p-0 text-sm">{codeLines.join('\n')}</code>
+        </pre>
+      )
+      continue
+    }
+
+    // Table detection
+    if (line.includes('|') && line.trim().startsWith('|')) {
+      const tableRows: string[][] = []
+      let hasHeader = false
+
+      while (i < lines.length && lines[i].includes('|') && lines[i].trim().startsWith('|')) {
+        const cells = lines[i].split('|').filter(Boolean).map(c => c.trim())
+        if (cells.every(c => /^[-:]+$/.test(c))) {
+          hasHeader = true
+          i++
+          continue
+        }
+        tableRows.push(cells)
+        i++
+      }
+
+      elements.push(
+        <table key={key++} className="w-full text-sm">
+          {hasHeader && tableRows.length > 0 && (
+            <thead>
+              <tr className="border-b border-border">
+                {tableRows[0].map((cell, ci) => (
+                  <th key={ci} className="text-left text-muted-foreground font-medium pb-2 pr-4 text-xs">{renderInline(cell)}</th>
+                ))}
+              </tr>
+            </thead>
+          )}
+          <tbody>
+            {tableRows.slice(hasHeader ? 1 : 0).map((row, ri) => (
+              <tr key={ri} className="border-b border-border">
+                {row.map((cell, ci) => (
+                  <td key={ci} className="py-1.5 pr-4 text-muted-foreground text-sm font-mono">{renderInline(cell)}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )
+      continue
+    }
+
+    // Headers
+    if (line.startsWith('### ')) {
+      elements.push(<h3 key={key++} className="text-sm font-semibold text-foreground mt-4 mb-2">{renderInline(line.slice(4))}</h3>)
+      i++
+      continue
+    }
+    if (line.startsWith('## ')) {
+      elements.push(<h2 key={key++} className="text-lg font-semibold text-foreground mt-0 mb-3">{renderInline(line.slice(3))}</h2>)
+      i++
+      continue
+    }
+
+    // List items
+    if (line.match(/^- /)) {
+      const listItems: string[] = []
+      while (i < lines.length && lines[i].match(/^- /)) {
+        listItems.push(lines[i].slice(2))
+        i++
+      }
+      elements.push(
+        <ul key={key++} className="space-y-1">
+          {listItems.map((item, li) => (
+            <li key={li} className="text-sm text-muted-foreground">{renderInline(item)}</li>
+          ))}
+        </ul>
+      )
+      continue
+    }
+
+    // Numbered list
+    if (line.match(/^\d+\. /)) {
+      const listItems: string[] = []
+      while (i < lines.length && lines[i].match(/^\d+\. /)) {
+        listItems.push(lines[i].replace(/^\d+\. /, ''))
+        i++
+      }
+      elements.push(
+        <ul key={key++} className="space-y-1">
+          {listItems.map((item, li) => (
+            <li key={li} className="text-sm text-muted-foreground">{renderInline(item)}</li>
+          ))}
+        </ul>
+      )
+      continue
+    }
+
+    // Empty lines
+    if (line.trim() === '') {
+      i++
+      continue
+    }
+
+    // Paragraphs
+    elements.push(<p key={key++} className="text-sm text-muted-foreground my-2">{renderInline(line)}</p>)
+    i++
+  }
+
+  return <div className="prose prose-sm max-w-none space-y-2">{elements}</div>
+}
+
 export function AIAnalyst() {
   const { messages, isLoading, addMessage, setLoading, clearMessages } = useChatStore()
   const [input, setInput] = useState('')
@@ -240,19 +401,19 @@ export function AIAnalyst() {
   return (
     <div className="flex flex-col h-[calc(100vh-120px)]">
       <div className="flex items-center gap-3 mb-4">
-        <Link to="/intelligence" className="p-2 rounded-lg hover:bg-[#7C3AED]/[0.05] text-[#6B7280] transition-colors">
+        <Link to="/intelligence" className="p-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <Brain className="w-5 h-5 text-[#7C3AED]" />
-            <h1 className="text-2xl font-semibold text-[#111827]">AI Revenue Analyst</h1>
+            <Brain className="w-5 h-5 text-primary" />
+            <h1 className="text-2xl font-semibold text-foreground">AI Revenue Analyst</h1>
           </div>
-          <p className="text-[#6B7280] mt-0.5">Powered by Claude — Ask anything about your business</p>
+          <p className="text-muted-foreground mt-0.5">Powered by Claude — Ask anything about your business</p>
         </div>
         <button
           onClick={clearMessages}
-          className="p-2 rounded-lg hover:bg-[#7C3AED]/[0.05] text-[#6B7280] transition-colors"
+          className="p-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors"
           title="Clear conversation"
         >
           <RefreshCw className="w-4 h-4" />
@@ -269,13 +430,13 @@ export function AIAnalyst() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center max-w-lg"
               >
-                <div className="w-16 h-16 rounded-2xl bg-[#7C3AED]/10 flex items-center justify-center mx-auto mb-4">
-                  <Sparkles className="w-8 h-8 text-[#7C3AED]" />
+                <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                  <Sparkles className="w-8 h-8 text-primary" />
                 </div>
-                <h2 className="text-xl font-semibold text-[#111827] mb-2">
+                <h2 className="text-xl font-semibold text-foreground mb-2">
                   Your AI Revenue Analyst
                 </h2>
-                <p className="text-sm text-[#6B7280] mb-8">
+                <p className="text-sm text-muted-foreground mb-8">
                   I have access to all your business data across 5 locations.
                   Ask me anything about revenue, performance, trends, or get actionable recommendations.
                 </p>
@@ -285,10 +446,10 @@ export function AIAnalyst() {
                     <button
                       key={prompt.label}
                       onClick={() => sendMessage(prompt.label)}
-                      className="flex items-center gap-2 p-3 rounded-lg border border-[#7C3AED]/[0.08] bg-[#7C3AED]/[0.03] hover:border-[#7C3AED]/30 hover:bg-[#7C3AED]/5 transition-all text-left"
+                      className="flex items-center gap-2 p-3 rounded-lg border border-border bg-primary/[0.03] hover:border-primary/30 hover:bg-primary/5 transition-all text-left"
                     >
                       <span className="text-lg">{prompt.icon}</span>
-                      <span className="text-sm text-[#6B7280]">{prompt.label}</span>
+                      <span className="text-sm text-muted-foreground">{prompt.label}</span>
                     </button>
                   ))}
                 </div>
@@ -307,33 +468,18 @@ export function AIAnalyst() {
                   )}
                 >
                   {msg.role === 'assistant' && (
-                    <div className="w-8 h-8 rounded-lg bg-[#7C3AED]/20 flex items-center justify-center shrink-0 mt-1">
-                      <Brain className="w-4 h-4 text-[#7C3AED]" />
+                    <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0 mt-1">
+                      <Brain className="w-4 h-4 text-primary" />
                     </div>
                   )}
                   <div className={cn(
                     'max-w-[80%] rounded-lg p-4',
                     msg.role === 'user'
-                      ? 'bg-[#7C3AED]/10 text-[#111827]'
-                      : 'bg-[#7C3AED]/[0.03] text-[#111827]'
+                      ? 'bg-primary/10 text-foreground'
+                      : 'bg-primary/[0.03] text-foreground'
                   )}>
                     {msg.role === 'assistant' ? (
-                      <div
-                        className="prose prose-sm max-w-none
-                          [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-[#111827] [&_h2]:mt-0 [&_h2]:mb-3
-                          [&_h3]:text-sm [&_h3]:font-semibold [&_h3]:text-[#111827] [&_h3]:mt-4 [&_h3]:mb-2
-                          [&_p]:text-sm [&_p]:text-[#6B7280] [&_p]:my-2
-                          [&_strong]:text-[#111827]
-                          [&_li]:text-sm [&_li]:text-[#6B7280]
-                          [&_code]:text-xs [&_code]:text-[#7C3AED] [&_code]:bg-[#7C3AED]/[0.06] [&_code]:px-1 [&_code]:rounded
-                          [&_pre]:bg-[#7C3AED]/[0.06] [&_pre]:rounded-lg [&_pre]:p-3 [&_pre]:overflow-x-auto
-                          [&_pre_code]:bg-transparent [&_pre_code]:p-0
-                          [&_table]:w-full [&_table]:text-sm
-                          [&_th]:text-left [&_th]:text-[#9CA3AF] [&_th]:font-medium [&_th]:pb-2 [&_th]:pr-4 [&_th]:text-xs
-                          [&_td]:py-1.5 [&_td]:pr-4 [&_td]:text-[#6B7280] [&_td]:text-sm [&_td]:font-mono
-                          [&_tr]:border-b [&_tr]:border-[#7C3AED]/[0.08]"
-                        dangerouslySetInnerHTML={{ __html: renderMarkdown(msg.content) }}
-                      />
+                      <MarkdownRenderer content={msg.content} />
                     ) : (
                       <p className="text-sm">{msg.content}</p>
                     )}
@@ -347,14 +493,14 @@ export function AIAnalyst() {
                   animate={{ opacity: 1 }}
                   className="flex gap-3"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-[#7C3AED]/20 flex items-center justify-center shrink-0">
-                    <Brain className="w-4 h-4 text-[#7C3AED] animate-pulse" />
+                  <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
+                    <Brain className="w-4 h-4 text-primary animate-pulse" />
                   </div>
-                  <div className="bg-[#7C3AED]/[0.03] rounded-lg p-4">
+                  <div className="bg-primary/[0.03] rounded-lg p-4">
                     <div className="flex gap-1">
-                      <div className="w-2 h-2 rounded-full bg-[#7C3AED] animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <div className="w-2 h-2 rounded-full bg-[#7C3AED] animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <div className="w-2 h-2 rounded-full bg-[#7C3AED] animate-bounce" style={{ animationDelay: '300ms' }} />
+                      <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '300ms' }} />
                     </div>
                   </div>
                 </motion.div>
@@ -366,14 +512,14 @@ export function AIAnalyst() {
         </div>
 
         {/* Input */}
-        <div className="p-4 border-t border-[#7C3AED]/[0.08]">
+        <div className="p-4 border-t border-border">
           {messages.length > 0 && (
             <div className="flex gap-2 mb-3 overflow-x-auto pb-1">
               {SUGGESTED_PROMPTS.slice(0, 4).map((prompt) => (
                 <button
                   key={prompt.label}
                   onClick={() => sendMessage(prompt.label)}
-                  className="px-3 py-1.5 text-xs whitespace-nowrap rounded-full border border-[#7C3AED]/[0.08] text-[#6B7280] hover:border-[#7C3AED]/30 hover:text-[#7C3AED] transition-colors"
+                  className="px-3 py-1.5 text-xs whitespace-nowrap rounded-full border border-border text-muted-foreground hover:border-primary/30 hover:text-primary transition-colors"
                 >
                   {prompt.label}
                 </button>
@@ -387,7 +533,7 @@ export function AIAnalyst() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && sendMessage(input)}
               placeholder="Ask about revenue, performance, trends..."
-              className="flex-1 px-4 py-3 bg-[#7C3AED]/[0.06] border border-[#7C3AED]/[0.08] rounded-lg text-sm text-[#111827] placeholder:text-[#9CA3AF] outline-none focus:border-[#7C3AED]/50 transition-colors"
+              className="flex-1 px-4 py-3 bg-primary/[0.06] border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary/50 transition-colors"
               disabled={isLoading}
             />
             <button
@@ -396,8 +542,8 @@ export function AIAnalyst() {
               className={cn(
                 'px-4 py-3 rounded-lg transition-colors flex items-center gap-2',
                 input.trim() && !isLoading
-                  ? 'bg-[#7C3AED] text-white hover:bg-[#7C3AED]/90'
-                  : 'bg-[#7C3AED]/[0.06] text-[#9CA3AF] cursor-not-allowed'
+                  ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                  : 'bg-primary/[0.06] text-muted-foreground cursor-not-allowed'
               )}
             >
               <Send className="w-4 h-4" />
@@ -407,33 +553,4 @@ export function AIAnalyst() {
       </div>
     </div>
   )
-}
-
-// Simple markdown renderer
-function renderMarkdown(text: string): string {
-  return text
-    // Code blocks
-    .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
-    // Tables
-    .replace(/\|(.+)\|/g, (match) => {
-      const cells = match.split('|').filter(Boolean).map((c) => c.trim())
-      if (cells.every((c) => /^[-:]+$/.test(c))) return '' // separator row
-      const tag = match.includes('---') ? 'th' : 'td'
-      return '<tr>' + cells.map((c) => `<${tag}>${c}</${tag}>`).join('') + '</tr>'
-    })
-    .replace(/(<tr>.*<\/tr>\n?)+/g, '<table>$&</table>')
-    // Headers
-    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-    // Bold
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    // Inline code
-    .replace(/`([^`]+)`/g, '<code>$1</code>')
-    // Lists
-    .replace(/^- (.+)$/gm, '<li>$1</li>')
-    .replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>')
-    .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
-    // Paragraphs
-    .replace(/\n\n/g, '</p><p>')
-    .replace(/\n/g, '<br/>')
 }

@@ -51,8 +51,8 @@ export function Settings() {
   return (
     <div className="space-y-6 max-w-3xl">
       <div>
-        <h1 className="text-2xl font-semibold text-[#111827]">Settings</h1>
-        <p className="text-[#6B7280] mt-1">Manage your account and platform configuration</p>
+        <h1 className="text-2xl font-semibold text-foreground">Settings</h1>
+        <p className="text-muted-foreground mt-1">Manage your account and platform configuration</p>
       </div>
 
       {sections.map((section, i) => {
@@ -66,30 +66,30 @@ export function Settings() {
             className="card-premium p-6"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 rounded-lg bg-[#7C3AED]/[0.06]">
-                <Icon className="w-4 h-4 text-[#6B7280]" />
+              <div className="p-2 rounded-lg bg-primary/[0.06]">
+                <Icon className="w-4 h-4 text-muted-foreground" />
               </div>
               <div>
-                <h3 className="text-sm font-medium text-[#111827]">{section.title}</h3>
-                <p className="text-xs text-[#9CA3AF]">{section.description}</p>
+                <h3 className="text-sm font-medium text-foreground">{section.title}</h3>
+                <p className="text-xs text-muted-foreground">{section.description}</p>
               </div>
             </div>
 
             <div className="space-y-3">
               {section.items.map((item) => (
-                <div key={item.label} className="flex items-center justify-between p-3 rounded-lg border border-[#7C3AED]/[0.08] bg-[#7C3AED]/[0.03]">
-                  <span className="text-sm text-[#6B7280]">{item.label}</span>
+                <div key={item.label} className="flex items-center justify-between p-3 rounded-lg border border-border bg-primary/[0.03]">
+                  <span className="text-sm text-muted-foreground">{item.label}</span>
                   {'toggle' in item ? (
-                    <div className="w-10 h-5 rounded-full bg-[#7C3AED] relative cursor-pointer">
-                      <div className="absolute right-0.5 top-0.5 w-4 h-4 rounded-full bg-white transition-transform" />
+                    <div className="w-10 h-5 rounded-full bg-primary relative cursor-pointer">
+                      <div className="absolute right-0.5 top-0.5 w-4 h-4 rounded-full bg-primary-foreground transition-transform" />
                     </div>
                   ) : 'status' in item ? (
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-[#7C3AED]" />
-                      <span className="text-sm text-[#7C3AED]">{item.value}</span>
+                      <div className="w-2 h-2 rounded-full bg-primary" />
+                      <span className="text-sm text-primary">{item.value}</span>
                     </div>
                   ) : (
-                    <span className="text-sm text-[#111827]">{item.value}</span>
+                    <span className="text-sm text-foreground">{item.value}</span>
                   )}
                 </div>
               ))}

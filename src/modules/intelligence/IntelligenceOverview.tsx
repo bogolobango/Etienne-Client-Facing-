@@ -53,8 +53,8 @@ export function IntelligenceOverview() {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-semibold text-[#111827]">Your Performance</h1>
-          <p className="text-[#6B7280] mt-1">Today's snapshot and AI suggestions</p>
+          <h1 className="text-2xl font-semibold text-foreground">Your Performance</h1>
+          <p className="text-muted-foreground mt-1">Today's snapshot and AI suggestions</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -70,16 +70,16 @@ export function IntelligenceOverview() {
             transition={{ delay: 0.2 }}
             className="card-premium p-6"
           >
-            <h3 className="text-sm font-medium text-[#6B7280] mb-4">AI Suggested Actions</h3>
+            <h3 className="text-sm font-medium text-muted-foreground mb-4">AI Suggested Actions</h3>
             <div className="space-y-3">
               {[
                 'Call Jennifer M. — showed interest in Body Contouring package last visit',
                 'Follow up on 3 pending Hydrafacial consultations from this week',
                 'Suggest Chemical Peel add-on to tomorrow\'s Botox clients',
               ].map((action, i) => (
-                <div key={i} className="flex items-start gap-3 p-3 rounded-lg border border-[#7C3AED]/20 bg-[#7C3AED]/5">
-                  <Brain className="w-4 h-4 text-[#7C3AED] mt-0.5 shrink-0" />
-                  <p className="text-sm text-[#111827]">{action}</p>
+                <div key={i} className="flex items-start gap-3 p-3 rounded-lg border border-primary/20 bg-primary/5">
+                  <Brain className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                  <p className="text-sm text-foreground">{action}</p>
                 </div>
               ))}
             </div>
@@ -91,7 +91,7 @@ export function IntelligenceOverview() {
             transition={{ delay: 0.25 }}
             className="card-premium p-6"
           >
-            <h3 className="text-sm font-medium text-[#6B7280] mb-4">Team Leaderboard</h3>
+            <h3 className="text-sm font-medium text-muted-foreground mb-4">Team Leaderboard</h3>
             <div className="space-y-3">
               {[
                 { name: 'Sarah C.', bookings: 15, revenue: 7200 },
@@ -101,15 +101,15 @@ export function IntelligenceOverview() {
               ].map((person, i) => (
                 <div key={i} className={cn(
                   'flex items-center justify-between p-3 rounded-lg',
-                  person.name === 'You' ? 'border border-[#7C3AED]/20 bg-[#7C3AED]/5' : 'border border-[#7C3AED]/[0.08] bg-[#7C3AED]/[0.03]'
+                  person.name === 'You' ? 'border border-primary/20 bg-primary/5' : 'border border-border bg-primary/[0.03]'
                 )}>
                   <div className="flex items-center gap-3">
-                    <span className="text-sm font-mono text-[#9CA3AF] w-4">#{i + 1}</span>
-                    <span className={cn('text-sm font-medium', person.name === 'You' ? 'text-[#7C3AED]' : 'text-[#111827]')}>{person.name}</span>
+                    <span className="text-sm font-mono text-muted-foreground w-4">#{i + 1}</span>
+                    <span className={cn('text-sm font-medium', person.name === 'You' ? 'text-primary' : 'text-foreground')}>{person.name}</span>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-mono text-[#111827]">{formatCurrency(person.revenue)}</p>
-                    <p className="text-xs text-[#9CA3AF]">{person.bookings} bookings</p>
+                    <p className="text-sm font-mono text-foreground">{formatCurrency(person.revenue)}</p>
+                    <p className="text-xs text-muted-foreground">{person.bookings} bookings</p>
                   </div>
                 </div>
               ))}
@@ -123,30 +123,30 @@ export function IntelligenceOverview() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-[#111827]">Revenue Intelligence Hub</h1>
-        <p className="text-[#6B7280] mt-1">AI-powered revenue analytics and insights</p>
+        <h1 className="text-2xl font-semibold text-foreground">Revenue Intelligence Hub</h1>
+        <p className="text-muted-foreground mt-1">AI-powered revenue analytics and insights</p>
       </div>
 
       {/* Hero Metric */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-xl border border-[#7C3AED]/20 bg-gradient-to-r from-[#7C3AED]/5 to-transparent p-8"
+        className="rounded-xl border border-primary/20 bg-gradient-to-r from-primary/5 to-transparent p-8"
       >
-        <p className="text-sm text-[#7C3AED] font-medium mb-2">Revenue Recovered This Month</p>
-        <p className="text-5xl font-mono font-bold text-[#111827] tracking-tight">{formatCurrency(totalRecovered)}</p>
+        <p className="text-sm text-primary font-medium mb-2">Revenue Recovered This Month</p>
+        <p className="text-5xl font-mono font-bold text-foreground tracking-tight">{formatCurrency(totalRecovered)}</p>
         <div className="flex gap-6 mt-4">
           <div>
-            <p className="text-xs text-[#9CA3AF]">Missed Call Recovery</p>
-            <p className="text-lg font-mono text-[#111827]">{formatCurrency(missedCallRecovery)}</p>
+            <p className="text-xs text-muted-foreground">Missed Call Recovery</p>
+            <p className="text-lg font-mono text-foreground">{formatCurrency(missedCallRecovery)}</p>
           </div>
           <div>
-            <p className="text-xs text-[#9CA3AF]">No-Show Prevention</p>
-            <p className="text-lg font-mono text-[#111827]">{formatCurrency(noShowPrevention)}</p>
+            <p className="text-xs text-muted-foreground">No-Show Prevention</p>
+            <p className="text-lg font-mono text-foreground">{formatCurrency(noShowPrevention)}</p>
           </div>
           <div>
-            <p className="text-xs text-[#9CA3AF]">Upsell Capture</p>
-            <p className="text-lg font-mono text-[#111827]">{formatCurrency(upsellCapture)}</p>
+            <p className="text-xs text-muted-foreground">Upsell Capture</p>
+            <p className="text-lg font-mono text-foreground">{formatCurrency(upsellCapture)}</p>
           </div>
         </div>
       </motion.div>
@@ -188,22 +188,22 @@ export function IntelligenceOverview() {
           className="lg:col-span-2 card-premium p-6"
         >
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-[#6B7280]">Location Revenue Comparison</h3>
-            <Link to="/intelligence/scorecard" className="text-sm text-[#7C3AED] hover:underline flex items-center gap-1">
+            <h3 className="text-sm font-medium text-muted-foreground">Location Revenue Comparison</h3>
+            <Link to="/intelligence/scorecard" className="text-sm text-primary hover:underline flex items-center gap-1">
               Full Scorecard <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
           <div className="h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={locationRevenue}>
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 11 }} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 12 }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#ffffff', border: '1px solid rgba(124, 58, 237, 0.15)', borderRadius: '12px', color: '#111827', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                  contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', color: 'var(--foreground)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   formatter={(value: number = 0) => [formatCurrency(value)]}
                 />
-                <Bar dataKey="revenue" fill="#10B981" radius={[4, 4, 0, 0]} name="Revenue" />
-                <Bar dataKey="recovered" fill="#6366F1" radius={[4, 4, 0, 0]} name="Recovered" />
+                <Bar dataKey="revenue" fill="var(--chart-3)" radius={[4, 4, 0, 0]} name="Revenue" />
+                <Bar dataKey="recovered" fill="var(--chart-4)" radius={[4, 4, 0, 0]} name="Recovered" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -216,12 +216,12 @@ export function IntelligenceOverview() {
           transition={{ delay: 0.25 }}
           className="card-premium p-6"
         >
-          <h3 className="text-sm font-medium text-[#6B7280] mb-4">AI Opportunities</h3>
+          <h3 className="text-sm font-medium text-muted-foreground mb-4">AI Opportunities</h3>
           <div className="space-y-3">
             {topOpportunities.map((opp) => (
-              <div key={opp.id} className="p-3 rounded-lg border border-[#7C3AED]/20 bg-[#7C3AED]/5 cursor-pointer hover:border-[#7C3AED]/40 transition-colors">
-                <p className="text-sm text-[#111827] leading-snug">{opp.title}</p>
-                <p className="text-xs text-[#9CA3AF] mt-1">Potential: {formatCurrency(opp.impact)}</p>
+              <div key={opp.id} className="p-3 rounded-lg border border-primary/20 bg-primary/5 cursor-pointer hover:border-primary/40 transition-colors">
+                <p className="text-sm text-foreground leading-snug">{opp.title}</p>
+                <p className="text-xs text-muted-foreground mt-1">Potential: {formatCurrency(opp.impact)}</p>
               </div>
             ))}
           </div>
@@ -236,7 +236,7 @@ export function IntelligenceOverview() {
           transition={{ delay: 0.3 }}
           className="card-premium p-6"
         >
-          <h3 className="text-sm font-medium text-[#6B7280] mb-4">AI Agents</h3>
+          <h3 className="text-sm font-medium text-muted-foreground mb-4">AI Agents</h3>
           <div className="space-y-2">
             {intelAgents.map((agent) => (
               <AgentStatusBadge key={agent.id} agent={agent} />
@@ -248,14 +248,14 @@ export function IntelligenceOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35 }}
-          className="lg:col-span-2 rounded-xl border border-[#7C3AED]/20 bg-[#7C3AED]/5 p-6 cursor-pointer hover:border-[#7C3AED]/40 transition-colors"
+          className="lg:col-span-2 rounded-xl border border-primary/20 bg-primary/5 p-6 cursor-pointer hover:border-primary/40 transition-colors"
         >
           <Link to="/intelligence/analyst" className="block">
             <div className="flex items-center gap-3 mb-3">
-              <Brain className="w-6 h-6 text-[#7C3AED]" />
-              <h3 className="text-lg font-medium text-[#111827]">Ask the AI Analyst</h3>
+              <Brain className="w-6 h-6 text-primary" />
+              <h3 className="text-lg font-medium text-foreground">Ask the AI Analyst</h3>
             </div>
-            <p className="text-sm text-[#6B7280] mb-4">
+            <p className="text-sm text-muted-foreground mb-4">
               Get instant answers about your business performance. Ask questions like:
             </p>
             <div className="flex flex-wrap gap-2">
@@ -265,7 +265,7 @@ export function IntelligenceOverview() {
                 'What should I focus on?',
                 'Compare my locations',
               ].map((q) => (
-                <span key={q} className="px-3 py-1.5 text-xs bg-[#7C3AED]/10 text-[#7C3AED] rounded-full border border-[#7C3AED]/20">
+                <span key={q} className="px-3 py-1.5 text-xs bg-primary/10 text-primary rounded-full border border-primary/20">
                   {q}
                 </span>
               ))}

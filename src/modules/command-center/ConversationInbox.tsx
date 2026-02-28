@@ -23,41 +23,41 @@ export function ConversationInbox() {
 
   const channelIcon = (channel: string) => {
     switch (channel) {
-      case 'voice': return <Phone className="w-3.5 h-3.5 text-[#3B82F6]" />
-      case 'sms': return <MessageSquare className="w-3.5 h-3.5 text-[#3B82F6]" />
-      case 'web': return <Globe className="w-3.5 h-3.5 text-[#7C3AED]" />
-      case 'social': return <Share2 className="w-3.5 h-3.5 text-[#F59E0B]" />
+      case 'voice': return <Phone className="w-3.5 h-3.5 text-[var(--channel-voice)]" />
+      case 'sms': return <MessageSquare className="w-3.5 h-3.5 text-[var(--channel-voice)]" />
+      case 'web': return <Globe className="w-3.5 h-3.5 text-primary" />
+      case 'social': return <Share2 className="w-3.5 h-3.5 text-warning" />
       default: return null
     }
   }
 
   const priorityColor = (priority: string) => {
     switch (priority) {
-      case 'urgent': return 'bg-[#EF4444]'
-      case 'pending': return 'bg-[#F59E0B]'
-      default: return 'bg-[#7C3AED]'
+      case 'urgent': return 'bg-destructive'
+      case 'pending': return 'bg-warning'
+      default: return 'bg-primary'
     }
   }
 
   const statusLabel = (status: string) => {
     switch (status) {
-      case 'ai_resolved': return { text: 'AI Resolved', color: 'text-[#7C3AED] bg-[#7C3AED]/10' }
-      case 'escalated': return { text: 'Escalated', color: 'text-[#F59E0B] bg-[#F59E0B]/10' }
-      case 'in_progress': return { text: 'In Progress', color: 'text-[#3B82F6] bg-[#3B82F6]/10' }
-      case 'abandoned': return { text: 'Abandoned', color: 'text-[#EF4444] bg-[#EF4444]/10' }
-      default: return { text: status, color: 'text-[#6B7280] bg-[#7C3AED]/[0.03]' }
+      case 'ai_resolved': return { text: 'AI Resolved', color: 'text-primary bg-primary/10' }
+      case 'escalated': return { text: 'Escalated', color: 'text-warning bg-warning/10' }
+      case 'in_progress': return { text: 'In Progress', color: 'text-[var(--channel-voice)] bg-[var(--channel-voice)]/10' }
+      case 'abandoned': return { text: 'Abandoned', color: 'text-destructive bg-destructive/10' }
+      default: return { text: status, color: 'text-muted-foreground bg-primary/[0.03]' }
     }
   }
 
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
-        <Link to="/command-center" className="p-2 rounded-lg hover:bg-[#7C3AED]/[0.05] text-[#6B7280] transition-colors">
+        <Link to="/command-center" className="p-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-semibold text-[#111827]">Conversation Inbox</h1>
-          <p className="text-[#6B7280] mt-0.5">{filteredConvos.length} conversations</p>
+          <h1 className="text-2xl font-semibold text-foreground">Conversation Inbox</h1>
+          <p className="text-muted-foreground mt-0.5">{filteredConvos.length} conversations</p>
         </div>
       </div>
 
@@ -65,21 +65,27 @@ export function ConversationInbox() {
         {/* Conversation List */}
         <div className="lg:col-span-2 card-premium flex flex-col overflow-hidden">
           {/* Search */}
-          <div className="p-3 border-b border-[#7C3AED]/[0.08]">
+          <div className="p-3 border-b border-border">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9CA3AF]" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
                 type="text"
                 placeholder="Search conversations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 bg-[#7C3AED]/[0.06] border border-[#7C3AED]/[0.08] rounded-lg text-sm text-[#111827] placeholder:text-[#9CA3AF] outline-none focus:border-[#7C3AED]/50"
+                className="w-full pl-9 pr-3 py-2 bg-primary/[0.06] border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary/50"
               />
             </div>
           </div>
 
           {/* List */}
           <div className="flex-1 overflow-y-auto">
+            {filteredConvos.length === 0 && searchQuery !== '' && (
+              <div className="flex flex-col items-center justify-center py-12 text-center px-4">
+                <Search className="w-10 h-10 text-muted-foreground mb-3" />
+                <p className="text-sm text-muted-foreground">No conversations match your search</p>
+              </div>
+            )}
             {filteredConvos.map((convo) => {
               const status = statusLabel(convo.status)
               return (
@@ -87,27 +93,27 @@ export function ConversationInbox() {
                   key={convo.id}
                   onClick={() => setSelectedConvo(convo)}
                   className={cn(
-                    'p-3 border-b border-[#7C3AED]/[0.08] cursor-pointer transition-colors',
-                    selectedConvo?.id === convo.id ? 'bg-[#7C3AED]/[0.06]' : 'hover:bg-[#7C3AED]/[0.03]'
+                    'p-3 border-b border-border cursor-pointer transition-colors',
+                    selectedConvo?.id === convo.id ? 'bg-primary/[0.06]' : 'hover:bg-primary/[0.03]'
                   )}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2">
                       <div className={cn('w-2 h-2 rounded-full shrink-0', priorityColor(convo.priority))} />
-                      <p className="text-sm font-medium text-[#111827] truncate">{convo.clientName}</p>
+                      <p className="text-sm font-medium text-foreground truncate">{convo.clientName}</p>
                     </div>
                     <div className="flex items-center gap-1.5 shrink-0">
                       {channelIcon(convo.channel)}
-                      <span className="text-xs text-[#9CA3AF]">
+                      <span className="text-xs text-muted-foreground">
                         {new Date(convo.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                       </span>
                     </div>
                   </div>
-                  <p className="text-xs text-[#6B7280] mt-1 line-clamp-2 ml-4">{convo.summary}</p>
+                  <p className="text-xs text-muted-foreground mt-1 line-clamp-2 ml-4">{convo.summary}</p>
                   <div className="flex items-center gap-2 mt-2 ml-4">
                     <span className={cn('text-xs px-2 py-0.5 rounded-full', status.color)}>{status.text}</span>
                     {convo.afterHours && (
-                      <span className="text-xs px-2 py-0.5 rounded-full text-[#7C3AED] bg-[#7C3AED]/10">After Hours</span>
+                      <span className="text-xs px-2 py-0.5 rounded-full text-primary bg-primary/10">After Hours</span>
                     )}
                   </div>
                 </div>
@@ -121,33 +127,33 @@ export function ConversationInbox() {
           {selectedConvo ? (
             <>
               {/* Header */}
-              <div className="p-4 border-b border-[#7C3AED]/[0.08]">
+              <div className="p-4 border-b border-border">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-lg font-medium text-[#111827]">{selectedConvo.clientName}</p>
+                    <p className="text-lg font-medium text-foreground">{selectedConvo.clientName}</p>
                     <div className="flex items-center gap-2 mt-1">
                       {channelIcon(selectedConvo.channel)}
-                      <span className="text-sm text-[#6B7280]">{selectedConvo.clientPhone}</span>
-                      <span className="text-xs text-[#9CA3AF]">·</span>
+                      <span className="text-sm text-muted-foreground">{selectedConvo.clientPhone}</span>
+                      <span className="text-xs text-muted-foreground">·</span>
                       <span className={cn('text-xs px-2 py-0.5 rounded-full', statusLabel(selectedConvo.status).color)}>
                         {statusLabel(selectedConvo.status).text}
                       </span>
                     </div>
                   </div>
                   {selectedConvo.status !== 'ai_resolved' && (
-                    <button className="px-4 py-2 bg-[#7C3AED] text-white rounded-lg text-sm font-medium hover:bg-[#7C3AED]/90 transition-colors">
+                    <button className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
                       Take Over
                     </button>
                   )}
                 </div>
 
                 {/* AI Summary */}
-                <div className="mt-3 p-3 rounded-lg bg-[#7C3AED]/5 border border-[#7C3AED]/20">
+                <div className="mt-3 p-3 rounded-lg bg-primary/5 border border-primary/20">
                   <div className="flex items-center gap-1.5 mb-1">
-                    <Bot className="w-3.5 h-3.5 text-[#7C3AED]" />
-                    <span className="text-xs font-medium text-[#7C3AED]">AI Summary</span>
+                    <Bot className="w-3.5 h-3.5 text-primary" />
+                    <span className="text-xs font-medium text-primary">AI Summary</span>
                   </div>
-                  <p className="text-sm text-[#6B7280]">{selectedConvo.summary}</p>
+                  <p className="text-sm text-muted-foreground">{selectedConvo.summary}</p>
                 </div>
               </div>
 
@@ -165,31 +171,31 @@ export function ConversationInbox() {
                     )}
                   >
                     {msg.role === 'client' && (
-                      <div className="w-7 h-7 rounded-full bg-[#3B82F6]/20 flex items-center justify-center shrink-0">
-                        <UserIcon className="w-3.5 h-3.5 text-[#3B82F6]" />
+                      <div className="w-7 h-7 rounded-full bg-[var(--channel-voice)]/20 flex items-center justify-center shrink-0">
+                        <UserIcon className="w-3.5 h-3.5 text-[var(--channel-voice)]" />
                       </div>
                     )}
                     <div className={cn(
                       'max-w-[70%] p-3 rounded-lg text-sm',
                       msg.role === 'client'
-                        ? 'bg-[#7C3AED]/[0.06] text-[#111827]'
+                        ? 'bg-primary/[0.06] text-foreground'
                         : msg.role === 'ai'
-                        ? 'bg-[#7C3AED]/10 text-[#111827]'
-                        : 'bg-[#7C3AED]/10 text-[#111827]'
+                        ? 'bg-primary/10 text-foreground'
+                        : 'bg-primary/10 text-foreground'
                     )}>
                       <p>{msg.content}</p>
-                      <p className="text-xs text-[#9CA3AF] mt-1">
+                      <p className="text-xs text-muted-foreground mt-1">
                         {new Date(msg.timestamp).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                       </p>
                     </div>
                     {msg.role !== 'client' && (
                       <div className={cn(
                         'w-7 h-7 rounded-full flex items-center justify-center shrink-0',
-                        msg.role === 'ai' ? 'bg-[#7C3AED]/20' : 'bg-[#7C3AED]/20'
+                        msg.role === 'ai' ? 'bg-primary/20' : 'bg-primary/20'
                       )}>
                         {msg.role === 'ai'
-                          ? <Bot className="w-3.5 h-3.5 text-[#7C3AED]" />
-                          : <UserIcon className="w-3.5 h-3.5 text-[#7C3AED]" />}
+                          ? <Bot className="w-3.5 h-3.5 text-primary" />
+                          : <UserIcon className="w-3.5 h-3.5 text-primary" />}
                       </div>
                     )}
                   </motion.div>
@@ -197,15 +203,15 @@ export function ConversationInbox() {
               </div>
 
               {/* Reply box */}
-              <div className="p-3 border-t border-[#7C3AED]/[0.08]">
+              <div className="p-3 border-t border-border">
                 <div className="flex items-center gap-2">
                   <input
                     type="text"
                     placeholder="Type a response or let AI suggest..."
-                    className="flex-1 px-3 py-2 bg-[#7C3AED]/[0.06] border border-[#7C3AED]/[0.08] rounded-lg text-sm text-[#111827] placeholder:text-[#9CA3AF] outline-none focus:border-[#7C3AED]/50"
+                    className="flex-1 px-3 py-2 bg-primary/[0.06] border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary/50"
                   />
-                  <button className="p-2 bg-[#7C3AED] rounded-lg hover:bg-[#7C3AED]/90 transition-colors">
-                    <Send className="w-4 h-4 text-white" />
+                  <button className="p-2 bg-primary rounded-lg hover:bg-primary/90 transition-colors">
+                    <Send className="w-4 h-4 text-primary-foreground" />
                   </button>
                 </div>
               </div>
@@ -213,8 +219,8 @@ export function ConversationInbox() {
           ) : (
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
-                <MessageSquare className="w-12 h-12 text-[#9CA3AF] mx-auto mb-3" />
-                <p className="text-[#6B7280]">Select a conversation to view details</p>
+                <MessageSquare className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+                <p className="text-muted-foreground">Select a conversation to view details</p>
               </div>
             </div>
           )}

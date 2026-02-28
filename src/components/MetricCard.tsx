@@ -91,7 +91,7 @@ export function MetricCard({
   }, [hasAnimated, value])
 
   const isPositiveTrend = trend !== undefined && trend >= 0
-  const trendColor = isPositiveTrend ? 'text-[#10B981]' : 'text-[#EF4444]'
+  const trendColor = isPositiveTrend ? 'text-success' : 'text-destructive'
 
   return (
     <motion.div
@@ -107,8 +107,8 @@ export function MetricCard({
     >
       <div className="relative flex items-start justify-between">
         <div className="flex-1">
-          <p className="text-sm text-[#6B7280] mb-1">{label}</p>
-          <p className="text-3xl font-mono font-semibold tracking-tight text-[#111827] stat-number">
+          <p className="text-sm text-muted-foreground mb-1">{label}</p>
+          <p className="text-3xl font-mono font-semibold tracking-tight text-foreground stat-number">
             {formatValue(displayValue, format)}
           </p>
           {trend !== undefined && (
@@ -122,7 +122,7 @@ export function MetricCard({
                 {trend >= 0 ? '+' : ''}{trend.toFixed(1)}%
               </span>
               {trendLabel && (
-                <span className="text-[#9CA3AF] ml-1">{trendLabel}</span>
+                <span className="text-muted-foreground ml-1">{trendLabel}</span>
               )}
             </div>
           )}

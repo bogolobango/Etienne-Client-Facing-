@@ -96,10 +96,10 @@ export function DashboardHome() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-semibold text-[#111827]">
+        <h1 className="text-2xl font-semibold text-foreground">
           {role === 'owner' ? 'Business Overview' : 'Today\'s Dashboard'}
         </h1>
-        <p className="text-[#6B7280] mt-1">
+        <p className="text-muted-foreground mt-1">
           {role === 'owner'
             ? `${selectedLocation === 'all' ? 'All locations' : locations.find(l => l.id === selectedLocation)?.name} — Last 30 days`
             : 'Your tasks and performance today'}
@@ -158,35 +158,35 @@ export function DashboardHome() {
               transition={{ delay: 0.2 }}
               className="lg:col-span-2 card-premium p-6"
             >
-              <h3 className="text-sm font-medium text-[#6B7280] mb-4">Revenue Trend (30 days)</h3>
+              <h3 className="text-sm font-medium text-muted-foreground mb-4">Revenue Trend (30 days)</h3>
               <div className="h-[280px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={chartData}>
                     <defs>
                       <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#7C3AED" stopOpacity={0.15} />
-                        <stop offset="100%" stopColor="#7C3AED" stopOpacity={0} />
+                        <stop offset="0%" stopColor="var(--primary)" stopOpacity={0.15} />
+                        <stop offset="100%" stopColor="var(--primary)" stopOpacity={0} />
                       </linearGradient>
                     </defs>
                     <XAxis
                       dataKey="date"
                       axisLine={false}
                       tickLine={false}
-                      tick={{ fill: '#6B7280', fontSize: 12 }}
+                      tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
                       interval="preserveStartEnd"
                     />
                     <YAxis
                       axisLine={false}
                       tickLine={false}
-                      tick={{ fill: '#6B7280', fontSize: 12 }}
+                      tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
                       tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
                     />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: '#ffffff',
-                        border: '1px solid rgba(124, 58, 237, 0.15)',
+                        backgroundColor: 'var(--card)',
+                        border: '1px solid var(--border)',
                         borderRadius: '12px',
-                        color: '#111827',
+                        color: 'var(--foreground)',
                         boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                       }}
                       formatter={(value: number = 0) => [formatCurrency(value), 'Revenue']}
@@ -194,7 +194,7 @@ export function DashboardHome() {
                     <Area
                       type="monotone"
                       dataKey="revenue"
-                      stroke="#7C3AED"
+                      stroke="var(--primary)"
                       strokeWidth={2}
                       fill="url(#revenueGradient)"
                     />
@@ -210,7 +210,7 @@ export function DashboardHome() {
               transition={{ delay: 0.3 }}
               className="card-premium p-6"
             >
-              <h3 className="text-sm font-medium text-[#6B7280] mb-4">AI Opportunities</h3>
+              <h3 className="text-sm font-medium text-muted-foreground mb-4">AI Opportunities</h3>
               <div className="space-y-3">
                 {activeAlerts.map((alert) => (
                   <div
@@ -218,10 +218,10 @@ export function DashboardHome() {
                     className={cn(
                       'p-3 rounded-lg border transition-colors cursor-pointer',
                       alert.type === 'critical'
-                        ? 'border-[#EF4444]/20 bg-[#EF4444]/5 hover:border-[#EF4444]/40'
+                        ? 'border-destructive/20 bg-destructive/5 hover:border-destructive/40'
                         : alert.type === 'warning'
-                        ? 'border-[#F59E0B]/20 bg-[#F59E0B]/5 hover:border-[#F59E0B]/40'
-                        : 'border-[#7C3AED]/20 bg-[#7C3AED]/5 hover:border-[#7C3AED]/40'
+                        ? 'border-warning/20 bg-warning/5 hover:border-warning/40'
+                        : 'border-primary/20 bg-primary/5 hover:border-primary/40'
                     )}
                   >
                     <div className="flex items-start gap-2">
@@ -229,15 +229,15 @@ export function DashboardHome() {
                         className={cn(
                           'w-4 h-4 mt-0.5 shrink-0',
                           alert.type === 'critical'
-                            ? 'text-[#EF4444]'
+                            ? 'text-destructive'
                             : alert.type === 'warning'
-                            ? 'text-[#F59E0B]'
-                            : 'text-[#7C3AED]'
+                            ? 'text-warning'
+                            : 'text-primary'
                         )}
                       />
                       <div>
-                        <p className="text-sm text-[#111827] leading-snug">{alert.title}</p>
-                        <p className="text-xs text-[#9CA3AF] mt-1">
+                        <p className="text-sm text-foreground leading-snug">{alert.title}</p>
+                        <p className="text-xs text-muted-foreground mt-1">
                           Impact: {formatCurrency(alert.impact)}
                         </p>
                       </div>
@@ -257,7 +257,7 @@ export function DashboardHome() {
               transition={{ delay: 0.35 }}
               className="card-premium p-6"
             >
-              <h3 className="text-sm font-medium text-[#6B7280] mb-4">AI Agents</h3>
+              <h3 className="text-sm font-medium text-muted-foreground mb-4">AI Agents</h3>
               <div className="space-y-2">
                 {agentStatuses.map((agent) => (
                   <AgentStatusBadge key={agent.id} agent={agent} />
@@ -272,7 +272,7 @@ export function DashboardHome() {
               transition={{ delay: 0.4 }}
               className="lg:col-span-2 card-premium p-6"
             >
-              <h3 className="text-sm font-medium text-[#6B7280] mb-4">Live Activity</h3>
+              <h3 className="text-sm font-medium text-muted-foreground mb-4">Live Activity</h3>
               <ActivityFeed />
             </motion.div>
           </div>
@@ -285,23 +285,23 @@ export function DashboardHome() {
               transition={{ delay: 0.45 }}
               className="card-premium p-6"
             >
-              <h3 className="text-sm font-medium text-[#6B7280] mb-4">Location Performance</h3>
+              <h3 className="text-sm font-medium text-muted-foreground mb-4">Location Performance</h3>
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 {locations.map((loc) => {
                   const locMetrics = getFilteredMetrics(loc.id)
                   return (
                     <div
                       key={loc.id}
-                      className="p-4 rounded-lg border border-[#7C3AED]/[0.08] bg-[#F9F8FC] hover:border-[#7C3AED]/[0.2] transition-all duration-200"
+                      className="p-4 rounded-lg border border-border bg-section-alt hover:border-primary/20 transition-all duration-200"
                     >
-                      <p className="text-sm font-medium text-[#111827]">{loc.name}</p>
-                      <p className="text-xs text-[#9CA3AF]">{loc.city}, {loc.state}</p>
-                      <p className="text-xl font-mono font-semibold text-[#111827] mt-3">
+                      <p className="text-sm font-medium text-foreground">{loc.name}</p>
+                      <p className="text-xs text-muted-foreground">{loc.city}, {loc.state}</p>
+                      <p className="text-xl font-mono font-semibold text-foreground mt-3">
                         {formatCurrency(locMetrics.revenue)}
                       </p>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="text-xs text-[#9CA3AF]">Util:</span>
-                        <span className="text-xs font-mono text-[#7C3AED]">
+                        <span className="text-xs text-muted-foreground">Util:</span>
+                        <span className="text-xs font-mono text-primary">
                           {locMetrics.utilization.toFixed(0)}%
                         </span>
                       </div>
@@ -355,7 +355,7 @@ export function DashboardHome() {
               transition={{ delay: 0.2 }}
               className="card-premium p-6"
             >
-              <h3 className="text-sm font-medium text-[#6B7280] mb-4">Today's Tasks</h3>
+              <h3 className="text-sm font-medium text-muted-foreground mb-4">Today's Tasks</h3>
               <div className="space-y-3">
                 {[
                   { task: 'Follow up with Sarah M. — interested in Body Contouring', priority: 'urgent' },
@@ -364,13 +364,13 @@ export function DashboardHome() {
                   { task: 'Call back Maria L. — asked about package pricing', priority: 'pending' },
                   { task: 'Check in on waitlist patients for tomorrow', priority: 'ai_handling' },
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 p-3 rounded-lg border border-[#E5E7EB] bg-[#F9FAFB]">
+                  <div key={i} className="flex items-center gap-3 p-3 rounded-lg border border-border bg-secondary">
                     <div className={cn(
                       'w-2 h-2 rounded-full shrink-0',
-                      item.priority === 'urgent' ? 'bg-[#EF4444]' :
-                      item.priority === 'pending' ? 'bg-[#F59E0B]' : 'bg-[#7C3AED]'
+                      item.priority === 'urgent' ? 'bg-destructive' :
+                      item.priority === 'pending' ? 'bg-warning' : 'bg-primary'
                     )} />
-                    <p className="text-sm text-[#111827]">{item.task}</p>
+                    <p className="text-sm text-foreground">{item.task}</p>
                   </div>
                 ))}
               </div>
@@ -383,7 +383,7 @@ export function DashboardHome() {
               transition={{ delay: 0.3 }}
               className="card-premium p-6"
             >
-              <h3 className="text-sm font-medium text-[#6B7280] mb-4">Recent Activity</h3>
+              <h3 className="text-sm font-medium text-muted-foreground mb-4">Recent Activity</h3>
               <ActivityFeed maxItems={6} />
             </motion.div>
           </div>

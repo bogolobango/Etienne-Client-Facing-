@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Phone, MessageSquare, Calendar, AlertTriangle, DollarSign, Globe } from 'lucide-react'
+import { Phone, MessageSquare, Calendar, AlertTriangle, DollarSign, Globe, Inbox } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface Activity {
@@ -20,12 +20,12 @@ const iconMap = {
 }
 
 const colorMap = {
-  call: 'text-[#6366F1] bg-[#6366F1]/10',
-  sms: 'text-[#3B82F6] bg-[#3B82F6]/10',
-  booking: 'text-[#7C3AED] bg-[#7C3AED]/10',
-  alert: 'text-[#F59E0B] bg-[#F59E0B]/10',
-  revenue: 'text-[#10B981] bg-[#10B981]/10',
-  web: 'text-[#6366F1] bg-[#6366F1]/10',
+  call: 'text-[var(--chart-4)] bg-[var(--chart-4)]/10',
+  sms: 'text-[var(--channel-voice)] bg-[var(--channel-voice)]/10',
+  booking: 'text-primary bg-primary/10',
+  alert: 'text-warning bg-warning/10',
+  revenue: 'text-success bg-success/10',
+  web: 'text-[var(--chart-4)] bg-[var(--chart-4)]/10',
 }
 
 const defaultActivities: Activity[] = [
@@ -49,6 +49,15 @@ interface ActivityFeedProps {
 export function ActivityFeed({ activities = defaultActivities, maxItems = 8 }: ActivityFeedProps) {
   const items = activities.slice(0, maxItems)
 
+  if (items.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-8 text-center">
+        <Inbox className="w-10 h-10 text-muted-foreground mb-3" />
+        <p className="text-sm text-muted-foreground">No recent activity</p>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-1">
       {items.map((activity, index) => {
@@ -59,19 +68,19 @@ export function ActivityFeed({ activities = defaultActivities, maxItems = 8 }: A
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.05, duration: 0.3 }}
-            className="flex items-start gap-3 p-3 rounded-xl hover:bg-[#7C3AED]/[0.03] transition-colors"
+            className="flex items-start gap-3 p-3 rounded-xl hover:bg-primary/[0.03] transition-colors"
           >
             <div className={cn('p-1.5 rounded-lg mt-0.5', colorMap[activity.type])}>
               <Icon className="w-3.5 h-3.5" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm text-[#111827] leading-snug">{activity.message}</p>
+              <p className="text-sm text-foreground leading-snug">{activity.message}</p>
               <div className="flex items-center gap-2 mt-1">
                 {activity.location && (
-                  <span className="text-xs text-[#9CA3AF]">{activity.location}</span>
+                  <span className="text-xs text-muted-foreground">{activity.location}</span>
                 )}
-                <span className="text-xs text-[#9CA3AF]">·</span>
-                <span className="text-xs text-[#9CA3AF]">{activity.time}</span>
+                <span className="text-xs text-muted-foreground">·</span>
+                <span className="text-xs text-muted-foreground">{activity.time}</span>
               </div>
             </div>
           </motion.div>

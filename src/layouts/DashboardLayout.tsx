@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { Outlet, NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
@@ -9,6 +10,8 @@ import {
   Bell,
   ChevronDown,
   User,
+  Menu,
+  X,
 } from 'lucide-react'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useLocationStore } from '@/stores/useLocationStore'
@@ -64,14 +67,14 @@ function LocationSelector() {
       <select
         value={selectedLocation}
         onChange={(e) => setLocation(e.target.value)}
-        className="appearance-none cursor-pointer rounded-full border border-[#7C3AED]/[0.15] bg-white px-4 py-2 pr-9 text-sm text-[#111827] outline-none transition-all hover:border-[#7C3AED]/30 focus:border-[#7C3AED]/50 focus:shadow-[0_0_12px_rgba(124,58,237,0.15)]"
+        className="appearance-none cursor-pointer rounded-full border border-primary/15 bg-card px-4 py-2 pr-9 text-sm text-foreground outline-none transition-all hover:border-primary/30 focus:border-primary/50 focus:shadow-[0_0_12px_rgba(124,58,237,0.15)]"
       >
         <option value="all">All Locations</option>
         {locations.map((loc) => (
           <option key={loc.id} value={loc.id}>{loc.name}</option>
         ))}
       </select>
-      <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6B7280]" />
+      <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
     </div>
   )
 }
@@ -80,13 +83,13 @@ function RoleToggle() {
   const { role, toggleRole } = useAuthStore()
 
   return (
-    <div className="flex h-9 items-center rounded-full border border-[#E5E7EB] bg-[#F9FAFB] p-1">
+    <div className="flex h-9 items-center rounded-full border border-border bg-secondary p-1">
       <button
         onClick={() => role !== 'owner' && toggleRole()}
         className={`relative rounded-full px-4 py-1 text-sm font-medium transition-all duration-200 ${
           role === 'owner'
-            ? 'bg-[#7C3AED] text-white shadow-[0_2px_8px_rgba(124,58,237,0.35)]'
-            : 'text-[#6B7280] hover:text-[#111827]'
+            ? 'bg-primary text-primary-foreground shadow-[0_2px_8px_rgba(124,58,237,0.35)]'
+            : 'text-muted-foreground hover:text-foreground'
         }`}
       >
         Owner
@@ -95,8 +98,8 @@ function RoleToggle() {
         onClick={() => role !== 'staff' && toggleRole()}
         className={`relative rounded-full px-4 py-1 text-sm font-medium transition-all duration-200 ${
           role === 'staff'
-            ? 'bg-[#7C3AED] text-white shadow-[0_2px_8px_rgba(124,58,237,0.35)]'
-            : 'text-[#6B7280] hover:text-[#111827]'
+            ? 'bg-primary text-primary-foreground shadow-[0_2px_8px_rgba(124,58,237,0.35)]'
+            : 'text-muted-foreground hover:text-foreground'
         }`}
       >
         Staff
@@ -125,8 +128,8 @@ function SidebarItem({ item }: { item: NavItem }) {
           return [
             'group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200',
             active
-              ? 'border-l-[3px] border-l-[#7C3AED] bg-[#7C3AED]/[0.08] pl-[9px] text-[#111827] shadow-[inset_0_0_20px_rgba(124,58,237,0.06)]'
-              : 'border-l-[3px] border-l-transparent pl-[9px] text-[#6B7280] hover:bg-[#7C3AED]/[0.04] hover:text-[#111827]',
+              ? 'border-l-[3px] border-l-primary bg-primary/[0.08] pl-[9px] text-foreground shadow-[inset_0_0_20px_rgba(124,58,237,0.06)]'
+              : 'border-l-[3px] border-l-transparent pl-[9px] text-muted-foreground hover:bg-primary/[0.04] hover:text-foreground',
           ].join(' ')
         }}
       >
@@ -149,8 +152,8 @@ function SidebarItem({ item }: { item: NavItem }) {
                 [
                   'rounded-lg px-3 py-1.5 text-sm transition-colors',
                   isActive
-                    ? 'text-[#7C3AED] font-medium'
-                    : 'text-[#6B7280] hover:text-[#111827]',
+                    ? 'text-primary font-medium'
+                    : 'text-muted-foreground hover:text-foreground',
                 ].join(' ')
               }
             >
@@ -164,17 +167,58 @@ function SidebarItem({ item }: { item: NavItem }) {
 }
 
 export function DashboardLayout() {
-  return (
-    <div className="flex h-screen w-screen overflow-hidden bg-white">
-      {/* Sidebar */}
-      <aside className="relative flex h-full w-60 shrink-0 flex-col border-r border-[#E5E7EB] bg-[#F9FAFB]">
-        {/* Sidebar orb glow */}
-        <div className="absolute -left-20 top-1/4 w-[200px] h-[200px] rounded-full bg-[#7C3AED] opacity-[0.03] blur-[80px] pointer-events-none" />
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const location = useLocation()
 
-        {/* Logo */}
-        <div className="flex h-16 items-center gap-2 border-b border-[#E5E7EB] px-5">
-          <span className="text-lg font-bold tracking-tight text-[#7C3AED]">GlowUp</span>
-          <span className="text-lg font-light text-[#111827]">Aesthetics</span>
+  // Close sidebar on route change (mobile)
+  useEffect(() => {
+    setSidebarOpen(false)
+  }, [location.pathname])
+
+  // Lock body scroll when mobile sidebar is open
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [sidebarOpen])
+
+  return (
+    <div className="flex h-screen w-screen overflow-hidden bg-background">
+      {/* Mobile backdrop */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/20 z-40 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside className={`
+        fixed inset-y-0 left-0 z-50 w-60 transform transition-transform duration-200 ease-in-out
+        md:relative md:translate-x-0
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        relative flex h-full shrink-0 flex-col border-r border-border bg-secondary
+      `}>
+        {/* Sidebar orb glow */}
+        <div className="absolute -left-20 top-1/4 w-[200px] h-[200px] rounded-full bg-primary opacity-[0.03] blur-[80px] pointer-events-none" />
+
+        {/* Logo + Close button (mobile) */}
+        <div className="flex h-16 items-center justify-between border-b border-border px-5">
+          <div className="flex items-center gap-2">
+            <span className="text-lg font-bold tracking-tight text-primary">GlowUp</span>
+            <span className="text-lg font-light text-foreground">Aesthetics</span>
+          </div>
+          <button
+            className="md:hidden p-1.5 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <X className="h-5 w-5" />
+          </button>
         </div>
 
         {/* Navigation */}
@@ -188,24 +232,30 @@ export function DashboardLayout() {
       {/* Main column */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Topbar */}
-        <header className="flex h-16 shrink-0 items-center justify-between border-b border-[#E5E7EB] bg-white/95 backdrop-blur-sm px-6 z-10">
-          <div className="flex items-center gap-2 lg:hidden">
-            <span className="text-base font-bold text-[#7C3AED]">GlowUp</span>
+        <header className="flex h-16 shrink-0 items-center justify-between border-b border-border bg-background/95 backdrop-blur-sm px-6 z-10">
+          <div className="flex items-center gap-2">
+            <button
+              className="md:hidden p-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors"
+              onClick={() => setSidebarOpen(true)}
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+            <span className="text-base font-bold text-primary md:hidden">GlowUp</span>
           </div>
-          <div className="hidden lg:block" />
+          <div className="hidden md:block" />
 
           <div className="flex items-center gap-4">
             <LocationSelector />
             <RoleToggle />
 
-            <button className="relative rounded-full p-2 text-[#6B7280] transition-all hover:bg-[#7C3AED]/[0.08] hover:text-[#111827]">
+            <button className="relative rounded-full p-2 text-muted-foreground transition-all hover:bg-primary/[0.08] hover:text-foreground">
               <Bell className="h-5 w-5" />
-              <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#7C3AED] text-[10px] font-bold text-white shadow-[0_2px_8px_rgba(124,58,237,0.4)]">
+              <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground shadow-[0_2px_8px_rgba(124,58,237,0.4)]">
                 3
               </span>
             </button>
 
-            <button className="flex h-9 w-9 items-center justify-center rounded-full bg-[#7C3AED]/[0.08] text-[#6B7280] ring-1 ring-[#7C3AED]/[0.15] transition-all hover:ring-[#7C3AED]/40 hover:text-[#111827]">
+            <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/[0.08] text-muted-foreground ring-1 ring-primary/15 transition-all hover:ring-primary/40 hover:text-foreground">
               <User className="h-5 w-5" />
             </button>
           </div>

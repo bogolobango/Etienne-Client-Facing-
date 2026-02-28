@@ -316,7 +316,10 @@ export function DashboardLayout() {
         </header>
 
         {/* Content area with orbs */}
-        <main className="relative flex-1 overflow-y-auto p-4 md:p-6">
+        <main
+          className="relative flex-1 overflow-y-auto p-4 md:p-6"
+          style={{ background: 'linear-gradient(135deg, #ede9f7 0%, #e8f5f0 100%)' }}
+        >
           <GradientOrbs variant="default" />
           <div className="relative z-[1]">
             <Outlet />

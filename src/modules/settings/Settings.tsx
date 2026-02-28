@@ -18,7 +18,7 @@ export function Settings() {
       description: 'Manage your account details and preferences',
       items: [
         { label: 'Display Name', value: 'Jordan Mitchell' },
-        { label: 'Email', value: 'jordan@glowupaesthetics.com' },
+        { label: 'Email', value: 'jordan@etienneintel.com' },
         { label: 'Role', value: 'Owner / Admin' },
       ],
     },

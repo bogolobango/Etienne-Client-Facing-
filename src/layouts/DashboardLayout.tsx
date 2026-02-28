@@ -187,8 +187,8 @@ function SidebarContent({ onClose, showClose }: { onClose?: () => void; showClos
       {/* Logo + Close button */}
       <div className="flex h-16 items-center justify-between border-b border-border px-5">
         <div className="flex items-center gap-2">
-          <span className="text-lg font-bold tracking-tight text-primary">GlowUp</span>
-          <span className="text-lg font-light text-foreground">Aesthetics</span>
+          <span className="text-lg font-bold tracking-tight text-primary">Etienne</span>
+          <span className="text-lg font-light text-foreground">Intelligence</span>
         </div>
         {showClose && onClose && (
           <button
@@ -325,7 +325,7 @@ export function DashboardLayout() {
                 <Menu className="h-5 w-5" />
               </button>
             )}
-            <span className="text-base font-bold text-primary md:hidden">GlowUp</span>
+            <span className="text-base font-bold text-primary md:hidden">Etienne</span>
           </div>
 
           <div className="flex items-center gap-2 md:gap-4">

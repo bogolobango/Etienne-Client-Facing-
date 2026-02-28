@@ -87,7 +87,7 @@ export const conversations: Conversation[] = [
     channel: 'voice', status: 'ai_resolved', priority: 'ai_handling',
     summary: 'Booked Botox appointment for next Tuesday at SoHo.',
     transcript: [
-      { role: 'ai', content: 'Thank you for calling GlowUp Aesthetics. How can I help you today?', timestamp: daysAgoISO(1, 14, 22) },
+      { role: 'ai', content: 'Thank you for calling Etienne Intelligence. How can I help you today?', timestamp: daysAgoISO(1, 14, 22) },
       { role: 'client', content: 'Hi, I want to schedule a Botox appointment at your SoHo location.', timestamp: daysAgoISO(1, 14, 22) },
       { role: 'ai', content: 'I have availability next Tuesday at 10 AM, 2 PM, or 4 PM. Which works best?', timestamp: daysAgoISO(1, 14, 23) },
       { role: 'client', content: '2 PM works perfectly.', timestamp: daysAgoISO(1, 14, 23) },
@@ -101,7 +101,7 @@ export const conversations: Conversation[] = [
     channel: 'voice', status: 'escalated', priority: 'urgent',
     summary: 'Client unhappy with filler results, requesting revision. Escalated to manager.',
     transcript: [
-      { role: 'ai', content: 'Thank you for calling GlowUp Aesthetics. How may I assist you?', timestamp: daysAgoISO(2, 11, 5) },
+      { role: 'ai', content: 'Thank you for calling Etienne Intelligence. How may I assist you?', timestamp: daysAgoISO(2, 11, 5) },
       { role: 'client', content: 'I had filler done three days ago and I am not happy with the results. I want it fixed.', timestamp: daysAgoISO(2, 11, 5) },
       { role: 'ai', content: 'I am sorry to hear that. Let me connect you with our clinic manager who can review your case.', timestamp: daysAgoISO(2, 11, 6) },
       { role: 'staff', content: 'Hi James, this is Nicole. I can see you in person tomorrow at 10 AM for a complimentary assessment.', timestamp: daysAgoISO(2, 11, 8) },
@@ -114,7 +114,7 @@ export const conversations: Conversation[] = [
     channel: 'voice', status: 'ai_resolved', priority: 'ai_handling',
     summary: 'After-hours call — booked Hydrafacial at Hoboken for Saturday.',
     transcript: [
-      { role: 'ai', content: 'Thanks for calling GlowUp Aesthetics after hours. I can still help with scheduling!', timestamp: daysAgoISO(3, 21, 45) },
+      { role: 'ai', content: 'Thanks for calling Etienne Intelligence after hours. I can still help with scheduling!', timestamp: daysAgoISO(3, 21, 45) },
       { role: 'client', content: 'Oh great, I was expecting voicemail. Can I book a Hydrafacial at Hoboken this Saturday?', timestamp: daysAgoISO(3, 21, 45) },
       { role: 'ai', content: 'Absolutely! I have 11 AM and 1 PM available. Which do you prefer?', timestamp: daysAgoISO(3, 21, 46) },
       { role: 'client', content: '11 AM please!', timestamp: daysAgoISO(3, 21, 46) },
@@ -128,7 +128,7 @@ export const conversations: Conversation[] = [
     channel: 'voice', status: 'ai_resolved', priority: 'ai_handling',
     summary: 'Rescheduled Chemical Peel from Wednesday to Friday at White Plains.',
     transcript: [
-      { role: 'ai', content: 'GlowUp Aesthetics, how can I help?', timestamp: daysAgoISO(4, 10, 15) },
+      { role: 'ai', content: 'Etienne Intelligence, how can I help?', timestamp: daysAgoISO(4, 10, 15) },
       { role: 'client', content: 'I need to reschedule my peel from Wednesday to Friday.', timestamp: daysAgoISO(4, 10, 15) },
       { role: 'ai', content: 'I found your Chemical Peel on Wednesday at 3 PM. I can move it to Friday at 3 PM. Shall I?', timestamp: daysAgoISO(4, 10, 16) },
       { role: 'client', content: 'Yes please.', timestamp: daysAgoISO(4, 10, 16) },
@@ -142,7 +142,7 @@ export const conversations: Conversation[] = [
     channel: 'voice', status: 'abandoned', priority: 'pending',
     summary: 'Client dropped call during hold — attempted callback but no answer.',
     transcript: [
-      { role: 'ai', content: 'Thank you for calling GlowUp Aesthetics. One moment while I look that up.', timestamp: daysAgoISO(5, 16, 30) },
+      { role: 'ai', content: 'Thank you for calling Etienne Intelligence. One moment while I look that up.', timestamp: daysAgoISO(5, 16, 30) },
     ],
     locationId: 'stamford', agentType: 'Voice Responder', timestamp: daysAgoISO(5, 16, 30),
     duration: 18, sentiment: 'neutral', resolved: false, afterHours: false,
@@ -153,7 +153,7 @@ export const conversations: Conversation[] = [
     channel: 'sms', status: 'ai_resolved', priority: 'ai_handling',
     summary: 'Confirmed upcoming Botox appointment via text.',
     transcript: [
-      { role: 'ai', content: 'Hi Olivia! This is GlowUp. Just confirming your Botox appointment tomorrow at 11 AM at SoHo. Reply YES to confirm.', timestamp: daysAgoISO(1, 9, 0) },
+      { role: 'ai', content: 'Hi Olivia! This is Etienne. Just confirming your Botox appointment tomorrow at 11 AM at SoHo. Reply YES to confirm.', timestamp: daysAgoISO(1, 9, 0) },
       { role: 'client', content: 'YES', timestamp: daysAgoISO(1, 9, 12) },
       { role: 'ai', content: 'Great, you are all set! See you tomorrow.', timestamp: daysAgoISO(1, 9, 12) },
     ],
@@ -177,7 +177,7 @@ export const conversations: Conversation[] = [
     channel: 'sms', status: 'ai_resolved', priority: 'ai_handling',
     summary: 'Client asked about pricing via text; AI provided menu and booked Body Contouring.',
     transcript: [
-      { role: 'ai', content: 'Hi! Thanks for reaching out to GlowUp. How can I help?', timestamp: daysAgoISO(2, 13, 10) },
+      { role: 'ai', content: 'Hi! Thanks for reaching out to Etienne. How can I help?', timestamp: daysAgoISO(2, 13, 10) },
       { role: 'client', content: 'How much is body contouring?', timestamp: daysAgoISO(2, 13, 12) },
       { role: 'ai', content: 'Body Contouring is $1,200 per session (90 min). Would you like to book?', timestamp: daysAgoISO(2, 13, 12) },
       { role: 'client', content: 'Yes next week at Hoboken', timestamp: daysAgoISO(2, 13, 15) },
@@ -220,7 +220,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Hi, is there a first-time client discount?', timestamp: daysAgoISO(0, 10, 30) },
       { role: 'ai', content: 'Welcome! New clients get 15% off their first treatment. Our most popular intro service is the Hydrafacial at $250 (would be $212.50 with your discount). Want to book?', timestamp: daysAgoISO(0, 10, 30) },
       { role: 'client', content: 'Yes at SoHo please!', timestamp: daysAgoISO(0, 10, 32) },
-      { role: 'ai', content: 'Booked! Wednesday at 11 AM at SoHo Flagship. Welcome to GlowUp!', timestamp: daysAgoISO(0, 10, 32) },
+      { role: 'ai', content: 'Booked! Wednesday at 11 AM at SoHo Flagship. Welcome to Etienne!', timestamp: daysAgoISO(0, 10, 32) },
     ],
     locationId: 'soho', agentType: 'Text Concierge', timestamp: daysAgoISO(0, 10, 30),
     sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 212,
@@ -256,7 +256,7 @@ export const conversations: Conversation[] = [
     channel: 'web', status: 'abandoned', priority: 'pending',
     summary: 'Visitor started chat but did not respond after initial greeting.',
     transcript: [
-      { role: 'ai', content: 'Welcome to GlowUp Aesthetics! How can I help you today?', timestamp: daysAgoISO(2, 18, 0) },
+      { role: 'ai', content: 'Welcome to Etienne Intelligence! How can I help you today?', timestamp: daysAgoISO(2, 18, 0) },
     ],
     locationId: 'white-plains', agentType: 'Text Concierge', timestamp: daysAgoISO(2, 18, 0),
     sentiment: 'neutral', resolved: false, afterHours: false,
@@ -378,7 +378,7 @@ export const conversations: Conversation[] = [
     channel: 'voice', status: 'ai_resolved', priority: 'ai_handling',
     summary: 'After-hours save — booked Hydrafacial at White Plains.',
     transcript: [
-      { role: 'ai', content: 'GlowUp after-hours assistant. I can help with bookings!', timestamp: daysAgoISO(7, 20, 30) },
+      { role: 'ai', content: 'Etienne after-hours assistant. I can help with bookings!', timestamp: daysAgoISO(7, 20, 30) },
       { role: 'client', content: 'I want a Hydrafacial this weekend.', timestamp: daysAgoISO(7, 20, 30) },
       { role: 'ai', content: 'Saturday at 10 AM at White Plains is available. Shall I book?', timestamp: daysAgoISO(7, 20, 31) },
       { role: 'client', content: 'Yes!', timestamp: daysAgoISO(7, 20, 31) },
@@ -401,7 +401,7 @@ export const conversations: Conversation[] = [
     channel: 'voice', status: 'ai_resolved', priority: 'ai_handling',
     summary: 'Booked Body Contouring at SoHo — high-value conversion.',
     transcript: [
-      { role: 'ai', content: 'GlowUp Aesthetics, how can I help?', timestamp: daysAgoISO(8, 11, 0) },
+      { role: 'ai', content: 'Etienne Intelligence, how can I help?', timestamp: daysAgoISO(8, 11, 0) },
       { role: 'client', content: 'I want to try body contouring. What does it involve?', timestamp: daysAgoISO(8, 11, 0) },
       { role: 'ai', content: 'Body Contouring is a 90-minute non-invasive treatment at $1,200. It targets stubborn fat areas. Our next SoHo slot is Thursday at 10 AM.', timestamp: daysAgoISO(8, 11, 1) },
       { role: 'client', content: 'Book me in.', timestamp: daysAgoISO(8, 11, 2) },
@@ -428,7 +428,7 @@ export const conversations: Conversation[] = [
     channel: 'voice', status: 'escalated', priority: 'urgent',
     summary: 'Client reporting adverse reaction post-Botox. Escalated to medical director.',
     transcript: [
-      { role: 'ai', content: 'GlowUp Aesthetics, how may I help?', timestamp: daysAgoISO(10, 8, 0) },
+      { role: 'ai', content: 'Etienne Intelligence, how may I help?', timestamp: daysAgoISO(10, 8, 0) },
       { role: 'client', content: 'I had Botox yesterday and my eyelid is drooping. I am really worried.', timestamp: daysAgoISO(10, 8, 0) },
       { role: 'ai', content: 'I understand your concern. Let me connect you with our medical director immediately.', timestamp: daysAgoISO(10, 8, 1) },
       { role: 'staff', content: 'Jasmine, this is Dr. Rivera. Mild ptosis can occur but is temporary. Please come in today at 2 PM for evaluation.', timestamp: daysAgoISO(10, 8, 5) },
@@ -503,7 +503,7 @@ export const conversations: Conversation[] = [
     channel: 'voice', status: 'ai_resolved', priority: 'ai_handling',
     summary: 'After-hours call — booked Dermal Filler at White Plains.',
     transcript: [
-      { role: 'ai', content: 'GlowUp after-hours booking assistant. How can I help?', timestamp: daysAgoISO(14, 21, 0) },
+      { role: 'ai', content: 'Etienne after-hours booking assistant. How can I help?', timestamp: daysAgoISO(14, 21, 0) },
       { role: 'client', content: 'I need cheek filler. What do you have at White Plains?', timestamp: daysAgoISO(14, 21, 0) },
       { role: 'ai', content: 'We have Dermal Filler at $850 for 45 minutes. Next opening is Monday at 10 AM. Interested?', timestamp: daysAgoISO(14, 21, 1) },
       { role: 'client', content: 'Book it.', timestamp: daysAgoISO(14, 21, 2) },
@@ -574,7 +574,7 @@ export const conversations: Conversation[] = [
     channel: 'voice', status: 'ai_resolved', priority: 'ai_handling',
     summary: 'Quick reschedule handled by AI — Chemical Peel at Stamford.',
     transcript: [
-      { role: 'ai', content: 'GlowUp Aesthetics, how can I help?', timestamp: daysAgoISO(20, 9, 30) },
+      { role: 'ai', content: 'Etienne Intelligence, how can I help?', timestamp: daysAgoISO(20, 9, 30) },
       { role: 'client', content: 'Need to move my peel from Tuesday to Thursday.', timestamp: daysAgoISO(20, 9, 30) },
       { role: 'ai', content: 'Moved to Thursday at 2 PM at Stamford. All set!', timestamp: daysAgoISO(20, 9, 31) },
     ],
@@ -624,7 +624,7 @@ export const conversations: Conversation[] = [
     channel: 'voice', status: 'ai_resolved', priority: 'ai_handling',
     summary: 'After-hours save — booked Botox at White Plains from voicemail redirect.',
     transcript: [
-      { role: 'ai', content: 'GlowUp after-hours. I can help with scheduling.', timestamp: daysAgoISO(22, 21, 15) },
+      { role: 'ai', content: 'Etienne after-hours. I can help with scheduling.', timestamp: daysAgoISO(22, 21, 15) },
       { role: 'client', content: 'I was just going to leave a voicemail! Can I book Botox for next week?', timestamp: daysAgoISO(22, 21, 15) },
       { role: 'ai', content: 'No voicemail needed! Tuesday at 11 AM at White Plains. Booked!', timestamp: daysAgoISO(22, 21, 16) },
     ],
@@ -700,7 +700,7 @@ export const conversations: Conversation[] = [
     channel: 'voice', status: 'ai_resolved', priority: 'ai_handling',
     summary: 'Booked first-time Botox consult at Stamford — new client acquisition.',
     transcript: [
-      { role: 'ai', content: 'GlowUp Aesthetics, how can I help?', timestamp: daysAgoISO(28, 13, 0) },
+      { role: 'ai', content: 'Etienne Intelligence, how can I help?', timestamp: daysAgoISO(28, 13, 0) },
       { role: 'client', content: 'I have never had Botox before. Can I get a consultation first?', timestamp: daysAgoISO(28, 13, 0) },
       { role: 'ai', content: 'Absolutely! We offer a complimentary 15-minute consult. Stamford has openings all week. Prefer morning or afternoon?', timestamp: daysAgoISO(28, 13, 1) },
       { role: 'client', content: 'Morning please, any day.', timestamp: daysAgoISO(28, 13, 2) },
@@ -1026,7 +1026,7 @@ export const alerts: Alert[] = [
   {
     id: 'alert-005', type: 'opportunity',
     title: 'Stamford Hydrafacial trending on social',
-    description: 'A client tagged GlowUp Stamford in a viral TikTok about their Hydrafacial. 12 DM inquiries received. Fast response could convert 8+.',
+    description: 'A client tagged Etienne Stamford in a viral TikTok about their Hydrafacial. 12 DM inquiries received. Fast response could convert 8+.',
     locationId: 'stamford', impact: 2000, timestamp: minutesAgo(90),
     actionLabel: 'Respond to DMs', dismissed: false,
   },

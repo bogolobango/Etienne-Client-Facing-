@@ -8,20 +8,20 @@ interface AgentStatusBadgeProps {
 
 const statusConfig = {
   online: {
-    color: 'bg-[#7B61FF]',
-    ring: 'ring-[#7B61FF]/20',
+    color: 'bg-[#10B981]',
+    ring: 'ring-[#10B981]/20',
     label: 'Online',
     pulse: true,
   },
   idle: {
-    color: 'bg-[#FFB547]',
-    ring: 'ring-[#FFB547]/20',
+    color: 'bg-[#F59E0B]',
+    ring: 'ring-[#F59E0B]/20',
     label: 'Idle',
     pulse: false,
   },
   error: {
-    color: 'bg-[#FF6B6B]',
-    ring: 'ring-[#FF6B6B]/20',
+    color: 'bg-[#EF4444]',
+    ring: 'ring-[#EF4444]/20',
     label: 'Error',
     pulse: true,
   },
@@ -38,13 +38,13 @@ export function AgentStatusBadge({ agent, compact = false }: AgentStatusBadgePro
             <div className={cn('absolute inset-0 rounded-full animate-ping', config.color, 'opacity-40')} />
           )}
         </div>
-        <span className="text-sm text-[#94A3B8]">{agent.name}</span>
+        <span className="text-sm text-[#6B7280]">{agent.name}</span>
       </div>
     )
   }
 
   return (
-    <div className="flex items-center justify-between p-3 rounded-xl border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03] hover:border-[#7B61FF]/[0.2] hover:bg-[#7B61FF]/[0.06] transition-all duration-200">
+    <div className="flex items-center justify-between p-3 rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] hover:border-[#7C3AED]/[0.2] hover:bg-[#7C3AED]/[0.03] transition-all duration-200">
       <div className="flex items-center gap-3">
         <div className={cn('relative w-2.5 h-2.5 rounded-full ring-4', config.color, config.ring)}>
           {config.pulse && (
@@ -52,13 +52,13 @@ export function AgentStatusBadge({ agent, compact = false }: AgentStatusBadgePro
           )}
         </div>
         <div>
-          <p className="text-sm font-medium text-[#F1F5F9]">{agent.name}</p>
-          <p className="text-xs text-[#64748B]">{agent.type}</p>
+          <p className="text-sm font-medium text-[#111827]">{agent.name}</p>
+          <p className="text-xs text-[#9CA3AF]">{agent.type}</p>
         </div>
       </div>
       <div className="text-right">
-        <p className="text-sm font-mono text-[#94A3B8]">{agent.tasksHandled}</p>
-        <p className="text-xs text-[#64748B]">tasks</p>
+        <p className="text-sm font-mono text-[#6B7280]">{agent.tasksHandled}</p>
+        <p className="text-xs text-[#9CA3AF]">tasks</p>
       </div>
     </div>
   )

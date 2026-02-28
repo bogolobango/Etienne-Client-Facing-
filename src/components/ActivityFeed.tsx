@@ -20,12 +20,12 @@ const iconMap = {
 }
 
 const colorMap = {
-  call: 'text-[#2D5BFF] bg-[#2D5BFF]/10',
-  sms: 'text-[#38BDF8] bg-[#38BDF8]/10',
-  booking: 'text-[#7B61FF] bg-[#7B61FF]/10',
-  alert: 'text-[#FF8C42] bg-[#FF8C42]/10',
-  revenue: 'text-[#7B61FF] bg-[#7B61FF]/10',
-  web: 'text-[#2D5BFF] bg-[#2D5BFF]/10',
+  call: 'text-[#6366F1] bg-[#6366F1]/10',
+  sms: 'text-[#3B82F6] bg-[#3B82F6]/10',
+  booking: 'text-[#7C3AED] bg-[#7C3AED]/10',
+  alert: 'text-[#F59E0B] bg-[#F59E0B]/10',
+  revenue: 'text-[#10B981] bg-[#10B981]/10',
+  web: 'text-[#6366F1] bg-[#6366F1]/10',
 }
 
 const defaultActivities: Activity[] = [
@@ -59,19 +59,19 @@ export function ActivityFeed({ activities = defaultActivities, maxItems = 8 }: A
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.05, duration: 0.3 }}
-            className="flex items-start gap-3 p-3 rounded-xl hover:bg-[#7B61FF]/[0.03] transition-colors"
+            className="flex items-start gap-3 p-3 rounded-xl hover:bg-[#7C3AED]/[0.03] transition-colors"
           >
             <div className={cn('p-1.5 rounded-lg mt-0.5', colorMap[activity.type])}>
               <Icon className="w-3.5 h-3.5" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm text-[#F1F5F9] leading-snug">{activity.message}</p>
+              <p className="text-sm text-[#111827] leading-snug">{activity.message}</p>
               <div className="flex items-center gap-2 mt-1">
                 {activity.location && (
-                  <span className="text-xs text-[#64748B]">{activity.location}</span>
+                  <span className="text-xs text-[#9CA3AF]">{activity.location}</span>
                 )}
-                <span className="text-xs text-[#64748B]">·</span>
-                <span className="text-xs text-[#64748B]">{activity.time}</span>
+                <span className="text-xs text-[#9CA3AF]">·</span>
+                <span className="text-xs text-[#9CA3AF]">{activity.time}</span>
               </div>
             </div>
           </motion.div>

@@ -38,7 +38,8 @@ export function UtilizationDashboard() {
   const last30 = dailyMetrics.filter((m) => {
     const d = new Date(m.date)
     const now = new Date()
-    return (now.getTime() - d.getTime()) / 86400000 <= 30
+    return (now.getTime() - d.getTime()) / 86400000 <= 30 &&
+      (selectedLocation === 'all' || m.locationId === selectedLocation)
   })
 
   // Location comparison

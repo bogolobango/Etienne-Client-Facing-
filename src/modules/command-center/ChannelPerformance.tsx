@@ -47,12 +47,12 @@ export function ChannelPerformance() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link to="/command-center" className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors">
+        <Link to="/command-center" className="p-2 rounded-lg hover:bg-[#7C3AED]/[0.05] text-[#6B7280] transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-semibold text-[#F1F5F9]">Channel Performance</h1>
-          <p className="text-[#94A3B8] mt-0.5">Response time and resolution analytics</p>
+          <h1 className="text-2xl font-semibold text-[#111827]">Channel Performance</h1>
+          <p className="text-[#6B7280] mt-0.5">Response time and resolution analytics</p>
         </div>
       </div>
 
@@ -62,7 +62,7 @@ export function ChannelPerformance() {
         animate={{ opacity: 1, y: 0 }}
         className="card-premium p-6"
       >
-        <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Avg Response Time (90-Day Trend)</h3>
+        <h3 className="text-sm font-medium text-[#6B7280] mb-4">Avg Response Time (90-Day Trend)</h3>
         <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={responseTimeData}>
@@ -72,15 +72,15 @@ export function ChannelPerformance() {
                   <stop offset="100%" stopColor="#3B82F6" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 11 }} interval={14} />
+              <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 11 }} interval={14} />
               <YAxis
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#64748B', fontSize: 12 }}
+                tick={{ fill: '#9CA3AF', fontSize: 12 }}
                 tickFormatter={(v) => v < 60 ? `${Math.round(v)}s` : `${(v / 60).toFixed(0)}m`}
               />
               <Tooltip
-                contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
+                contentStyle={{ backgroundColor: '#ffffff', border: '1px solid rgba(124, 58, 237, 0.15)', borderRadius: '12px', color: '#111827', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                 formatter={(value: number = 0) => [value < 60 ? `${Math.round(value)}s` : `${(value / 60).toFixed(1)}m`, 'Avg Response']}
               />
               <Area type="monotone" dataKey="responseTime" stroke="#3B82F6" strokeWidth={2} fill="url(#responseGrad)" />
@@ -97,15 +97,15 @@ export function ChannelPerformance() {
           transition={{ delay: 0.1 }}
           className="card-premium p-6"
         >
-          <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Calls: Answered vs Missed</h3>
+          <h3 className="text-sm font-medium text-[#6B7280] mb-4">Calls: Answered vs Missed</h3>
           <div className="h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={callData}>
-                <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 11 }} interval={6} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} />
-                <Tooltip contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }} />
-                <Bar dataKey="answered" fill="#00D4AA" radius={[3, 3, 0, 0]} name="Answered" />
-                <Bar dataKey="missed" fill="#FF6B6B" radius={[3, 3, 0, 0]} name="Missed" />
+                <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 11 }} interval={6} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 12 }} />
+                <Tooltip contentStyle={{ backgroundColor: '#ffffff', border: '1px solid rgba(124, 58, 237, 0.15)', borderRadius: '12px', color: '#111827', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
+                <Bar dataKey="answered" fill="#10B981" radius={[3, 3, 0, 0]} name="Answered" />
+                <Bar dataKey="missed" fill="#EF4444" radius={[3, 3, 0, 0]} name="Missed" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -118,15 +118,15 @@ export function ChannelPerformance() {
           transition={{ delay: 0.15 }}
           className="card-premium p-6"
         >
-          <h3 className="text-sm font-medium text-[#94A3B8] mb-4">AI Resolved vs Escalated</h3>
+          <h3 className="text-sm font-medium text-[#6B7280] mb-4">AI Resolved vs Escalated</h3>
           <div className="h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={resolutionData}>
-                <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 11 }} interval={6} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} />
-                <Tooltip contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }} />
-                <Line type="monotone" dataKey="aiResolved" stroke="#00D4AA" strokeWidth={2} dot={false} name="AI Resolved" />
-                <Line type="monotone" dataKey="escalated" stroke="#FFB547" strokeWidth={2} dot={false} name="Escalated" />
+                <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 11 }} interval={6} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 12 }} />
+                <Tooltip contentStyle={{ backgroundColor: '#ffffff', border: '1px solid rgba(124, 58, 237, 0.15)', borderRadius: '12px', color: '#111827', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
+                <Line type="monotone" dataKey="aiResolved" stroke="#10B981" strokeWidth={2} dot={false} name="AI Resolved" />
+                <Line type="monotone" dataKey="escalated" stroke="#F59E0B" strokeWidth={2} dot={false} name="Escalated" />
               </LineChart>
             </ResponsiveContainer>
           </div>

@@ -26,15 +26,15 @@ export function CommandCenterOverview() {
 
   const channelData = [
     { name: 'Voice', value: filteredConvos.filter((c) => c.channel === 'voice').length, color: '#3B82F6' },
-    { name: 'SMS', value: filteredConvos.filter((c) => c.channel === 'sms').length, color: '#38BDF8' },
-    { name: 'Web', value: filteredConvos.filter((c) => c.channel === 'web').length, color: '#8B5CF6' },
-    { name: 'Social', value: filteredConvos.filter((c) => c.channel === 'social').length, color: '#FFB547' },
+    { name: 'SMS', value: filteredConvos.filter((c) => c.channel === 'sms').length, color: '#3B82F6' },
+    { name: 'Web', value: filteredConvos.filter((c) => c.channel === 'web').length, color: '#7C3AED' },
+    { name: 'Social', value: filteredConvos.filter((c) => c.channel === 'social').length, color: '#F59E0B' },
   ]
 
   const resolutionData = [
-    { name: 'AI Resolved', value: aiResolved, color: '#7B61FF' },
-    { name: 'Escalated', value: escalated, color: '#FFB547' },
-    { name: 'Abandoned', value: filteredConvos.filter((c) => c.status === 'abandoned').length, color: '#FF6B6B' },
+    { name: 'AI Resolved', value: aiResolved, color: '#7C3AED' },
+    { name: 'Escalated', value: escalated, color: '#F59E0B' },
+    { name: 'Abandoned', value: filteredConvos.filter((c) => c.status === 'abandoned').length, color: '#EF4444' },
   ]
 
   const last30 = dailyMetrics.filter((m) => {
@@ -73,8 +73,8 @@ export function CommandCenterOverview() {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-semibold text-[#F1F5F9]">Conversation Queue</h1>
-          <p className="text-[#94A3B8] mt-1">Live conversations needing attention</p>
+          <h1 className="text-2xl font-semibold text-[#111827]">Conversation Queue</h1>
+          <p className="text-[#6B7280] mt-1">Live conversations needing attention</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -90,8 +90,8 @@ export function CommandCenterOverview() {
           className="card-premium p-6"
         >
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-[#94A3B8]">Live Queue</h3>
-            <Link to="/command-center/inbox" className="text-sm text-[#7B61FF] hover:underline flex items-center gap-1">
+            <h3 className="text-sm font-medium text-[#6B7280]">Live Queue</h3>
+            <Link to="/command-center/inbox" className="text-sm text-[#7C3AED] hover:underline flex items-center gap-1">
               View Inbox <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -99,24 +99,24 @@ export function CommandCenterOverview() {
             {activeConvos.slice(0, 8).map((convo) => (
               <div
                 key={convo.id}
-                className="flex items-center justify-between p-3 rounded-lg border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03] hover:border-[#7B61FF]/[0.2] transition-all duration-200 cursor-pointer"
+                className="flex items-center justify-between p-3 rounded-lg border border-[#7C3AED]/[0.08] bg-[#7C3AED]/[0.03] hover:border-[#7C3AED]/[0.2] transition-all duration-200 cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <div className={cn(
                     'w-2 h-2 rounded-full',
-                    convo.priority === 'urgent' ? 'bg-[#FF6B6B]' :
-                    convo.priority === 'pending' ? 'bg-[#FFB547]' : 'bg-[#7B61FF]'
+                    convo.priority === 'urgent' ? 'bg-[#EF4444]' :
+                    convo.priority === 'pending' ? 'bg-[#F59E0B]' : 'bg-[#7C3AED]'
                   )} />
                   <div>
-                    <p className="text-sm font-medium text-[#F1F5F9]">{convo.clientName}</p>
-                    <p className="text-xs text-[#64748B] line-clamp-1">{convo.summary}</p>
+                    <p className="text-sm font-medium text-[#111827]">{convo.clientName}</p>
+                    <p className="text-xs text-[#9CA3AF] line-clamp-1">{convo.summary}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   {convo.channel === 'voice' && <Phone className="w-3.5 h-3.5 text-[#3B82F6]" />}
-                  {convo.channel === 'sms' && <MessageSquare className="w-3.5 h-3.5 text-[#38BDF8]" />}
-                  {convo.channel === 'web' && <Globe className="w-3.5 h-3.5 text-[#8B5CF6]" />}
-                  {convo.channel === 'social' && <Share2 className="w-3.5 h-3.5 text-[#FFB547]" />}
+                  {convo.channel === 'sms' && <MessageSquare className="w-3.5 h-3.5 text-[#3B82F6]" />}
+                  {convo.channel === 'web' && <Globe className="w-3.5 h-3.5 text-[#7C3AED]" />}
+                  {convo.channel === 'social' && <Share2 className="w-3.5 h-3.5 text-[#F59E0B]" />}
                 </div>
               </div>
             ))}
@@ -129,8 +129,8 @@ export function CommandCenterOverview() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-[#F1F5F9]">Voice & Text Command Center</h1>
-        <p className="text-[#94A3B8] mt-1">AI-powered communication across all channels</p>
+        <h1 className="text-2xl font-semibold text-[#111827]">Voice & Text Command Center</h1>
+        <p className="text-[#6B7280] mt-1">AI-powered communication across all channels</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -177,7 +177,7 @@ export function CommandCenterOverview() {
           transition={{ delay: 0.2 }}
           className="card-premium p-6"
         >
-          <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Channel Breakdown</h3>
+          <h3 className="text-sm font-medium text-[#6B7280] mb-4">Channel Breakdown</h3>
           <div className="h-[200px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -196,10 +196,11 @@ export function CommandCenterOverview() {
                 </Pie>
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'rgba(26, 31, 53, 0.95)',
-                    border: '1px solid rgba(123, 97, 255, 0.15)',
+                    backgroundColor: '#ffffff',
+                    border: '1px solid rgba(124, 58, 237, 0.15)',
                     borderRadius: '12px',
-                    color: '#F1F5F9',
+                    color: '#111827',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                   }}
                 />
               </PieChart>
@@ -209,7 +210,7 @@ export function CommandCenterOverview() {
             {channelData.map((ch) => (
               <div key={ch.name} className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: ch.color }} />
-                <span className="text-xs text-[#94A3B8]">{ch.name}</span>
+                <span className="text-xs text-[#6B7280]">{ch.name}</span>
               </div>
             ))}
           </div>
@@ -222,7 +223,7 @@ export function CommandCenterOverview() {
           transition={{ delay: 0.25 }}
           className="card-premium p-6"
         >
-          <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Resolution Breakdown</h3>
+          <h3 className="text-sm font-medium text-[#6B7280] mb-4">Resolution Breakdown</h3>
           <div className="h-[200px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -241,10 +242,11 @@ export function CommandCenterOverview() {
                 </Pie>
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'rgba(26, 31, 53, 0.95)',
-                    border: '1px solid rgba(123, 97, 255, 0.15)',
+                    backgroundColor: '#ffffff',
+                    border: '1px solid rgba(124, 58, 237, 0.15)',
                     borderRadius: '12px',
-                    color: '#F1F5F9',
+                    color: '#111827',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                   }}
                 />
               </PieChart>
@@ -254,7 +256,7 @@ export function CommandCenterOverview() {
             {resolutionData.map((r) => (
               <div key={r.name} className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: r.color }} />
-                <span className="text-xs text-[#94A3B8]">{r.name}</span>
+                <span className="text-xs text-[#6B7280]">{r.name}</span>
               </div>
             ))}
           </div>
@@ -267,14 +269,14 @@ export function CommandCenterOverview() {
           transition={{ delay: 0.3 }}
           className="card-premium p-6"
         >
-          <h3 className="text-sm font-medium text-[#94A3B8] mb-4">AI Agents</h3>
+          <h3 className="text-sm font-medium text-[#6B7280] mb-4">AI Agents</h3>
           <div className="space-y-2">
             {ccAgents.map((agent) => (
               <AgentStatusBadge key={agent.id} agent={agent} />
             ))}
           </div>
-          <div className="mt-4 p-3 rounded-lg bg-[#7B61FF]/5 border border-[#7B61FF]/20">
-            <p className="text-xs text-[#7B61FF]">
+          <div className="mt-4 p-3 rounded-lg bg-[#7C3AED]/5 border border-[#7C3AED]/20">
+            <p className="text-xs text-[#7C3AED]">
               After-hours saves this month: <span className="font-mono font-semibold">{afterHoursSaves}</span>
             </p>
           </div>
@@ -289,26 +291,26 @@ export function CommandCenterOverview() {
         className="card-premium p-6"
       >
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-medium text-[#94A3B8]">Calls Answered vs Missed (Weekly)</h3>
-          <Link to="/command-center/performance" className="text-sm text-[#7B61FF] hover:underline flex items-center gap-1">
+          <h3 className="text-sm font-medium text-[#6B7280]">Calls Answered vs Missed (Weekly)</h3>
+          <Link to="/command-center/performance" className="text-sm text-[#7C3AED] hover:underline flex items-center gap-1">
             View Details <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
         <div className="h-[250px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={weeklyData}>
-              <XAxis dataKey="week" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} />
+              <XAxis dataKey="week" axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 12 }} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 12 }} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: 'rgba(26, 31, 53, 0.95)',
-                  border: '1px solid rgba(123, 97, 255, 0.15)',
+                  backgroundColor: '#ffffff',
+                  border: '1px solid rgba(124, 58, 237, 0.15)',
                   borderRadius: '12px',
-                  color: '#F1F5F9',
+                  color: '#111827',
                 }}
               />
-              <Bar dataKey="answered" fill="#00D4AA" radius={[4, 4, 0, 0]} name="Answered" />
-              <Bar dataKey="missed" fill="#FF6B6B" radius={[4, 4, 0, 0]} name="Missed" />
+              <Bar dataKey="answered" fill="#10B981" radius={[4, 4, 0, 0]} name="Answered" />
+              <Bar dataKey="missed" fill="#EF4444" radius={[4, 4, 0, 0]} name="Missed" />
             </BarChart>
           </ResponsiveContainer>
         </div>

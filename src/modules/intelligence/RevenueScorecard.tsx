@@ -72,12 +72,12 @@ export function RevenueScorecard() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link to="/intelligence" className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors">
+        <Link to="/intelligence" className="p-2 rounded-lg hover:bg-[#7C3AED]/[0.05] text-[#6B7280] transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-semibold text-[#F1F5F9]">Revenue Scorecard</h1>
-          <p className="text-[#94A3B8] mt-0.5">Before vs. After EIP comparison</p>
+          <h1 className="text-2xl font-semibold text-[#111827]">Revenue Scorecard</h1>
+          <p className="text-[#6B7280] mt-0.5">Before vs. After EIP comparison</p>
         </div>
       </div>
 
@@ -87,7 +87,7 @@ export function RevenueScorecard() {
         animate={{ opacity: 1, y: 0 }}
         className="card-premium p-6"
       >
-        <h3 className="text-sm font-medium text-[#94A3B8] mb-4">ROI Dashboard: Before EIP vs After EIP</h3>
+        <h3 className="text-sm font-medium text-[#6B7280] mb-4">ROI Dashboard: Before EIP vs After EIP</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {roiComparison.map((item, i) => {
             const change = item.lowerIsBetter
@@ -107,20 +107,20 @@ export function RevenueScorecard() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="p-4 rounded-lg border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03]"
+                className="p-4 rounded-lg border border-[#7C3AED]/[0.08] bg-[#7C3AED]/[0.03]"
               >
-                <p className="text-xs text-[#64748B] mb-3">{item.metric}</p>
+                <p className="text-xs text-[#9CA3AF] mb-3">{item.metric}</p>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <p className="text-[10px] text-[#FF6B6B] uppercase tracking-wider mb-1">Before</p>
-                    <p className="text-lg font-mono text-[#94A3B8]">{formatVal(item.before)}</p>
+                    <p className="text-[10px] text-[#EF4444] uppercase tracking-wider mb-1">Before</p>
+                    <p className="text-lg font-mono text-[#6B7280]">{formatVal(item.before)}</p>
                   </div>
                   <div>
-                    <p className="text-[10px] text-[#7B61FF] uppercase tracking-wider mb-1">After</p>
-                    <p className="text-lg font-mono text-[#F1F5F9]">{formatVal(item.after)}</p>
+                    <p className="text-[10px] text-[#7C3AED] uppercase tracking-wider mb-1">After</p>
+                    <p className="text-lg font-mono text-[#111827]">{formatVal(item.after)}</p>
                   </div>
                 </div>
-                <div className={cn('flex items-center gap-1 mt-2', isPositive ? 'text-[#7B61FF]' : 'text-[#FF6B6B]')}>
+                <div className={cn('flex items-center gap-1 mt-2', isPositive ? 'text-[#7C3AED]' : 'text-[#EF4444]')}>
                   {isPositive ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
                   <span className="text-sm font-medium">{isPositive ? '+' : ''}{change.toFixed(1)}%</span>
                 </div>
@@ -137,23 +137,23 @@ export function RevenueScorecard() {
         transition={{ delay: 0.1 }}
         className="card-premium p-6"
       >
-        <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Revenue Recovery Trend (90 Days)</h3>
+        <h3 className="text-sm font-medium text-[#6B7280] mb-4">Revenue Recovery Trend (90 Days)</h3>
         <div className="h-[280px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={recoveryTrend}>
               <defs>
                 <linearGradient id="recoverGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#00D4AA" stopOpacity={0.3} />
-                  <stop offset="100%" stopColor="#00D4AA" stopOpacity={0} />
+                  <stop offset="0%" stopColor="#10B981" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#10B981" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 11 }} interval={14} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} tickFormatter={(v) => `$${v}`} />
+              <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 11 }} interval={14} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 12 }} tickFormatter={(v) => `$${v}`} />
               <Tooltip
-                contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
+                contentStyle={{ backgroundColor: '#ffffff', border: '1px solid rgba(124, 58, 237, 0.15)', borderRadius: '12px', color: '#111827', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                 formatter={(value: number = 0) => [formatCurrency(value), 'Recovered']}
               />
-              <Area type="monotone" dataKey="recovered" stroke="#00D4AA" strokeWidth={2} fill="url(#recoverGrad)" />
+              <Area type="monotone" dataKey="recovered" stroke="#10B981" strokeWidth={2} fill="url(#recoverGrad)" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -166,31 +166,31 @@ export function RevenueScorecard() {
         transition={{ delay: 0.15 }}
         className="card-premium p-6"
       >
-        <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Location Scorecard</h3>
+        <h3 className="text-sm font-medium text-[#6B7280] mb-4">Location Scorecard</h3>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-[#7B61FF]/[0.08]">
-                <th className="text-left text-xs text-[#64748B] font-medium pb-3 pr-4">Location</th>
-                <th className="text-right text-xs text-[#64748B] font-medium pb-3 px-4">Revenue</th>
-                <th className="text-right text-xs text-[#64748B] font-medium pb-3 px-4">Recovered</th>
-                <th className="text-right text-xs text-[#64748B] font-medium pb-3 px-4">No-Show %</th>
-                <th className="text-right text-xs text-[#64748B] font-medium pb-3 px-4">Utilization</th>
-                <th className="text-right text-xs text-[#64748B] font-medium pb-3 pl-4">New Clients</th>
+              <tr className="border-b border-[#7C3AED]/[0.08]">
+                <th className="text-left text-xs text-[#9CA3AF] font-medium pb-3 pr-4">Location</th>
+                <th className="text-right text-xs text-[#9CA3AF] font-medium pb-3 px-4">Revenue</th>
+                <th className="text-right text-xs text-[#9CA3AF] font-medium pb-3 px-4">Recovered</th>
+                <th className="text-right text-xs text-[#9CA3AF] font-medium pb-3 px-4">No-Show %</th>
+                <th className="text-right text-xs text-[#9CA3AF] font-medium pb-3 px-4">Utilization</th>
+                <th className="text-right text-xs text-[#9CA3AF] font-medium pb-3 pl-4">New Clients</th>
               </tr>
             </thead>
             <tbody>
               {locationScores.map((loc) => (
-                <tr key={loc.name} className="border-b border-[#7B61FF]/[0.08] last:border-b-0 hover:bg-[#7B61FF]/[0.03] transition-colors">
+                <tr key={loc.name} className="border-b border-[#7C3AED]/[0.08] last:border-b-0 hover:bg-[#7C3AED]/[0.03] transition-colors">
                   <td className="py-3 pr-4">
-                    <p className="text-sm font-medium text-[#F1F5F9]">{loc.name}</p>
-                    <p className="text-xs text-[#64748B]">{loc.city}</p>
+                    <p className="text-sm font-medium text-[#111827]">{loc.name}</p>
+                    <p className="text-xs text-[#9CA3AF]">{loc.city}</p>
                   </td>
-                  <td className="text-right py-3 px-4 font-mono text-sm text-[#F1F5F9]">{formatCurrency(loc.revenue)}</td>
-                  <td className="text-right py-3 px-4 font-mono text-sm text-[#7B61FF]">{formatCurrency(loc.recovered)}</td>
-                  <td className="text-right py-3 px-4 font-mono text-sm text-[#F1F5F9]">{loc.noShowRate.toFixed(1)}%</td>
-                  <td className="text-right py-3 px-4 font-mono text-sm text-[#F1F5F9]">{loc.utilization.toFixed(1)}%</td>
-                  <td className="text-right py-3 pl-4 font-mono text-sm text-[#F1F5F9]">{loc.newClients}</td>
+                  <td className="text-right py-3 px-4 font-mono text-sm text-[#111827]">{formatCurrency(loc.revenue)}</td>
+                  <td className="text-right py-3 px-4 font-mono text-sm text-[#7C3AED]">{formatCurrency(loc.recovered)}</td>
+                  <td className="text-right py-3 px-4 font-mono text-sm text-[#111827]">{loc.noShowRate.toFixed(1)}%</td>
+                  <td className="text-right py-3 px-4 font-mono text-sm text-[#111827]">{loc.utilization.toFixed(1)}%</td>
+                  <td className="text-right py-3 pl-4 font-mono text-sm text-[#111827]">{loc.newClients}</td>
                 </tr>
               ))}
             </tbody>

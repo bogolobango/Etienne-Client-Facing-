@@ -53,14 +53,14 @@ export function Reports() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link to="/intelligence" className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors">
+        <Link to="/intelligence" className="p-2 rounded-lg hover:bg-[#7C3AED]/[0.05] text-[#6B7280] transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div className="flex-1">
-          <h1 className="text-2xl font-semibold text-[#F1F5F9]">Weekly Report</h1>
-          <p className="text-[#94A3B8] mt-0.5">{dateRange}</p>
+          <h1 className="text-2xl font-semibold text-[#111827]">Weekly Report</h1>
+          <p className="text-[#6B7280] mt-0.5">{dateRange}</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 bg-[#7B61FF]/10 text-[#7B61FF] rounded-lg hover:bg-[#7B61FF]/20 transition-colors text-sm">
+        <button className="flex items-center gap-2 px-4 py-2 bg-[#7C3AED]/10 text-[#7C3AED] rounded-lg hover:bg-[#7C3AED]/20 transition-colors text-sm">
           <Download className="w-4 h-4" />
           Export PDF
         </button>
@@ -73,21 +73,21 @@ export function Reports() {
         className="card-premium p-6"
       >
         <div className="flex items-center gap-2 mb-4">
-          <FileText className="w-4 h-4 text-[#8B5CF6]" />
-          <h3 className="text-sm font-medium text-[#94A3B8]">Executive Summary</h3>
-          <span className="text-xs px-2 py-0.5 rounded-full bg-[#8B5CF6]/10 text-[#8B5CF6]">AI Generated</span>
+          <FileText className="w-4 h-4 text-[#7C3AED]" />
+          <h3 className="text-sm font-medium text-[#6B7280]">Executive Summary</h3>
+          <span className="text-xs px-2 py-0.5 rounded-full bg-[#7C3AED]/10 text-[#7C3AED]">AI Generated</span>
         </div>
 
-        <div className="prose prose-invert prose-sm max-w-none">
-          <p className="text-[#94A3B8] leading-relaxed">
-            This week saw <strong className="text-[#F1F5F9]">{formatCurrency(weekRevenue)}</strong> in total revenue
+        <div className="prose prose-sm max-w-none">
+          <p className="text-[#6B7280] leading-relaxed">
+            This week saw <strong className="text-[#111827]">{formatCurrency(weekRevenue)}</strong> in total revenue
             across {selectedLocation === 'all' ? 'all 5 locations' : locations.find(l => l.id === selectedLocation)?.name},
-            representing a <span className={revenueChange >= 0 ? 'text-[#7B61FF]' : 'text-[#FF6B6B]'}>
+            representing a <span className={revenueChange >= 0 ? 'text-[#7C3AED]' : 'text-[#EF4444]'}>
               {revenueChange >= 0 ? '+' : ''}{revenueChange.toFixed(1)}%
-            </span> change week-over-week. AI systems recovered <strong className="text-[#7B61FF]">{formatCurrency(weekRecovered)}</strong> through
+            </span> change week-over-week. AI systems recovered <strong className="text-[#7C3AED]">{formatCurrency(weekRecovered)}</strong> through
             missed call follow-ups, no-show prevention, and upsell capture. The average no-show rate sits at{' '}
-            <strong className="text-[#F1F5F9]">{avgNoShow.toFixed(1)}%</strong> with utilization at{' '}
-            <strong className="text-[#F1F5F9]">{avgUtil.toFixed(1)}%</strong>.
+            <strong className="text-[#111827]">{avgNoShow.toFixed(1)}%</strong> with utilization at{' '}
+            <strong className="text-[#111827]">{avgUtil.toFixed(1)}%</strong>.
           </p>
         </div>
       </motion.div>
@@ -109,9 +109,9 @@ export function Reports() {
             transition={{ delay: i * 0.05 }}
             className="p-4 card-premium"
           >
-            <p className="text-xs text-[#64748B] mb-1">{metric.label}</p>
-            <p className="text-xl font-mono font-semibold text-[#F1F5F9]">{metric.value}</p>
-            <div className={cn('flex items-center gap-1 mt-1', metric.change >= 0 ? 'text-[#7B61FF]' : 'text-[#FF6B6B]')}>
+            <p className="text-xs text-[#9CA3AF] mb-1">{metric.label}</p>
+            <p className="text-xl font-mono font-semibold text-[#111827]">{metric.value}</p>
+            <div className={cn('flex items-center gap-1 mt-1', metric.change >= 0 ? 'text-[#7C3AED]' : 'text-[#EF4444]')}>
               {metric.change >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
               <span className="text-xs font-medium">{metric.change >= 0 ? '+' : ''}{metric.change.toFixed(1)}%</span>
             </div>
@@ -126,28 +126,28 @@ export function Reports() {
         transition={{ delay: 0.2 }}
         className="card-premium p-6"
       >
-        <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Location Breakdown</h3>
+        <h3 className="text-sm font-medium text-[#6B7280] mb-4">Location Breakdown</h3>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-[#7B61FF]/[0.08]">
-                <th className="text-left text-xs text-[#64748B] font-medium pb-3 pr-4">Location</th>
-                <th className="text-right text-xs text-[#64748B] font-medium pb-3 px-4">Revenue</th>
-                <th className="text-right text-xs text-[#64748B] font-medium pb-3 px-4">Bookings</th>
-                <th className="text-right text-xs text-[#64748B] font-medium pb-3 px-4">No-Show %</th>
-                <th className="text-right text-xs text-[#64748B] font-medium pb-3 pl-4">Utilization</th>
+              <tr className="border-b border-[#7C3AED]/[0.08]">
+                <th className="text-left text-xs text-[#9CA3AF] font-medium pb-3 pr-4">Location</th>
+                <th className="text-right text-xs text-[#9CA3AF] font-medium pb-3 px-4">Revenue</th>
+                <th className="text-right text-xs text-[#9CA3AF] font-medium pb-3 px-4">Bookings</th>
+                <th className="text-right text-xs text-[#9CA3AF] font-medium pb-3 px-4">No-Show %</th>
+                <th className="text-right text-xs text-[#9CA3AF] font-medium pb-3 pl-4">Utilization</th>
               </tr>
             </thead>
             <tbody>
               {locSummaries.map((loc) => (
-                <tr key={loc.name} className="border-b border-[#7B61FF]/[0.08] last:border-b-0">
-                  <td className="py-3 pr-4 text-sm font-medium text-[#F1F5F9]">{loc.name}</td>
-                  <td className="text-right py-3 px-4 font-mono text-sm text-[#F1F5F9]">{formatCurrency(loc.revenue)}</td>
-                  <td className="text-right py-3 px-4 font-mono text-sm text-[#94A3B8]">{loc.bookings}</td>
-                  <td className={cn('text-right py-3 px-4 font-mono text-sm', loc.noShowRate > 15 ? 'text-[#FF6B6B]' : 'text-[#94A3B8]')}>
+                <tr key={loc.name} className="border-b border-[#7C3AED]/[0.08] last:border-b-0">
+                  <td className="py-3 pr-4 text-sm font-medium text-[#111827]">{loc.name}</td>
+                  <td className="text-right py-3 px-4 font-mono text-sm text-[#111827]">{formatCurrency(loc.revenue)}</td>
+                  <td className="text-right py-3 px-4 font-mono text-sm text-[#6B7280]">{loc.bookings}</td>
+                  <td className={cn('text-right py-3 px-4 font-mono text-sm', loc.noShowRate > 15 ? 'text-[#EF4444]' : 'text-[#6B7280]')}>
                     {loc.noShowRate.toFixed(1)}%
                   </td>
-                  <td className={cn('text-right py-3 pl-4 font-mono text-sm', loc.utilization >= 70 ? 'text-[#7B61FF]' : 'text-[#94A3B8]')}>
+                  <td className={cn('text-right py-3 pl-4 font-mono text-sm', loc.utilization >= 70 ? 'text-[#7C3AED]' : 'text-[#6B7280]')}>
                     {loc.utilization.toFixed(1)}%
                   </td>
                 </tr>
@@ -164,20 +164,20 @@ export function Reports() {
         transition={{ delay: 0.25 }}
         className="card-premium p-6"
       >
-        <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Past Reports</h3>
+        <h3 className="text-sm font-medium text-[#6B7280] mb-4">Past Reports</h3>
         <div className="space-y-2">
           {[1, 2, 3, 4].map((weeksAgo) => {
             const start = new Date(now.getTime() - (weeksAgo + 1) * 7 * 86400000)
             const end = new Date(now.getTime() - weeksAgo * 7 * 86400000)
             return (
-              <div key={weeksAgo} className="flex items-center justify-between p-3 rounded-lg border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03] hover:border-[#7B61FF]/[0.2] transition-all duration-200 cursor-pointer">
+              <div key={weeksAgo} className="flex items-center justify-between p-3 rounded-lg border border-[#7C3AED]/[0.08] bg-[#7C3AED]/[0.03] hover:border-[#7C3AED]/[0.2] transition-all duration-200 cursor-pointer">
                 <div className="flex items-center gap-3">
-                  <Calendar className="w-4 h-4 text-[#64748B]" />
-                  <span className="text-sm text-[#F1F5F9]">
+                  <Calendar className="w-4 h-4 text-[#9CA3AF]" />
+                  <span className="text-sm text-[#111827]">
                     {start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} — {end.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                   </span>
                 </div>
-                <Download className="w-4 h-4 text-[#64748B]" />
+                <Download className="w-4 h-4 text-[#9CA3AF]" />
               </div>
             )
           })}

@@ -7,11 +7,11 @@ import { cn } from '@/lib/utils'
 import { Link } from 'react-router-dom'
 
 const serviceColors: Record<string, string> = {
-  'Botox': 'border-l-[#00D4AA] bg-[#00D4AA]/5',
-  'Dermal Filler': 'border-l-[#8B5CF6] bg-[#8B5CF6]/5',
+  'Botox': 'border-l-[#10B981] bg-[#10B981]/5',
+  'Dermal Filler': 'border-l-[#7C3AED] bg-[#7C3AED]/5',
   'Hydrafacial': 'border-l-[#3B82F6] bg-[#3B82F6]/5',
-  'Laser Hair Removal': 'border-l-[#FFB547] bg-[#FFB547]/5',
-  'Chemical Peel': 'border-l-[#FF6B6B] bg-[#FF6B6B]/5',
+  'Laser Hair Removal': 'border-l-[#F59E0B] bg-[#F59E0B]/5',
+  'Chemical Peel': 'border-l-[#EF4444] bg-[#EF4444]/5',
   'Body Contouring': 'border-l-[#EC4899] bg-[#EC4899]/5',
 }
 
@@ -42,32 +42,32 @@ export function CalendarView() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
-        <Link to="/scheduling" className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors">
+        <Link to="/scheduling" className="p-2 rounded-lg hover:bg-[#7C3AED]/[0.05] text-[#6B7280] transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div className="flex-1">
-          <h1 className="text-2xl font-semibold text-[#F1F5F9]">Calendar View</h1>
-          <p className="text-[#94A3B8] mt-0.5">{filteredAppts.length} appointments</p>
+          <h1 className="text-2xl font-semibold text-[#111827]">Calendar View</h1>
+          <p className="text-[#6B7280] mt-0.5">{filteredAppts.length} appointments</p>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={() => setDateOffset((d) => d - 1)}
-            className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors"
+            className="p-2 rounded-lg hover:bg-[#7C3AED]/[0.05] text-[#6B7280] transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <span className="text-sm font-medium text-[#F1F5F9] min-w-[140px] text-center">
+          <span className="text-sm font-medium text-[#111827] min-w-[140px] text-center">
             {baseDate.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
           </span>
           <button
             onClick={() => setDateOffset((d) => d + 1)}
-            className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors"
+            className="p-2 rounded-lg hover:bg-[#7C3AED]/[0.05] text-[#6B7280] transition-colors"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
           <button
             onClick={() => setDateOffset(0)}
-            className="px-3 py-1.5 text-xs bg-[#7B61FF]/10 text-[#7B61FF] rounded-lg hover:bg-[#7B61FF]/20 transition-colors ml-2"
+            className="px-3 py-1.5 text-xs bg-[#7C3AED]/10 text-[#7C3AED] rounded-lg hover:bg-[#7C3AED]/20 transition-colors ml-2"
           >
             Today
           </button>
@@ -79,7 +79,7 @@ export function CalendarView() {
         {Object.entries(serviceColors).map(([service, color]) => (
           <div key={service} className="flex items-center gap-1.5">
             <div className={cn('w-3 h-3 rounded-sm border-l-2', color)} />
-            <span className="text-xs text-[#94A3B8]">{service}</span>
+            <span className="text-xs text-[#6B7280]">{service}</span>
           </div>
         ))}
       </div>
@@ -91,11 +91,11 @@ export function CalendarView() {
         className="card-premium overflow-hidden"
       >
         {/* Provider headers */}
-        <div className="grid border-b border-[#7B61FF]/[0.08]" style={{ gridTemplateColumns: `80px repeat(${displayProviders.length}, 1fr)` }}>
-          <div className="p-3 border-r border-[#7B61FF]/[0.08]" />
+        <div className="grid border-b border-[#7C3AED]/[0.08]" style={{ gridTemplateColumns: `80px repeat(${displayProviders.length}, 1fr)` }}>
+          <div className="p-3 border-r border-[#7C3AED]/[0.08]" />
           {displayProviders.map((provider) => (
-            <div key={provider} className="p-3 border-r border-[#7B61FF]/[0.08] last:border-r-0">
-              <p className="text-sm font-medium text-[#F1F5F9] text-center truncate">{provider}</p>
+            <div key={provider} className="p-3 border-r border-[#7C3AED]/[0.08] last:border-r-0">
+              <p className="text-sm font-medium text-[#111827] text-center truncate">{provider}</p>
             </div>
           ))}
         </div>
@@ -105,29 +105,29 @@ export function CalendarView() {
           {timeSlots.map((time) => (
             <div
               key={time}
-              className="grid border-b border-[#7B61FF]/[0.08] last:border-b-0"
+              className="grid border-b border-[#7C3AED]/[0.08] last:border-b-0"
               style={{ gridTemplateColumns: `80px repeat(${displayProviders.length}, 1fr)` }}
             >
-              <div className="p-2 border-r border-[#7B61FF]/[0.08] flex items-start">
-                <span className="text-xs text-[#64748B] font-mono">{time}</span>
+              <div className="p-2 border-r border-[#7C3AED]/[0.08] flex items-start">
+                <span className="text-xs text-[#9CA3AF] font-mono">{time}</span>
               </div>
               {displayProviders.map((provider) => {
                 const appt = filteredAppts.find(
                   (a) => a.provider === provider && a.startTime === time
                 )
                 return (
-                  <div key={provider} className="p-1 border-r border-[#7B61FF]/[0.08] last:border-r-0 min-h-[48px]">
+                  <div key={provider} className="p-1 border-r border-[#7C3AED]/[0.08] last:border-r-0 min-h-[48px]">
                     {appt && (
                       <div
                         className={cn(
                           'p-2 rounded-md border-l-2 cursor-pointer hover:opacity-80 transition-opacity',
-                          serviceColors[appt.service] || 'border-l-[#94A3B8] bg-[#7B61FF]/[0.03]'
+                          serviceColors[appt.service] || 'border-l-[#6B7280] bg-[#7C3AED]/[0.03]'
                         )}
                       >
-                        <p className="text-xs font-medium text-[#F1F5F9] truncate">{appt.clientName}</p>
-                        <p className="text-xs text-[#64748B] truncate">{appt.service}</p>
+                        <p className="text-xs font-medium text-[#111827] truncate">{appt.clientName}</p>
+                        <p className="text-xs text-[#9CA3AF] truncate">{appt.service}</p>
                         {appt.noShowRisk === 'high' && (
-                          <span className="text-[10px] text-[#FF6B6B]">⚠ High risk</span>
+                          <span className="text-[10px] text-[#EF4444]">⚠ High risk</span>
                         )}
                       </div>
                     )}

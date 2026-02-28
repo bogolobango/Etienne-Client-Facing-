@@ -240,19 +240,19 @@ export function AIAnalyst() {
   return (
     <div className="flex flex-col h-[calc(100vh-120px)]">
       <div className="flex items-center gap-3 mb-4">
-        <Link to="/intelligence" className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors">
+        <Link to="/intelligence" className="p-2 rounded-lg hover:bg-[#7C3AED]/[0.05] text-[#6B7280] transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <Brain className="w-5 h-5 text-[#8B5CF6]" />
-            <h1 className="text-2xl font-semibold text-[#F1F5F9]">AI Revenue Analyst</h1>
+            <Brain className="w-5 h-5 text-[#7C3AED]" />
+            <h1 className="text-2xl font-semibold text-[#111827]">AI Revenue Analyst</h1>
           </div>
-          <p className="text-[#94A3B8] mt-0.5">Powered by Claude — Ask anything about your business</p>
+          <p className="text-[#6B7280] mt-0.5">Powered by Claude — Ask anything about your business</p>
         </div>
         <button
           onClick={clearMessages}
-          className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors"
+          className="p-2 rounded-lg hover:bg-[#7C3AED]/[0.05] text-[#6B7280] transition-colors"
           title="Clear conversation"
         >
           <RefreshCw className="w-4 h-4" />
@@ -269,13 +269,13 @@ export function AIAnalyst() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center max-w-lg"
               >
-                <div className="w-16 h-16 rounded-2xl bg-[#8B5CF6]/10 flex items-center justify-center mx-auto mb-4">
-                  <Sparkles className="w-8 h-8 text-[#8B5CF6]" />
+                <div className="w-16 h-16 rounded-2xl bg-[#7C3AED]/10 flex items-center justify-center mx-auto mb-4">
+                  <Sparkles className="w-8 h-8 text-[#7C3AED]" />
                 </div>
-                <h2 className="text-xl font-semibold text-[#F1F5F9] mb-2">
+                <h2 className="text-xl font-semibold text-[#111827] mb-2">
                   Your AI Revenue Analyst
                 </h2>
-                <p className="text-sm text-[#94A3B8] mb-8">
+                <p className="text-sm text-[#6B7280] mb-8">
                   I have access to all your business data across 5 locations.
                   Ask me anything about revenue, performance, trends, or get actionable recommendations.
                 </p>
@@ -285,10 +285,10 @@ export function AIAnalyst() {
                     <button
                       key={prompt.label}
                       onClick={() => sendMessage(prompt.label)}
-                      className="flex items-center gap-2 p-3 rounded-lg border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03] hover:border-[#8B5CF6]/30 hover:bg-[#8B5CF6]/5 transition-all text-left"
+                      className="flex items-center gap-2 p-3 rounded-lg border border-[#7C3AED]/[0.08] bg-[#7C3AED]/[0.03] hover:border-[#7C3AED]/30 hover:bg-[#7C3AED]/5 transition-all text-left"
                     >
                       <span className="text-lg">{prompt.icon}</span>
-                      <span className="text-sm text-[#94A3B8]">{prompt.label}</span>
+                      <span className="text-sm text-[#6B7280]">{prompt.label}</span>
                     </button>
                   ))}
                 </div>
@@ -307,31 +307,31 @@ export function AIAnalyst() {
                   )}
                 >
                   {msg.role === 'assistant' && (
-                    <div className="w-8 h-8 rounded-lg bg-[#8B5CF6]/20 flex items-center justify-center shrink-0 mt-1">
-                      <Brain className="w-4 h-4 text-[#8B5CF6]" />
+                    <div className="w-8 h-8 rounded-lg bg-[#7C3AED]/20 flex items-center justify-center shrink-0 mt-1">
+                      <Brain className="w-4 h-4 text-[#7C3AED]" />
                     </div>
                   )}
                   <div className={cn(
                     'max-w-[80%] rounded-lg p-4',
                     msg.role === 'user'
-                      ? 'bg-[#7B61FF]/10 text-[#F1F5F9]'
-                      : 'bg-[#7B61FF]/[0.03] text-[#F1F5F9]'
+                      ? 'bg-[#7C3AED]/10 text-[#111827]'
+                      : 'bg-[#7C3AED]/[0.03] text-[#111827]'
                   )}>
                     {msg.role === 'assistant' ? (
                       <div
-                        className="prose prose-invert prose-sm max-w-none
-                          [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-[#F1F5F9] [&_h2]:mt-0 [&_h2]:mb-3
-                          [&_h3]:text-sm [&_h3]:font-semibold [&_h3]:text-[#F1F5F9] [&_h3]:mt-4 [&_h3]:mb-2
-                          [&_p]:text-sm [&_p]:text-[#94A3B8] [&_p]:my-2
-                          [&_strong]:text-[#F1F5F9]
-                          [&_li]:text-sm [&_li]:text-[#94A3B8]
-                          [&_code]:text-xs [&_code]:text-[#7B61FF] [&_code]:bg-[#7B61FF]/[0.06] [&_code]:px-1 [&_code]:rounded
-                          [&_pre]:bg-[#7B61FF]/[0.06] [&_pre]:rounded-lg [&_pre]:p-3 [&_pre]:overflow-x-auto
+                        className="prose prose-sm max-w-none
+                          [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-[#111827] [&_h2]:mt-0 [&_h2]:mb-3
+                          [&_h3]:text-sm [&_h3]:font-semibold [&_h3]:text-[#111827] [&_h3]:mt-4 [&_h3]:mb-2
+                          [&_p]:text-sm [&_p]:text-[#6B7280] [&_p]:my-2
+                          [&_strong]:text-[#111827]
+                          [&_li]:text-sm [&_li]:text-[#6B7280]
+                          [&_code]:text-xs [&_code]:text-[#7C3AED] [&_code]:bg-[#7C3AED]/[0.06] [&_code]:px-1 [&_code]:rounded
+                          [&_pre]:bg-[#7C3AED]/[0.06] [&_pre]:rounded-lg [&_pre]:p-3 [&_pre]:overflow-x-auto
                           [&_pre_code]:bg-transparent [&_pre_code]:p-0
                           [&_table]:w-full [&_table]:text-sm
-                          [&_th]:text-left [&_th]:text-[#64748B] [&_th]:font-medium [&_th]:pb-2 [&_th]:pr-4 [&_th]:text-xs
-                          [&_td]:py-1.5 [&_td]:pr-4 [&_td]:text-[#94A3B8] [&_td]:text-sm [&_td]:font-mono
-                          [&_tr]:border-b [&_tr]:border-[#7B61FF]/[0.08]"
+                          [&_th]:text-left [&_th]:text-[#9CA3AF] [&_th]:font-medium [&_th]:pb-2 [&_th]:pr-4 [&_th]:text-xs
+                          [&_td]:py-1.5 [&_td]:pr-4 [&_td]:text-[#6B7280] [&_td]:text-sm [&_td]:font-mono
+                          [&_tr]:border-b [&_tr]:border-[#7C3AED]/[0.08]"
                         dangerouslySetInnerHTML={{ __html: renderMarkdown(msg.content) }}
                       />
                     ) : (
@@ -347,14 +347,14 @@ export function AIAnalyst() {
                   animate={{ opacity: 1 }}
                   className="flex gap-3"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-[#8B5CF6]/20 flex items-center justify-center shrink-0">
-                    <Brain className="w-4 h-4 text-[#8B5CF6] animate-pulse" />
+                  <div className="w-8 h-8 rounded-lg bg-[#7C3AED]/20 flex items-center justify-center shrink-0">
+                    <Brain className="w-4 h-4 text-[#7C3AED] animate-pulse" />
                   </div>
-                  <div className="bg-[#7B61FF]/[0.03] rounded-lg p-4">
+                  <div className="bg-[#7C3AED]/[0.03] rounded-lg p-4">
                     <div className="flex gap-1">
-                      <div className="w-2 h-2 rounded-full bg-[#8B5CF6] animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <div className="w-2 h-2 rounded-full bg-[#8B5CF6] animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <div className="w-2 h-2 rounded-full bg-[#8B5CF6] animate-bounce" style={{ animationDelay: '300ms' }} />
+                      <div className="w-2 h-2 rounded-full bg-[#7C3AED] animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <div className="w-2 h-2 rounded-full bg-[#7C3AED] animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <div className="w-2 h-2 rounded-full bg-[#7C3AED] animate-bounce" style={{ animationDelay: '300ms' }} />
                     </div>
                   </div>
                 </motion.div>
@@ -366,14 +366,14 @@ export function AIAnalyst() {
         </div>
 
         {/* Input */}
-        <div className="p-4 border-t border-[#7B61FF]/[0.08]">
+        <div className="p-4 border-t border-[#7C3AED]/[0.08]">
           {messages.length > 0 && (
             <div className="flex gap-2 mb-3 overflow-x-auto pb-1">
               {SUGGESTED_PROMPTS.slice(0, 4).map((prompt) => (
                 <button
                   key={prompt.label}
                   onClick={() => sendMessage(prompt.label)}
-                  className="px-3 py-1.5 text-xs whitespace-nowrap rounded-full border border-[#7B61FF]/[0.08] text-[#94A3B8] hover:border-[#8B5CF6]/30 hover:text-[#8B5CF6] transition-colors"
+                  className="px-3 py-1.5 text-xs whitespace-nowrap rounded-full border border-[#7C3AED]/[0.08] text-[#6B7280] hover:border-[#7C3AED]/30 hover:text-[#7C3AED] transition-colors"
                 >
                   {prompt.label}
                 </button>
@@ -387,7 +387,7 @@ export function AIAnalyst() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && sendMessage(input)}
               placeholder="Ask about revenue, performance, trends..."
-              className="flex-1 px-4 py-3 bg-[#7B61FF]/[0.06] border border-[#7B61FF]/[0.08] rounded-lg text-sm text-[#F1F5F9] placeholder:text-[#64748B] outline-none focus:border-[#8B5CF6]/50 transition-colors"
+              className="flex-1 px-4 py-3 bg-[#7C3AED]/[0.06] border border-[#7C3AED]/[0.08] rounded-lg text-sm text-[#111827] placeholder:text-[#9CA3AF] outline-none focus:border-[#7C3AED]/50 transition-colors"
               disabled={isLoading}
             />
             <button
@@ -396,8 +396,8 @@ export function AIAnalyst() {
               className={cn(
                 'px-4 py-3 rounded-lg transition-colors flex items-center gap-2',
                 input.trim() && !isLoading
-                  ? 'bg-[#8B5CF6] text-white hover:bg-[#8B5CF6]/90'
-                  : 'bg-[#7B61FF]/[0.06] text-[#64748B] cursor-not-allowed'
+                  ? 'bg-[#7C3AED] text-white hover:bg-[#7C3AED]/90'
+                  : 'bg-[#7C3AED]/[0.06] text-[#9CA3AF] cursor-not-allowed'
               )}
             >
               <Send className="w-4 h-4" />

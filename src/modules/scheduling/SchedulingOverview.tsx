@@ -67,8 +67,8 @@ export function SchedulingOverview() {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-semibold text-[#F1F5F9]">Today's Schedule</h1>
-          <p className="text-[#94A3B8] mt-1">{todayAppts.length} appointments scheduled</p>
+          <h1 className="text-2xl font-semibold text-[#111827]">Today's Schedule</h1>
+          <p className="text-[#6B7280] mt-1">{todayAppts.length} appointments scheduled</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -84,26 +84,26 @@ export function SchedulingOverview() {
           className="card-premium p-6"
         >
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-[#94A3B8]">Today's Timeline</h3>
-            <Link to="/scheduling/calendar" className="text-sm text-[#7B61FF] hover:underline flex items-center gap-1">
+            <h3 className="text-sm font-medium text-[#6B7280]">Today's Timeline</h3>
+            <Link to="/scheduling/calendar" className="text-sm text-[#7C3AED] hover:underline flex items-center gap-1">
               Full Calendar <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
           <div className="space-y-2">
             {(todayAppts.length > 0 ? todayAppts : filteredAppts.slice(0, 8)).map((appt) => (
-              <div key={appt.id} className="flex items-center gap-4 p-3 rounded-lg border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03]">
-                <div className="text-sm font-mono text-[#94A3B8] w-20 shrink-0">
+              <div key={appt.id} className="flex items-center gap-4 p-3 rounded-lg border border-[#7C3AED]/[0.08] bg-[#7C3AED]/[0.03]">
+                <div className="text-sm font-mono text-[#6B7280] w-20 shrink-0">
                   {appt.startTime}
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-[#F1F5F9]">{appt.clientName}</p>
-                  <p className="text-xs text-[#64748B]">{appt.service} · {appt.provider}</p>
+                  <p className="text-sm font-medium text-[#111827]">{appt.clientName}</p>
+                  <p className="text-xs text-[#9CA3AF]">{appt.service} · {appt.provider}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   {appt.noShowRisk === 'high' && (
-                    <span className="text-xs px-2 py-0.5 rounded-full text-[#FF6B6B] bg-[#FF6B6B]/10">High Risk</span>
+                    <span className="text-xs px-2 py-0.5 rounded-full text-[#EF4444] bg-[#EF4444]/10">High Risk</span>
                   )}
-                  <span className="text-sm font-mono text-[#94A3B8]">{formatCurrency(appt.revenue)}</span>
+                  <span className="text-sm font-mono text-[#6B7280]">{formatCurrency(appt.revenue)}</span>
                 </div>
               </div>
             ))}
@@ -116,8 +116,8 @@ export function SchedulingOverview() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-[#F1F5F9]">Smart Scheduling Engine</h1>
-        <p className="text-[#94A3B8] mt-1">AI-powered appointment optimization</p>
+        <h1 className="text-2xl font-semibold text-[#111827]">Smart Scheduling Engine</h1>
+        <p className="text-[#6B7280] mt-1">AI-powered appointment optimization</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -164,17 +164,17 @@ export function SchedulingOverview() {
           transition={{ delay: 0.2 }}
           className="card-premium p-6"
         >
-          <h3 className="text-sm font-medium text-[#94A3B8] mb-4">No-Show Rate Trend</h3>
+          <h3 className="text-sm font-medium text-[#6B7280] mb-4">No-Show Rate Trend</h3>
           <div className="h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={trendData}>
-                <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 11 }} interval={6} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} tickFormatter={(v) => `${v.toFixed(0)}%`} />
+                <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 11 }} interval={6} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 12 }} tickFormatter={(v) => `${v.toFixed(0)}%`} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
+                  contentStyle={{ backgroundColor: '#ffffff', border: '1px solid rgba(124, 58, 237, 0.15)', borderRadius: '12px', color: '#111827', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   formatter={(value: number = 0) => [`${value.toFixed(1)}%`, 'No-Show Rate']}
                 />
-                <Line type="monotone" dataKey="noShowRate" stroke="#FF6B6B" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="noShowRate" stroke="#EF4444" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -187,17 +187,17 @@ export function SchedulingOverview() {
           transition={{ delay: 0.25 }}
           className="card-premium p-6"
         >
-          <h3 className="text-sm font-medium text-[#94A3B8] mb-4">Utilization Rate Trend</h3>
+          <h3 className="text-sm font-medium text-[#6B7280] mb-4">Utilization Rate Trend</h3>
           <div className="h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={trendData}>
-                <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 11 }} interval={6} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12 }} tickFormatter={(v) => `${v.toFixed(0)}%`} />
+                <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 11 }} interval={6} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 12 }} tickFormatter={(v) => `${v.toFixed(0)}%`} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: 'rgba(26, 31, 53, 0.95)', border: '1px solid rgba(123, 97, 255, 0.15)', borderRadius: '12px', color: '#F1F5F9' }}
+                  contentStyle={{ backgroundColor: '#ffffff', border: '1px solid rgba(124, 58, 237, 0.15)', borderRadius: '12px', color: '#111827', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   formatter={(value: number = 0) => [`${value.toFixed(1)}%`, 'Utilization']}
                 />
-                <Line type="monotone" dataKey="utilization" stroke="#00D4AA" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="utilization" stroke="#10B981" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -213,26 +213,26 @@ export function SchedulingOverview() {
           className="lg:col-span-2 card-premium p-6"
         >
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-[#94A3B8]">High No-Show Risk</h3>
-            <Link to="/scheduling/calendar" className="text-sm text-[#7B61FF] hover:underline flex items-center gap-1">
+            <h3 className="text-sm font-medium text-[#6B7280]">High No-Show Risk</h3>
+            <Link to="/scheduling/calendar" className="text-sm text-[#7C3AED] hover:underline flex items-center gap-1">
               View Calendar <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
           <div className="space-y-2">
             {highRisk.map((appt) => (
-              <div key={appt.id} className="flex items-center gap-4 p-3 rounded-lg border border-[#FF6B6B]/20 bg-[#FF6B6B]/5">
-                <AlertTriangle className="w-4 h-4 text-[#FF6B6B] shrink-0" />
+              <div key={appt.id} className="flex items-center gap-4 p-3 rounded-lg border border-[#EF4444]/20 bg-[#EF4444]/5">
+                <AlertTriangle className="w-4 h-4 text-[#EF4444] shrink-0" />
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-[#F1F5F9]">{appt.clientName}</p>
-                  <p className="text-xs text-[#64748B]">{appt.service} · {new Date(appt.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} at {appt.startTime}</p>
+                  <p className="text-sm font-medium text-[#111827]">{appt.clientName}</p>
+                  <p className="text-xs text-[#9CA3AF]">{appt.service} · {new Date(appt.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} at {appt.startTime}</p>
                 </div>
-                <button className="px-3 py-1.5 text-xs bg-[#FFB547]/10 text-[#FFB547] rounded-lg hover:bg-[#FFB547]/20 transition-colors">
+                <button className="px-3 py-1.5 text-xs bg-[#F59E0B]/10 text-[#F59E0B] rounded-lg hover:bg-[#F59E0B]/20 transition-colors">
                   Send Reminder
                 </button>
               </div>
             ))}
             {highRisk.length === 0 && (
-              <p className="text-sm text-[#64748B] text-center py-4">No high-risk appointments</p>
+              <p className="text-sm text-[#9CA3AF] text-center py-4">No high-risk appointments</p>
             )}
           </div>
         </motion.div>
@@ -244,14 +244,14 @@ export function SchedulingOverview() {
           transition={{ delay: 0.35 }}
           className="card-premium p-6"
         >
-          <h3 className="text-sm font-medium text-[#94A3B8] mb-4">AI Agents</h3>
+          <h3 className="text-sm font-medium text-[#6B7280] mb-4">AI Agents</h3>
           <div className="space-y-2">
             {schedAgents.map((agent) => (
               <AgentStatusBadge key={agent.id} agent={agent} />
             ))}
           </div>
-          <div className="mt-4 p-3 rounded-lg bg-[#7B61FF]/5 border border-[#7B61FF]/20">
-            <p className="text-xs text-[#7B61FF]">
+          <div className="mt-4 p-3 rounded-lg bg-[#7C3AED]/5 border border-[#7C3AED]/20">
+            <p className="text-xs text-[#7C3AED]">
               Rebooking rate: <span className="font-mono font-semibold">{avgRebook.toFixed(1)}%</span>
             </p>
           </div>

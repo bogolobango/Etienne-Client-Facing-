@@ -24,40 +24,40 @@ export function ConversationInbox() {
   const channelIcon = (channel: string) => {
     switch (channel) {
       case 'voice': return <Phone className="w-3.5 h-3.5 text-[#3B82F6]" />
-      case 'sms': return <MessageSquare className="w-3.5 h-3.5 text-[#38BDF8]" />
-      case 'web': return <Globe className="w-3.5 h-3.5 text-[#8B5CF6]" />
-      case 'social': return <Share2 className="w-3.5 h-3.5 text-[#FFB547]" />
+      case 'sms': return <MessageSquare className="w-3.5 h-3.5 text-[#3B82F6]" />
+      case 'web': return <Globe className="w-3.5 h-3.5 text-[#7C3AED]" />
+      case 'social': return <Share2 className="w-3.5 h-3.5 text-[#F59E0B]" />
       default: return null
     }
   }
 
   const priorityColor = (priority: string) => {
     switch (priority) {
-      case 'urgent': return 'bg-[#FF6B6B]'
-      case 'pending': return 'bg-[#FFB547]'
-      default: return 'bg-[#7B61FF]'
+      case 'urgent': return 'bg-[#EF4444]'
+      case 'pending': return 'bg-[#F59E0B]'
+      default: return 'bg-[#7C3AED]'
     }
   }
 
   const statusLabel = (status: string) => {
     switch (status) {
-      case 'ai_resolved': return { text: 'AI Resolved', color: 'text-[#7B61FF] bg-[#7B61FF]/10' }
-      case 'escalated': return { text: 'Escalated', color: 'text-[#FFB547] bg-[#FFB547]/10' }
+      case 'ai_resolved': return { text: 'AI Resolved', color: 'text-[#7C3AED] bg-[#7C3AED]/10' }
+      case 'escalated': return { text: 'Escalated', color: 'text-[#F59E0B] bg-[#F59E0B]/10' }
       case 'in_progress': return { text: 'In Progress', color: 'text-[#3B82F6] bg-[#3B82F6]/10' }
-      case 'abandoned': return { text: 'Abandoned', color: 'text-[#FF6B6B] bg-[#FF6B6B]/10' }
-      default: return { text: status, color: 'text-[#94A3B8] bg-[#7B61FF]/[0.03]' }
+      case 'abandoned': return { text: 'Abandoned', color: 'text-[#EF4444] bg-[#EF4444]/10' }
+      default: return { text: status, color: 'text-[#6B7280] bg-[#7C3AED]/[0.03]' }
     }
   }
 
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
-        <Link to="/command-center" className="p-2 rounded-lg hover:bg-[#7B61FF]/[0.05] text-[#94A3B8] transition-colors">
+        <Link to="/command-center" className="p-2 rounded-lg hover:bg-[#7C3AED]/[0.05] text-[#6B7280] transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-semibold text-[#F1F5F9]">Conversation Inbox</h1>
-          <p className="text-[#94A3B8] mt-0.5">{filteredConvos.length} conversations</p>
+          <h1 className="text-2xl font-semibold text-[#111827]">Conversation Inbox</h1>
+          <p className="text-[#6B7280] mt-0.5">{filteredConvos.length} conversations</p>
         </div>
       </div>
 
@@ -65,15 +65,15 @@ export function ConversationInbox() {
         {/* Conversation List */}
         <div className="lg:col-span-2 card-premium flex flex-col overflow-hidden">
           {/* Search */}
-          <div className="p-3 border-b border-[#7B61FF]/[0.08]">
+          <div className="p-3 border-b border-[#7C3AED]/[0.08]">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9CA3AF]" />
               <input
                 type="text"
                 placeholder="Search conversations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 bg-[#7B61FF]/[0.06] border border-[#7B61FF]/[0.08] rounded-lg text-sm text-[#F1F5F9] placeholder:text-[#64748B] outline-none focus:border-[#7B61FF]/50"
+                className="w-full pl-9 pr-3 py-2 bg-[#7C3AED]/[0.06] border border-[#7C3AED]/[0.08] rounded-lg text-sm text-[#111827] placeholder:text-[#9CA3AF] outline-none focus:border-[#7C3AED]/50"
               />
             </div>
           </div>
@@ -87,27 +87,27 @@ export function ConversationInbox() {
                   key={convo.id}
                   onClick={() => setSelectedConvo(convo)}
                   className={cn(
-                    'p-3 border-b border-[#7B61FF]/[0.08] cursor-pointer transition-colors',
-                    selectedConvo?.id === convo.id ? 'bg-[#7B61FF]/[0.06]' : 'hover:bg-[#7B61FF]/[0.03]'
+                    'p-3 border-b border-[#7C3AED]/[0.08] cursor-pointer transition-colors',
+                    selectedConvo?.id === convo.id ? 'bg-[#7C3AED]/[0.06]' : 'hover:bg-[#7C3AED]/[0.03]'
                   )}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2">
                       <div className={cn('w-2 h-2 rounded-full shrink-0', priorityColor(convo.priority))} />
-                      <p className="text-sm font-medium text-[#F1F5F9] truncate">{convo.clientName}</p>
+                      <p className="text-sm font-medium text-[#111827] truncate">{convo.clientName}</p>
                     </div>
                     <div className="flex items-center gap-1.5 shrink-0">
                       {channelIcon(convo.channel)}
-                      <span className="text-xs text-[#64748B]">
+                      <span className="text-xs text-[#9CA3AF]">
                         {new Date(convo.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                       </span>
                     </div>
                   </div>
-                  <p className="text-xs text-[#94A3B8] mt-1 line-clamp-2 ml-4">{convo.summary}</p>
+                  <p className="text-xs text-[#6B7280] mt-1 line-clamp-2 ml-4">{convo.summary}</p>
                   <div className="flex items-center gap-2 mt-2 ml-4">
                     <span className={cn('text-xs px-2 py-0.5 rounded-full', status.color)}>{status.text}</span>
                     {convo.afterHours && (
-                      <span className="text-xs px-2 py-0.5 rounded-full text-[#8B5CF6] bg-[#8B5CF6]/10">After Hours</span>
+                      <span className="text-xs px-2 py-0.5 rounded-full text-[#7C3AED] bg-[#7C3AED]/10">After Hours</span>
                     )}
                   </div>
                 </div>
@@ -121,33 +121,33 @@ export function ConversationInbox() {
           {selectedConvo ? (
             <>
               {/* Header */}
-              <div className="p-4 border-b border-[#7B61FF]/[0.08]">
+              <div className="p-4 border-b border-[#7C3AED]/[0.08]">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-lg font-medium text-[#F1F5F9]">{selectedConvo.clientName}</p>
+                    <p className="text-lg font-medium text-[#111827]">{selectedConvo.clientName}</p>
                     <div className="flex items-center gap-2 mt-1">
                       {channelIcon(selectedConvo.channel)}
-                      <span className="text-sm text-[#94A3B8]">{selectedConvo.clientPhone}</span>
-                      <span className="text-xs text-[#64748B]">·</span>
+                      <span className="text-sm text-[#6B7280]">{selectedConvo.clientPhone}</span>
+                      <span className="text-xs text-[#9CA3AF]">·</span>
                       <span className={cn('text-xs px-2 py-0.5 rounded-full', statusLabel(selectedConvo.status).color)}>
                         {statusLabel(selectedConvo.status).text}
                       </span>
                     </div>
                   </div>
                   {selectedConvo.status !== 'ai_resolved' && (
-                    <button className="px-4 py-2 bg-[#7B61FF] text-white rounded-lg text-sm font-medium hover:bg-[#7B61FF]/90 transition-colors">
+                    <button className="px-4 py-2 bg-[#7C3AED] text-white rounded-lg text-sm font-medium hover:bg-[#7C3AED]/90 transition-colors">
                       Take Over
                     </button>
                   )}
                 </div>
 
                 {/* AI Summary */}
-                <div className="mt-3 p-3 rounded-lg bg-[#8B5CF6]/5 border border-[#8B5CF6]/20">
+                <div className="mt-3 p-3 rounded-lg bg-[#7C3AED]/5 border border-[#7C3AED]/20">
                   <div className="flex items-center gap-1.5 mb-1">
-                    <Bot className="w-3.5 h-3.5 text-[#8B5CF6]" />
-                    <span className="text-xs font-medium text-[#8B5CF6]">AI Summary</span>
+                    <Bot className="w-3.5 h-3.5 text-[#7C3AED]" />
+                    <span className="text-xs font-medium text-[#7C3AED]">AI Summary</span>
                   </div>
-                  <p className="text-sm text-[#94A3B8]">{selectedConvo.summary}</p>
+                  <p className="text-sm text-[#6B7280]">{selectedConvo.summary}</p>
                 </div>
               </div>
 
@@ -172,24 +172,24 @@ export function ConversationInbox() {
                     <div className={cn(
                       'max-w-[70%] p-3 rounded-lg text-sm',
                       msg.role === 'client'
-                        ? 'bg-[#7B61FF]/[0.06] text-[#F1F5F9]'
+                        ? 'bg-[#7C3AED]/[0.06] text-[#111827]'
                         : msg.role === 'ai'
-                        ? 'bg-[#8B5CF6]/10 text-[#F1F5F9]'
-                        : 'bg-[#7B61FF]/10 text-[#F1F5F9]'
+                        ? 'bg-[#7C3AED]/10 text-[#111827]'
+                        : 'bg-[#7C3AED]/10 text-[#111827]'
                     )}>
                       <p>{msg.content}</p>
-                      <p className="text-xs text-[#64748B] mt-1">
+                      <p className="text-xs text-[#9CA3AF] mt-1">
                         {new Date(msg.timestamp).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                       </p>
                     </div>
                     {msg.role !== 'client' && (
                       <div className={cn(
                         'w-7 h-7 rounded-full flex items-center justify-center shrink-0',
-                        msg.role === 'ai' ? 'bg-[#8B5CF6]/20' : 'bg-[#7B61FF]/20'
+                        msg.role === 'ai' ? 'bg-[#7C3AED]/20' : 'bg-[#7C3AED]/20'
                       )}>
                         {msg.role === 'ai'
-                          ? <Bot className="w-3.5 h-3.5 text-[#8B5CF6]" />
-                          : <UserIcon className="w-3.5 h-3.5 text-[#7B61FF]" />}
+                          ? <Bot className="w-3.5 h-3.5 text-[#7C3AED]" />
+                          : <UserIcon className="w-3.5 h-3.5 text-[#7C3AED]" />}
                       </div>
                     )}
                   </motion.div>
@@ -197,14 +197,14 @@ export function ConversationInbox() {
               </div>
 
               {/* Reply box */}
-              <div className="p-3 border-t border-[#7B61FF]/[0.08]">
+              <div className="p-3 border-t border-[#7C3AED]/[0.08]">
                 <div className="flex items-center gap-2">
                   <input
                     type="text"
                     placeholder="Type a response or let AI suggest..."
-                    className="flex-1 px-3 py-2 bg-[#7B61FF]/[0.06] border border-[#7B61FF]/[0.08] rounded-lg text-sm text-[#F1F5F9] placeholder:text-[#64748B] outline-none focus:border-[#7B61FF]/50"
+                    className="flex-1 px-3 py-2 bg-[#7C3AED]/[0.06] border border-[#7C3AED]/[0.08] rounded-lg text-sm text-[#111827] placeholder:text-[#9CA3AF] outline-none focus:border-[#7C3AED]/50"
                   />
-                  <button className="p-2 bg-[#7B61FF] rounded-lg hover:bg-[#7B61FF]/90 transition-colors">
+                  <button className="p-2 bg-[#7C3AED] rounded-lg hover:bg-[#7C3AED]/90 transition-colors">
                     <Send className="w-4 h-4 text-white" />
                   </button>
                 </div>
@@ -213,8 +213,8 @@ export function ConversationInbox() {
           ) : (
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
-                <MessageSquare className="w-12 h-12 text-[#64748B] mx-auto mb-3" />
-                <p className="text-[#94A3B8]">Select a conversation to view details</p>
+                <MessageSquare className="w-12 h-12 text-[#9CA3AF] mx-auto mb-3" />
+                <p className="text-[#6B7280]">Select a conversation to view details</p>
               </div>
             </div>
           )}

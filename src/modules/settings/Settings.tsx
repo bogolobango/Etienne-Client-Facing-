@@ -51,8 +51,8 @@ export function Settings() {
   return (
     <div className="space-y-6 max-w-3xl">
       <div>
-        <h1 className="text-2xl font-semibold text-[#F1F5F9]">Settings</h1>
-        <p className="text-[#94A3B8] mt-1">Manage your account and platform configuration</p>
+        <h1 className="text-2xl font-semibold text-[#111827]">Settings</h1>
+        <p className="text-[#6B7280] mt-1">Manage your account and platform configuration</p>
       </div>
 
       {sections.map((section, i) => {
@@ -66,30 +66,30 @@ export function Settings() {
             className="card-premium p-6"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 rounded-lg bg-[#7B61FF]/[0.06]">
-                <Icon className="w-4 h-4 text-[#94A3B8]" />
+              <div className="p-2 rounded-lg bg-[#7C3AED]/[0.06]">
+                <Icon className="w-4 h-4 text-[#6B7280]" />
               </div>
               <div>
-                <h3 className="text-sm font-medium text-[#F1F5F9]">{section.title}</h3>
-                <p className="text-xs text-[#64748B]">{section.description}</p>
+                <h3 className="text-sm font-medium text-[#111827]">{section.title}</h3>
+                <p className="text-xs text-[#9CA3AF]">{section.description}</p>
               </div>
             </div>
 
             <div className="space-y-3">
               {section.items.map((item) => (
-                <div key={item.label} className="flex items-center justify-between p-3 rounded-lg border border-[#7B61FF]/[0.08] bg-[#7B61FF]/[0.03]">
-                  <span className="text-sm text-[#94A3B8]">{item.label}</span>
+                <div key={item.label} className="flex items-center justify-between p-3 rounded-lg border border-[#7C3AED]/[0.08] bg-[#7C3AED]/[0.03]">
+                  <span className="text-sm text-[#6B7280]">{item.label}</span>
                   {'toggle' in item ? (
-                    <div className="w-10 h-5 rounded-full bg-[#7B61FF] relative cursor-pointer">
+                    <div className="w-10 h-5 rounded-full bg-[#7C3AED] relative cursor-pointer">
                       <div className="absolute right-0.5 top-0.5 w-4 h-4 rounded-full bg-white transition-transform" />
                     </div>
                   ) : 'status' in item ? (
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-[#7B61FF]" />
-                      <span className="text-sm text-[#7B61FF]">{item.value}</span>
+                      <div className="w-2 h-2 rounded-full bg-[#7C3AED]" />
+                      <span className="text-sm text-[#7C3AED]">{item.value}</span>
                     </div>
                   ) : (
-                    <span className="text-sm text-[#F1F5F9]">{item.value}</span>
+                    <span className="text-sm text-[#111827]">{item.value}</span>
                   )}
                 </div>
               ))}

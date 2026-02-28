@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Phone, MessageSquare, Globe, Share2, ArrowRight, Clock, CheckCircle } from 'lucide-react'
+import { Phone, MessageSquare, Globe, Share2, ArrowRight } from 'lucide-react'
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts'
 import { MetricCard } from '@/components/MetricCard'
 import { AgentStatusBadge } from '@/components/AgentStatusBadge'
@@ -78,9 +78,9 @@ export function CommandCenterOverview() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-          <MetricCard label="Active Conversations" value={activeConvos.length} icon={<MessageSquare className="w-5 h-5" />} delay={0} />
-          <MetricCard label="Avg Response Time" value={avgResponseTime} format="time" icon={<Clock className="w-5 h-5" />} delay={1} />
-          <MetricCard label="AI Handling" value={aiResolved} icon={<CheckCircle className="w-5 h-5" />} delay={2} />
+          <MetricCard label="Active Conversations" value={activeConvos.length} delay={0} />
+          <MetricCard label="Avg Response Time" value={avgResponseTime} format="time" delay={1} />
+          <MetricCard label="AI Handling" value={aiResolved} delay={2} />
         </div>
 
         <motion.div
@@ -139,7 +139,6 @@ export function CommandCenterOverview() {
           value={totalConvos}
           trend={18.5}
           trendLabel="this month"
-          icon={<MessageSquare className="w-5 h-5" />}
           delay={0}
         />
         <MetricCard
@@ -148,7 +147,6 @@ export function CommandCenterOverview() {
           format="time"
           trend={-85.2}
           trendLabel="vs before"
-          icon={<Clock className="w-5 h-5" />}
           delay={1}
         />
         <MetricCard
@@ -156,7 +154,6 @@ export function CommandCenterOverview() {
           value={totalConvos ? (aiResolved / totalConvos) * 100 : 0}
           format="percent"
           trend={12.3}
-          icon={<CheckCircle className="w-5 h-5" />}
           delay={2}
         />
         <MetricCard
@@ -164,7 +161,6 @@ export function CommandCenterOverview() {
           value={totalRecovered}
           format="currency"
           trend={42.0}
-          icon={<Phone className="w-5 h-5" />}
           delay={3}
         />
       </div>

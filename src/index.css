@@ -387,22 +387,6 @@ table thead th {
 }
 
 /* ================================================================
-   ICON CONTAINERS
-   ================================================================ */
-
-.icon-container-lg {
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 0.75rem;
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.12) 0%, rgba(124, 58, 237, 0.06) 100%);
-  border: 1px solid rgba(124, 58, 237, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 8px rgba(124, 58, 237, 0.1);
-}
-
-/* ================================================================
    STAT / NUMBER STYLING
    ================================================================ */
 

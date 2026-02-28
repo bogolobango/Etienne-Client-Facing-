@@ -9,7 +9,6 @@ interface MetricCardProps {
   format?: 'currency' | 'number' | 'percent' | 'time'
   trend?: number
   trendLabel?: string
-  icon?: React.ReactNode
   delay?: number
   onClick?: () => void
 }
@@ -40,7 +39,6 @@ export function MetricCard({
   format = 'number',
   trend,
   trendLabel,
-  icon,
   delay = 0,
   onClick,
 }: MetricCardProps) {
@@ -105,31 +103,24 @@ export function MetricCard({
         onClick && 'cursor-pointer'
       )}
     >
-      <div className="relative flex items-start justify-between">
-        <div className="flex-1 min-w-0">
-          <p className="text-xs md:text-sm text-muted-foreground mb-1 truncate">{label}</p>
-          <p className="text-2xl md:text-3xl font-mono font-semibold tracking-tight text-foreground stat-number">
-            {formatValue(displayValue, format)}
-          </p>
-          {trend !== undefined && (
-            <div className={cn('flex items-center gap-1 mt-2.5 text-sm', trendColor)}>
-              {isPositiveTrend ? (
-                <TrendingUp className="w-4 h-4" />
-              ) : (
-                <TrendingDown className="w-4 h-4" />
-              )}
-              <span className="font-medium">
-                {trend >= 0 ? '+' : ''}{trend.toFixed(1)}%
-              </span>
-              {trendLabel && (
-                <span className="text-muted-foreground ml-1">{trendLabel}</span>
-              )}
-            </div>
-          )}
-        </div>
-        {icon && (
-          <div className="icon-container-lg">
-            {icon}
+      <div>
+        <p className="text-xs md:text-sm text-muted-foreground mb-1 truncate">{label}</p>
+        <p className="text-2xl md:text-3xl font-mono font-semibold tracking-tight text-foreground stat-number">
+          {formatValue(displayValue, format)}
+        </p>
+        {trend !== undefined && (
+          <div className={cn('flex items-center gap-1 mt-2.5 text-sm', trendColor)}>
+            {isPositiveTrend ? (
+              <TrendingUp className="w-4 h-4" />
+            ) : (
+              <TrendingDown className="w-4 h-4" />
+            )}
+            <span className="font-medium">
+              {trend >= 0 ? '+' : ''}{trend.toFixed(1)}%
+            </span>
+            {trendLabel && (
+              <span className="text-muted-foreground ml-1">{trendLabel}</span>
+            )}
           </div>
         )}
       </div>

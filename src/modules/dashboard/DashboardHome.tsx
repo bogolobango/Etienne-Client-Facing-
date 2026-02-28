@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Phone, Calendar, Brain, TrendingUp, Users, Clock, AlertTriangle, DollarSign } from 'lucide-react'
+import { AlertTriangle } from 'lucide-react'
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { MetricCard } from '@/components/MetricCard'
 import { AgentStatusBadge } from '@/components/AgentStatusBadge'
@@ -117,7 +117,6 @@ export function DashboardHome() {
               format="currency"
               trend={metrics.revenueTrend}
               trendLabel="vs prev period"
-              icon={<DollarSign className="w-5 h-5" />}
               delay={0}
             />
             <MetricCard
@@ -126,7 +125,6 @@ export function DashboardHome() {
               format="currency"
               trend={42.5}
               trendLabel="by AI"
-              icon={<TrendingUp className="w-5 h-5" />}
               delay={1}
             />
             <MetricCard
@@ -135,7 +133,6 @@ export function DashboardHome() {
               format="percent"
               trend={metrics.noShowTrend}
               trendLabel="vs prev period"
-              icon={<Users className="w-5 h-5" />}
               delay={2}
             />
             <MetricCard
@@ -144,7 +141,6 @@ export function DashboardHome() {
               format="time"
               trend={metrics.responseTrend}
               trendLabel="vs prev period"
-              icon={<Clock className="w-5 h-5" />}
               delay={3}
             />
           </div>
@@ -320,7 +316,6 @@ export function DashboardHome() {
               label="Your Bookings Today"
               value={8}
               format="number"
-              icon={<Calendar className="w-5 h-5" />}
               delay={0}
             />
             <MetricCard
@@ -328,21 +323,18 @@ export function DashboardHome() {
               value={78}
               format="percent"
               trend={5.2}
-              icon={<TrendingUp className="w-5 h-5" />}
               delay={1}
             />
             <MetricCard
               label="Pending Follow-ups"
               value={5}
               format="number"
-              icon={<Phone className="w-5 h-5" />}
               delay={2}
             />
             <MetricCard
               label="AI Suggestions"
               value={3}
               format="number"
-              icon={<Brain className="w-5 h-5" />}
               delay={3}
             />
           </div>

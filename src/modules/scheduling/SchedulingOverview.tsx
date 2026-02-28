@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Calendar, Users, Clock, TrendingUp, ArrowRight, AlertTriangle } from 'lucide-react'
+import { ArrowRight, AlertTriangle } from 'lucide-react'
 import { XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts'
 import { MetricCard } from '@/components/MetricCard'
 import { AgentStatusBadge } from '@/components/AgentStatusBadge'
@@ -72,9 +72,9 @@ export function SchedulingOverview() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-          <MetricCard label="Today's Appointments" value={todayAppts.length} icon={<Calendar className="w-5 h-5" />} delay={0} />
-          <MetricCard label="High Risk No-Shows" value={highRisk.length} icon={<AlertTriangle className="w-5 h-5" />} delay={1} />
-          <MetricCard label="Waitlist Matches" value={3} icon={<Users className="w-5 h-5" />} delay={2} />
+          <MetricCard label="Today's Appointments" value={todayAppts.length} delay={0} />
+          <MetricCard label="High Risk No-Shows" value={highRisk.length} delay={1} />
+          <MetricCard label="Waitlist Matches" value={3} delay={2} />
         </div>
 
         <motion.div
@@ -127,7 +127,6 @@ export function SchedulingOverview() {
           format="percent"
           trend={18.5}
           trendLabel="vs before"
-          icon={<TrendingUp className="w-5 h-5" />}
           delay={0}
         />
         <MetricCard
@@ -136,14 +135,12 @@ export function SchedulingOverview() {
           format="percent"
           trend={-57.1}
           trendLabel="vs before"
-          icon={<Users className="w-5 h-5" />}
           delay={1}
         />
         <MetricCard
           label="AI-Booked"
           value={aiBooked}
           trend={35.0}
-          icon={<Calendar className="w-5 h-5" />}
           delay={2}
         />
         <MetricCard
@@ -151,7 +148,6 @@ export function SchedulingOverview() {
           value={avgRevenuePerAppt}
           format="currency"
           trend={8.2}
-          icon={<Clock className="w-5 h-5" />}
           delay={3}
         />
       </div>

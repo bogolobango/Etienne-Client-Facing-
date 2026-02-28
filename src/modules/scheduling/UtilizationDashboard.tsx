@@ -87,7 +87,7 @@ export function UtilizationDashboard() {
           Capacity Heatmap — {selectedLocation === 'all' ? 'All Locations' : locations.find(l => l.id === selectedLocation)?.name}
         </h3>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto scroll-fade-x">
           <div className="min-w-[500px]">
             {/* Hour headers */}
             <div className="grid gap-1 mb-1" style={{ gridTemplateColumns: '60px repeat(9, 1fr)' }}>

@@ -216,12 +216,12 @@ export function DashboardHome() {
                   <div
                     key={alert.id}
                     className={cn(
-                      'p-3 rounded-lg border transition-colors cursor-pointer',
+                      'p-3 rounded-lg border transition-all duration-200 cursor-pointer',
                       alert.type === 'critical'
-                        ? 'border-destructive/20 bg-destructive/5 hover:border-destructive/40'
+                        ? 'border-destructive/20 bg-destructive/5 hover:border-destructive/40 hover:shadow-elevation-sm'
                         : alert.type === 'warning'
-                        ? 'border-warning/20 bg-warning/5 hover:border-warning/40'
-                        : 'border-primary/20 bg-primary/5 hover:border-primary/40'
+                        ? 'border-warning/20 bg-warning/5 hover:border-warning/40 hover:shadow-elevation-sm'
+                        : 'border-primary/20 bg-primary/5 hover:border-primary/40 hover:shadow-elevation-sm'
                     )}
                   >
                     <div className="flex items-start gap-2">
@@ -292,7 +292,7 @@ export function DashboardHome() {
                   return (
                     <div
                       key={loc.id}
-                      className="p-4 rounded-lg border border-border bg-section-alt hover:border-primary/20 transition-all duration-200"
+                      className="p-4 rounded-lg border border-border bg-section-alt hover:border-primary/20 hover:shadow-elevation-sm transition-all duration-200"
                     >
                       <p className="text-sm font-medium text-foreground">{loc.name}</p>
                       <p className="text-xs text-muted-foreground">{loc.city}, {loc.state}</p>
@@ -364,7 +364,7 @@ export function DashboardHome() {
                   { task: 'Call back Maria L. — asked about package pricing', priority: 'pending' },
                   { task: 'Check in on waitlist patients for tomorrow', priority: 'ai_handling' },
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 p-3 rounded-lg border border-border bg-secondary">
+                  <div key={i} className="flex items-center gap-3 p-3 rounded-lg border border-border bg-secondary hover:border-primary/20 transition-all duration-200">
                     <div className={cn(
                       'w-2 h-2 rounded-full shrink-0',
                       item.priority === 'urgent' ? 'bg-destructive' :

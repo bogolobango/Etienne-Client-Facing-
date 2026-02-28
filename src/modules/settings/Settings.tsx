@@ -77,11 +77,11 @@ export function Settings() {
 
             <div className="space-y-3">
               {section.items.map((item) => (
-                <div key={item.label} className="flex items-center justify-between p-3 rounded-lg border border-border bg-primary/[0.03]">
+                <div key={item.label} className="flex items-center justify-between p-3 rounded-lg border border-border bg-primary/[0.03] transition-colors duration-200 hover:border-primary/20">
                   <span className="text-sm text-muted-foreground">{item.label}</span>
                   {'toggle' in item ? (
-                    <div className="w-10 h-5 rounded-full bg-primary relative cursor-pointer">
-                      <div className="absolute right-0.5 top-0.5 w-4 h-4 rounded-full bg-primary-foreground transition-transform" />
+                    <div className="w-10 h-5 rounded-full bg-primary relative cursor-pointer transition-colors duration-200">
+                      <div className="absolute right-0.5 top-0.5 w-4 h-4 rounded-full bg-primary-foreground shadow-elevation-sm transition-all duration-200" />
                     </div>
                   ) : 'status' in item ? (
                     <div className="flex items-center gap-2">

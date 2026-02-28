@@ -422,7 +422,7 @@ export function AIAnalyst() {
 
       {/* Chat Area */}
       <div className="flex-1 card-premium flex flex-col overflow-hidden">
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto scroll-fade-y p-6">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
               <motion.div
@@ -446,7 +446,7 @@ export function AIAnalyst() {
                     <button
                       key={prompt.label}
                       onClick={() => sendMessage(prompt.label)}
-                      className="flex items-center gap-2 p-3 rounded-lg border border-border bg-primary/[0.03] hover:border-primary/30 hover:bg-primary/5 transition-all text-left"
+                      className="flex items-center gap-2 p-3 rounded-lg border border-border bg-primary/[0.03] hover:border-primary/30 hover:bg-primary/5 hover:shadow-elevation-sm transition-all text-left"
                     >
                       <span className="text-lg">{prompt.icon}</span>
                       <span className="text-sm text-muted-foreground">{prompt.label}</span>
@@ -514,7 +514,7 @@ export function AIAnalyst() {
         {/* Input */}
         <div className="p-4 border-t border-border">
           {messages.length > 0 && (
-            <div className="flex gap-2 mb-3 overflow-x-auto pb-1">
+            <div className="flex gap-2 mb-3 overflow-x-auto scroll-fade-x pb-1">
               {SUGGESTED_PROMPTS.slice(0, 4).map((prompt) => (
                 <button
                   key={prompt.label}

@@ -79,7 +79,7 @@ export function ConversationInbox() {
           </div>
 
           {/* List */}
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto scroll-fade-y">
             {filteredConvos.length === 0 && searchQuery !== '' && (
               <div className="flex flex-col items-center justify-center py-12 text-center px-4">
                 <Search className="w-10 h-10 text-muted-foreground mb-3" />
@@ -93,8 +93,8 @@ export function ConversationInbox() {
                   key={convo.id}
                   onClick={() => setSelectedConvo(convo)}
                   className={cn(
-                    'p-3 border-b border-border cursor-pointer transition-colors',
-                    selectedConvo?.id === convo.id ? 'bg-primary/[0.06]' : 'hover:bg-primary/[0.03]'
+                    'p-3 border-b border-border cursor-pointer transition-all duration-200',
+                    selectedConvo?.id === convo.id ? 'bg-primary/[0.06] shadow-[inset_3px_0_0_var(--primary)]' : 'hover:bg-primary/[0.03]'
                   )}
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -158,7 +158,7 @@ export function ConversationInbox() {
               </div>
 
               {/* Transcript */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+              <div className="flex-1 overflow-y-auto scroll-fade-y p-4 space-y-3">
                 {selectedConvo.transcript.map((msg, i) => (
                   <motion.div
                     key={i}
@@ -176,7 +176,7 @@ export function ConversationInbox() {
                       </div>
                     )}
                     <div className={cn(
-                      'max-w-[70%] p-3 rounded-lg text-sm',
+                      'max-w-[70%] p-3 rounded-lg text-sm shadow-elevation-sm',
                       msg.role === 'client'
                         ? 'bg-primary/[0.06] text-foreground'
                         : msg.role === 'ai'

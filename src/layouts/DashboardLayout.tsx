@@ -192,7 +192,7 @@ export function DashboardLayout() {
       {/* Mobile backdrop */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/20 z-40 md:hidden"
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden animate-fade-in"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -222,7 +222,7 @@ export function DashboardLayout() {
         </div>
 
         {/* Navigation */}
-        <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-3 py-4">
+        <nav className="flex flex-1 flex-col gap-1 overflow-y-auto scroll-fade-y px-3 py-4">
           {navItems.map((item) => (
             <SidebarItem key={item.path} item={item} />
           ))}

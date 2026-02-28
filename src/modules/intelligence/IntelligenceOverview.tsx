@@ -77,7 +77,7 @@ export function IntelligenceOverview() {
                 'Follow up on 3 pending Hydrafacial consultations from this week',
                 'Suggest Chemical Peel add-on to tomorrow\'s Botox clients',
               ].map((action, i) => (
-                <div key={i} className="flex items-start gap-3 p-3 rounded-lg border border-primary/20 bg-primary/5">
+                <div key={i} className="flex items-start gap-3 p-3 rounded-lg border border-primary/20 bg-primary/5 hover:border-primary/40 hover:shadow-elevation-sm transition-all duration-200">
                   <Brain className="w-4 h-4 text-primary mt-0.5 shrink-0" />
                   <p className="text-sm text-foreground">{action}</p>
                 </div>
@@ -101,7 +101,7 @@ export function IntelligenceOverview() {
               ].map((person, i) => (
                 <div key={i} className={cn(
                   'flex items-center justify-between p-3 rounded-lg',
-                  person.name === 'You' ? 'border border-primary/20 bg-primary/5' : 'border border-border bg-primary/[0.03]'
+                  person.name === 'You' ? 'border border-primary/20 bg-primary/5' : 'border border-border bg-primary/[0.03] hover:border-primary/20 transition-all duration-200'
                 )}>
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-mono text-muted-foreground w-4">#{i + 1}</span>
@@ -219,7 +219,7 @@ export function IntelligenceOverview() {
           <h3 className="text-sm font-medium text-muted-foreground mb-4">AI Opportunities</h3>
           <div className="space-y-3">
             {topOpportunities.map((opp) => (
-              <div key={opp.id} className="p-3 rounded-lg border border-primary/20 bg-primary/5 cursor-pointer hover:border-primary/40 transition-colors">
+              <div key={opp.id} className="p-3 rounded-lg border border-primary/20 bg-primary/5 cursor-pointer hover:border-primary/40 hover:shadow-elevation-sm transition-all duration-200">
                 <p className="text-sm text-foreground leading-snug">{opp.title}</p>
                 <p className="text-xs text-muted-foreground mt-1">Potential: {formatCurrency(opp.impact)}</p>
               </div>
@@ -248,7 +248,7 @@ export function IntelligenceOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35 }}
-          className="lg:col-span-2 rounded-xl border border-primary/20 bg-primary/5 p-6 cursor-pointer hover:border-primary/40 transition-colors"
+          className="lg:col-span-2 rounded-xl border border-primary/20 bg-primary/5 p-6 cursor-pointer hover:border-primary/40 hover:shadow-elevation-md transition-all duration-200"
         >
           <Link to="/intelligence/analyst" className="block">
             <div className="flex items-center gap-3 mb-3">

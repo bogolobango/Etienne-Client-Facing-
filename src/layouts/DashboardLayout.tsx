@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Outlet, NavLink, useLocation } from 'react-router-dom'
+import { useState, useEffect, useMemo } from 'react'
+import { Outlet, NavLink, useLocation, Navigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard,
@@ -167,7 +167,18 @@ function SidebarItem({ item }: { item: NavItem }) {
   )
 }
 
+const STAFF_HIDDEN_PATHS = ['/intelligence', '/settings']
+
 function SidebarContent({ onClose, showClose }: { onClose?: () => void; showClose?: boolean }) {
+  const { role } = useAuthStore()
+
+  const visibleNav = useMemo(() => {
+    if (role === 'staff') {
+      return navItems.filter((item) => !STAFF_HIDDEN_PATHS.includes(item.path))
+    }
+    return navItems
+  }, [role])
+
   return (
     <>
       {/* Sidebar orb glow */}
@@ -191,7 +202,7 @@ function SidebarContent({ onClose, showClose }: { onClose?: () => void; showClos
 
       {/* Navigation */}
       <nav className="flex flex-1 flex-col gap-1 overflow-y-auto scroll-fade-y px-3 py-4">
-        {navItems.map((item) => (
+        {visibleNav.map((item) => (
           <SidebarItem key={item.path} item={item} />
         ))}
       </nav>
@@ -203,6 +214,8 @@ export function DashboardLayout() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
   const [desktopCollapsed, setDesktopCollapsed] = useState(false)
   const location = useLocation()
+  const { role } = useAuthStore()
+  const { setLocation } = useLocationStore()
 
   // Close mobile sidebar on route change
   useEffect(() => {
@@ -220,6 +233,22 @@ export function DashboardLayout() {
       document.body.style.overflow = ''
     }
   }, [mobileSidebarOpen])
+
+  // Force staff to SoHo location
+  useEffect(() => {
+    if (role === 'staff') {
+      setLocation('soho')
+    }
+  }, [role, setLocation])
+
+  // Redirect staff from restricted routes
+  const isRestricted = role === 'staff' && (
+    location.pathname.startsWith('/intelligence') ||
+    location.pathname.startsWith('/settings')
+  )
+  if (isRestricted) {
+    return <Navigate to="/" replace />
+  }
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-background">
@@ -316,6 +345,15 @@ export function DashboardLayout() {
             </button>
           </div>
         </header>
+
+        {/* Staff banner */}
+        {role === 'staff' && (
+          <div className="shrink-0 px-4 md:px-6 py-2 bg-primary/[0.06] border-b border-primary/10">
+            <p className="text-xs text-muted-foreground">
+              Viewing as <span className="text-primary font-medium">Staff</span> — SoHo Flagship
+            </p>
+          </div>
+        )}
 
         {/* Content area with orbs */}
         <main className="relative flex-1 overflow-y-auto p-4 md:p-6">

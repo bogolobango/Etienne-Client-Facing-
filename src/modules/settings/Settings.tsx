@@ -77,7 +77,7 @@ export function Settings() {
 
             <div className="space-y-3">
               {section.items.map((item) => (
-                <div key={item.label} className="flex items-center justify-between p-3 rounded-lg border border-border bg-primary/[0.03] transition-colors duration-200 hover:border-primary/20">
+                <div key={item.label} className="flex items-center justify-between p-3 rounded-lg border border-border bg-primary/[0.06] transition-colors duration-200 hover:border-primary/20">
                   <span className="text-sm text-muted-foreground">{item.label}</span>
                   {'toggle' in item ? (
                     <div className="w-10 h-5 rounded-full bg-primary relative cursor-pointer transition-colors duration-200">

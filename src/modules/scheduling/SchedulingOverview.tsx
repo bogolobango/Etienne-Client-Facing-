@@ -91,7 +91,7 @@ export function SchedulingOverview() {
           </div>
           <div className="space-y-2">
             {(todayAppts.length > 0 ? todayAppts : filteredAppts.slice(0, 8)).map((appt) => (
-              <div key={appt.id} className="flex items-center gap-4 p-3 rounded-lg border border-border bg-primary/[0.03] hover:border-primary/20 hover:shadow-elevation-sm transition-all duration-200">
+              <div key={appt.id} className="flex items-center gap-4 p-3 rounded-lg border border-border bg-primary/[0.06] hover:border-primary/20 hover:shadow-elevation-sm transition-all duration-200">
                 <div className="text-sm font-mono text-muted-foreground w-20 shrink-0">
                   {appt.startTime}
                 </div>

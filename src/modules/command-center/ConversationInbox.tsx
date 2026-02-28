@@ -45,7 +45,7 @@ export function ConversationInbox() {
       case 'escalated': return { text: 'Escalated', color: 'text-warning bg-warning/10' }
       case 'in_progress': return { text: 'In Progress', color: 'text-[var(--channel-voice)] bg-[var(--channel-voice)]/10' }
       case 'abandoned': return { text: 'Abandoned', color: 'text-destructive bg-destructive/10' }
-      default: return { text: status, color: 'text-muted-foreground bg-primary/[0.03]' }
+      default: return { text: status, color: 'text-muted-foreground bg-primary/[0.06]' }
     }
   }
 
@@ -94,7 +94,7 @@ export function ConversationInbox() {
                   onClick={() => setSelectedConvo(convo)}
                   className={cn(
                     'p-3 border-b border-border cursor-pointer transition-all duration-200',
-                    selectedConvo?.id === convo.id ? 'bg-primary/[0.06] shadow-[inset_3px_0_0_var(--primary)]' : 'hover:bg-primary/[0.03]'
+                    selectedConvo?.id === convo.id ? 'bg-primary/[0.06] shadow-[inset_3px_0_0_var(--primary)]' : 'hover:bg-primary/[0.06]'
                   )}
                 >
                   <div className="flex items-start justify-between gap-2">

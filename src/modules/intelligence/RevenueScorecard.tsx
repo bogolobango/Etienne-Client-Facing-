@@ -107,7 +107,7 @@ export function RevenueScorecard() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="p-4 rounded-lg border border-border bg-primary/[0.03]"
+                className="p-4 rounded-lg border border-border bg-primary/[0.06]"
               >
                 <p className="text-xs text-muted-foreground mb-3">{item.metric}</p>
                 <div className="grid grid-cols-2 gap-3">
@@ -181,7 +181,7 @@ export function RevenueScorecard() {
             </thead>
             <tbody>
               {locationScores.map((loc) => (
-                <tr key={loc.name} className="border-b border-border last:border-b-0 hover:bg-primary/[0.03] transition-colors">
+                <tr key={loc.name} className="border-b border-border last:border-b-0 hover:bg-primary/[0.06] transition-colors">
                   <td className="py-3 pr-4">
                     <p className="text-sm font-medium text-foreground">{loc.name}</p>
                     <p className="text-xs text-muted-foreground">{loc.city}</p>

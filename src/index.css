@@ -1,9 +1,7 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:is(.dark *));
-
 /* ================================================================
-   TANGO EDITORIAL — Design Token System
+   EIP DARK — Design Token System
    Every color in the app references these variables.
    To change the brand, edit ONLY this file.
    ================================================================ */
@@ -58,77 +56,77 @@
 :root {
   --radius: 0.75rem;
 
-  /* Core surfaces */
-  --background: #ffffff;
-  --foreground: #111827;
-  --card: #ffffff;
-  --card-foreground: #111827;
-  --popover: #ffffff;
-  --popover-foreground: #111827;
+  /* Core surfaces — deep navy */
+  --background: #0A0F1C;
+  --foreground: #E8EAF0;
+  --card: rgba(26, 31, 53, 0.7);
+  --card-foreground: #E8EAF0;
+  --popover: #141929;
+  --popover-foreground: #E8EAF0;
 
-  /* Primary — violet */
-  --primary: #7C3AED;
-  --primary-foreground: #ffffff;
+  /* Primary — teal */
+  --primary: #00D4AA;
+  --primary-foreground: #0A0F1C;
 
   /* Secondary */
-  --secondary: #F9FAFB;
-  --secondary-foreground: #1F2937;
+  --secondary: #0D1220;
+  --secondary-foreground: #C8CCD8;
 
   /* Muted */
-  --muted: #F3F4F6;
-  --muted-foreground: #374151;
+  --muted: #1A1F35;
+  --muted-foreground: #8B92A8;
 
   /* Accent */
-  --accent: #F9FAFB;
-  --accent-foreground: #111827;
+  --accent: #1E2440;
+  --accent-foreground: #E8EAF0;
 
-  /* Destructive */
-  --destructive: #EF4444;
+  /* Destructive — coral */
+  --destructive: #FF6B6B;
   --destructive-foreground: #ffffff;
 
-  /* Borders & Inputs */
-  --border: #E5E7EB;
-  --input: #E5E7EB;
-  --ring: #7C3AED;
+  /* Borders */
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: #00D4AA;
 
-  /* Chart palette */
-  --chart-1: #7C3AED;
-  --chart-2: #F87171;
-  --chart-3: #10B981;
+  /* Charts */
+  --chart-1: #00D4AA;
+  --chart-2: #FF6B6B;
+  --chart-3: #FFB547;
   --chart-4: #6366F1;
-  --chart-5: #F59E0B;
+  --chart-5: #3B82F6;
 
   /* Sidebar */
-  --sidebar: #F9FAFB;
-  --sidebar-foreground: #111827;
-  --sidebar-primary: #7C3AED;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #F3F4F6;
-  --sidebar-accent-foreground: #111827;
-  --sidebar-border: #E5E7EB;
-  --sidebar-ring: #7C3AED;
+  --sidebar: #0D1220;
+  --sidebar-foreground: #C8CCD8;
+  --sidebar-primary: #00D4AA;
+  --sidebar-primary-foreground: #0A0F1C;
+  --sidebar-accent: #1A1F35;
+  --sidebar-accent-foreground: #E8EAF0;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-ring: #00D4AA;
 
-  /* Semantic status colors */
-  --success: #10B981;
-  --warning: #F59E0B;
+  /* Semantic */
+  --success: #00D4AA;
+  --warning: #FFB547;
 
-  /* Highlight accents (keyword underlines) */
-  --highlight-purple: #7C3AED;
-  --highlight-coral: #F87171;
-  --highlight-green: #10B981;
-  --section-alt: #F9F8FC;
+  /* Highlights */
+  --highlight-purple: #6366F1;
+  --highlight-coral: #FF6B6B;
+  --highlight-green: #00D4AA;
+  --section-alt: #0D1220;
 
-  /* Orb palette */
+  /* Orbs */
   --orb-blue: #2D5BFF;
   --orb-teal: #00D4AA;
-  --orb-purple: #7B61FF;
+  --orb-purple: #6366F1;
   --orb-orange: #FF8C42;
 
-  /* Channel colors (for charts/icons) */
+  /* Channels */
   --channel-voice: #3B82F6;
   --channel-sms: #06B6D4;
-  --channel-web: #8B5CF6;
-  --channel-social: #F59E0B;
+  --channel-web: #6366F1;
+  --channel-social: #FFB547;
 }
 
 /* ================================================================
@@ -141,7 +139,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-family: 'Geist Sans', 'DM Sans', -apple-system, system-ui, sans-serif;
     font-size: 14px;
     line-height: 1.5;
     letter-spacing: 0;
@@ -154,9 +152,9 @@
     min-height: 100vh;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', 'Instrument Serif', 'Georgia', serif;
+    font-family: 'Geist Sans', 'DM Sans', -apple-system, system-ui, sans-serif;
     letter-spacing: -0.01em;
-    font-weight: 400;
+    font-weight: 600;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -197,7 +195,7 @@ textarea:focus-visible,
 select:focus-visible {
   outline: none;
   border-color: var(--ring);
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+  box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.12);
 }
 
 button:focus-visible {
@@ -209,9 +207,9 @@ button:focus-visible {
 .card-on-alt:focus-visible,
 .card-glass:focus-visible {
   outline: none;
-  border-color: rgba(180, 160, 220, 0.5);
-  box-shadow: 0 0 0 3px rgba(160, 140, 200, 0.15),
-              0 8px 32px rgba(160, 140, 200, 0.12);
+  border-color: rgba(0, 212, 170, 0.4);
+  box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.12),
+              0 4px 16px rgba(0, 212, 170, 0.08);
 }
 
 /* ================================================================
@@ -243,7 +241,7 @@ select {
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):hover:not(:focus):not(:disabled),
 textarea:hover:not(:focus):not(:disabled),
 select:hover:not(:focus):not(:disabled) {
-  border-color: rgba(124, 58, 237, 0.25);
+  border-color: rgba(0, 212, 170, 0.25);
 }
 
 /* ================================================================
@@ -255,7 +253,7 @@ table tbody tr {
 }
 
 table tbody tr:hover {
-  background-color: rgba(124, 58, 237, 0.03);
+  background-color: rgba(0, 212, 170, 0.04);
 }
 
 table thead th {
@@ -267,10 +265,11 @@ table thead th {
    ================================================================ */
 
 .font-display {
-  font-family: 'Playfair Display', 'Instrument Serif', 'Georgia', serif;
+  font-family: 'Geist Sans', 'DM Sans', -apple-system, system-ui, sans-serif;
+  font-weight: 600;
 }
 .font-sans {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-family: 'Geist Sans', 'DM Sans', -apple-system, system-ui, sans-serif;
 }
 .font-mono {
   font-family: 'DM Sans', 'JetBrains Mono', monospace;
@@ -324,110 +323,63 @@ table thead th {
    ================================================================ */
 
 .shadow-elevation-sm {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 .shadow-elevation-md {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .shadow-elevation-lg {
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 .shadow-elevation-xl {
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12), 0 8px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35), 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 /* ================================================================
-   CARD STYLES — Frosted glass with lavender accent
+   CARD STYLES — Dark glassmorphism
    ================================================================ */
 
 .card-premium {
-  background:
-    repeating-linear-gradient(
-      35deg,
-      transparent,
-      transparent 10px,
-      rgba(180, 160, 220, 0.04) 10px,
-      rgba(180, 160, 220, 0.04) 11px
-    ),
-    rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-radius: 1.375rem;
-  border: 1px solid rgba(180, 160, 220, 0.25);
-  box-shadow: 0 8px 32px rgba(160, 140, 200, 0.12);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  background: rgba(26, 31, 53, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-lg);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   position: relative;
   z-index: 1;
 }
 .card-premium:hover {
-  border-color: rgba(180, 160, 220, 0.45);
-  box-shadow: 0 12px 40px rgba(160, 140, 200, 0.18), 0 4px 12px rgba(160, 140, 200, 0.08);
-  transform: translateY(-2px);
-}
-
-/* Graceful degradation when backdrop-filter is not supported */
-@supports not (backdrop-filter: blur(8px)) {
-  .card-premium {
-    background:
-      repeating-linear-gradient(
-        35deg,
-        transparent,
-        transparent 10px,
-        rgba(180, 160, 220, 0.04) 10px,
-        rgba(180, 160, 220, 0.04) 11px
-      ),
-      rgba(255, 255, 255, 0.92);
-  }
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .card-on-alt {
-  background:
-    repeating-linear-gradient(
-      35deg,
-      transparent,
-      transparent 10px,
-      rgba(180, 160, 220, 0.04) 10px,
-      rgba(180, 160, 220, 0.04) 11px
-    ),
-    rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-radius: 1.375rem;
-  border: 1px solid rgba(180, 160, 220, 0.25);
-  box-shadow: 0 8px 32px rgba(160, 140, 200, 0.12);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  background: rgba(26, 31, 53, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-lg);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   position: relative;
   z-index: 1;
 }
 .card-on-alt:hover {
-  border-color: rgba(180, 160, 220, 0.45);
-  box-shadow: 0 12px 40px rgba(160, 140, 200, 0.18), 0 4px 12px rgba(160, 140, 200, 0.08);
-  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 /* Glass-morphism variant for floating surfaces */
 .card-glass {
-  background:
-    repeating-linear-gradient(
-      35deg,
-      transparent,
-      transparent 10px,
-      rgba(180, 160, 220, 0.04) 10px,
-      rgba(180, 160, 220, 0.04) 11px
-    ),
-    rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-radius: 1.375rem;
-  border: 1px solid rgba(180, 160, 220, 0.25);
-  box-shadow: 0 8px 32px rgba(160, 140, 200, 0.12);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  background: rgba(26, 31, 53, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-lg);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   position: relative;
   z-index: 1;
 }
 .card-glass:hover {
-  border-color: rgba(180, 160, 220, 0.45);
-  box-shadow: 0 12px 40px rgba(160, 140, 200, 0.18), 0 4px 12px rgba(160, 140, 200, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 /* ================================================================
@@ -448,7 +400,7 @@ table thead th {
 }
 .btn-primary-pill:hover {
   transform: scale(1.02);
-  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
 }
 .btn-primary-pill:active {
   transform: scale(0.99);
@@ -460,34 +412,34 @@ table thead th {
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(124, 58, 237, 0.15); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(124, 58, 237, 0.3); }
+::-webkit-scrollbar-thumb { background: rgba(0, 212, 170, 0.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0, 212, 170, 0.3); }
 
 /* Chart grid lines */
 .recharts-cartesian-grid line {
-  stroke: rgba(0, 0, 0, 0.06);
+  stroke: rgba(255, 255, 255, 0.06);
 }
 
-/* Recharts tooltip — match frosted card aesthetic */
+/* Recharts tooltip — match dark card aesthetic */
 .recharts-tooltip-wrapper .recharts-default-tooltip {
-  background: rgba(255, 255, 255, 0.88) !important;
+  background: rgba(20, 25, 41, 0.95) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(180, 160, 220, 0.25) !important;
-  border-radius: 1rem !important;
-  box-shadow: 0 8px 32px rgba(160, 140, 200, 0.14), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
   padding: 0.625rem 0.875rem !important;
 }
 
 /* Recharts active dot — pulse on hover */
 .recharts-active-dot circle {
-  filter: drop-shadow(0 0 6px rgba(124, 58, 237, 0.35));
+  filter: drop-shadow(0 0 6px rgba(0, 212, 170, 0.35));
   transition: r 0.2s ease;
 }
 
 /* Dot pattern overlay */
 .dot-pattern {
-  background-image: radial-gradient(circle, rgba(124, 58, 237, 0.06) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(0, 212, 170, 0.06) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
@@ -499,8 +451,8 @@ table thead th {
   background: linear-gradient(
     90deg,
     var(--muted) 0%,
-    rgba(124, 58, 237, 0.06) 40%,
-    rgba(124, 58, 237, 0.06) 60%,
+    rgba(0, 212, 170, 0.06) 40%,
+    rgba(0, 212, 170, 0.06) 60%,
     var(--muted) 100%
   );
   background-size: 200% 100%;

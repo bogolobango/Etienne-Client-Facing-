@@ -446,7 +446,7 @@ export function AIAnalyst() {
                     <button
                       key={prompt.label}
                       onClick={() => sendMessage(prompt.label)}
-                      className="flex items-center gap-2 p-3 rounded-lg border border-border bg-primary/[0.03] hover:border-primary/30 hover:bg-primary/5 hover:shadow-elevation-sm transition-all text-left"
+                      className="flex items-center gap-2 p-3 rounded-lg border border-border bg-primary/[0.06] hover:border-primary/30 hover:bg-primary/5 hover:shadow-elevation-sm transition-all text-left"
                     >
                       <span className="text-lg">{prompt.icon}</span>
                       <span className="text-sm text-muted-foreground">{prompt.label}</span>
@@ -476,7 +476,7 @@ export function AIAnalyst() {
                     'max-w-[80%] rounded-lg p-4',
                     msg.role === 'user'
                       ? 'bg-primary/10 text-foreground'
-                      : 'bg-primary/[0.03] text-foreground'
+                      : 'bg-primary/[0.06] text-foreground'
                   )}>
                     {msg.role === 'assistant' ? (
                       <MarkdownRenderer content={msg.content} />
@@ -496,7 +496,7 @@ export function AIAnalyst() {
                   <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
                     <Brain className="w-4 h-4 text-primary animate-pulse" />
                   </div>
-                  <div className="bg-primary/[0.03] rounded-lg p-4">
+                  <div className="bg-primary/[0.06] rounded-lg p-4">
                     <div className="flex gap-1">
                       <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '0ms' }} />
                       <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '150ms' }} />

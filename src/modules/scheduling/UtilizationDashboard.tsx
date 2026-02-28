@@ -109,7 +109,7 @@ export function UtilizationDashboard() {
                     transition={{ delay: (dayIdx * 9 + hourIdx) * 0.01 }}
                     className={cn(
                       'h-10 rounded-md flex items-center justify-center text-xs font-mono transition-colors',
-                      value === 0 ? 'bg-primary/[0.03] text-muted-foreground' : getHeatmapColor(value),
+                      value === 0 ? 'bg-primary/[0.06] text-muted-foreground' : getHeatmapColor(value),
                       value >= 65 ? 'text-white font-medium' : 'text-muted-foreground'
                     )}
                   >

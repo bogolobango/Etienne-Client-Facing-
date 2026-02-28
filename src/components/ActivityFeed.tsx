@@ -68,7 +68,7 @@ export function ActivityFeed({ activities = defaultActivities, maxItems = 8 }: A
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.05, duration: 0.3 }}
-            className="flex items-start gap-3 p-3 rounded-xl hover:bg-primary/[0.03] transition-colors"
+            className="flex items-start gap-3 p-3 rounded-xl hover:bg-primary/[0.06] transition-colors"
           >
             <div className={cn('p-1.5 rounded-lg mt-0.5', colorMap[activity.type])}>
               <Icon className="w-3.5 h-3.5" />

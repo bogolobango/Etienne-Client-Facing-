@@ -130,7 +130,7 @@ export function CalendarView() {
                       <div
                         className={cn(
                           'p-2 rounded-md border-l-2 cursor-pointer transition-all duration-200 hover:shadow-elevation-sm hover:scale-[1.02]',
-                          serviceColors[appt.service] || 'border-l-muted-foreground bg-primary/[0.03]'
+                          serviceColors[appt.service] || 'border-l-muted-foreground bg-primary/[0.06]'
                         )}
                       >
                         <p className="text-xs font-medium text-foreground truncate">{appt.clientName}</p>

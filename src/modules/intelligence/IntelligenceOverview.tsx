@@ -101,7 +101,7 @@ export function IntelligenceOverview() {
               ].map((person, i) => (
                 <div key={i} className={cn(
                   'flex items-center justify-between p-3 rounded-lg',
-                  person.name === 'You' ? 'border border-primary/20 bg-primary/5' : 'border border-border bg-primary/[0.03] hover:border-primary/20 transition-all duration-200'
+                  person.name === 'You' ? 'border border-primary/20 bg-primary/5' : 'border border-border bg-primary/[0.06] hover:border-primary/20 transition-all duration-200'
                 )}>
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-mono text-muted-foreground w-4">#{i + 1}</span>

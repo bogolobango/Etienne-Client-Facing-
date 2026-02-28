@@ -170,7 +170,7 @@ export function Reports() {
             const start = new Date(now.getTime() - (weeksAgo + 1) * 7 * 86400000)
             const end = new Date(now.getTime() - weeksAgo * 7 * 86400000)
             return (
-              <div key={weeksAgo} className="flex items-center justify-between p-3 rounded-lg border border-border bg-primary/[0.03] hover:border-primary/20 transition-all duration-200 cursor-pointer">
+              <div key={weeksAgo} className="flex items-center justify-between p-3 rounded-lg border border-border bg-primary/[0.06] hover:border-primary/20 transition-all duration-200 cursor-pointer">
                 <div className="flex items-center gap-3">
                   <Calendar className="w-4 h-4 text-muted-foreground" />
                   <span className="text-sm text-foreground">

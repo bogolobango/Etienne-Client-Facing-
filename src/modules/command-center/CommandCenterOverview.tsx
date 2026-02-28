@@ -99,7 +99,7 @@ export function CommandCenterOverview() {
             {activeConvos.slice(0, 8).map((convo) => (
               <div
                 key={convo.id}
-                className="flex items-center justify-between p-3 rounded-lg border border-border bg-primary/[0.03] hover:border-primary/20 hover:shadow-elevation-sm transition-all duration-200 cursor-pointer"
+                className="flex items-center justify-between p-3 rounded-lg border border-border bg-primary/[0.06] hover:border-primary/20 hover:shadow-elevation-sm transition-all duration-200 cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <div className={cn(

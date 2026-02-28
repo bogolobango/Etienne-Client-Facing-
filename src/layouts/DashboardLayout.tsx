@@ -67,7 +67,7 @@ function LocationSelector() {
       <select
         value={selectedLocation}
         onChange={(e) => setLocation(e.target.value)}
-        className="appearance-none cursor-pointer rounded-full border border-primary/15 bg-card px-4 py-2 pr-9 text-sm text-foreground outline-none transition-all hover:border-primary/30 focus:border-primary/50 focus:shadow-[0_0_12px_rgba(124,58,237,0.15)]"
+        className="appearance-none cursor-pointer rounded-full border border-primary/15 bg-card px-4 py-2 pr-9 text-sm text-foreground outline-none transition-all hover:border-primary/30 focus:border-primary/50 focus:shadow-[0_0_12px_rgba(0,212,170,0.15)]"
       >
         <option value="all">All Locations</option>
         {locations.map((loc) => (
@@ -88,7 +88,7 @@ function RoleToggle() {
         onClick={() => role !== 'owner' && toggleRole()}
         className={`relative rounded-full px-4 py-1 text-sm font-medium transition-all duration-200 ${
           role === 'owner'
-            ? 'bg-primary text-primary-foreground shadow-[0_2px_8px_rgba(124,58,237,0.35)]'
+            ? 'bg-primary text-primary-foreground shadow-[0_2px_8px_rgba(0,212,170,0.35)]'
             : 'text-muted-foreground hover:text-foreground'
         }`}
       >
@@ -98,7 +98,7 @@ function RoleToggle() {
         onClick={() => role !== 'staff' && toggleRole()}
         className={`relative rounded-full px-4 py-1 text-sm font-medium transition-all duration-200 ${
           role === 'staff'
-            ? 'bg-primary text-primary-foreground shadow-[0_2px_8px_rgba(124,58,237,0.35)]'
+            ? 'bg-primary text-primary-foreground shadow-[0_2px_8px_rgba(0,212,170,0.35)]'
             : 'text-muted-foreground hover:text-foreground'
         }`}
       >
@@ -128,7 +128,7 @@ function SidebarItem({ item }: { item: NavItem }) {
           return [
             'group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200',
             active
-              ? 'border-l-[3px] border-l-primary bg-primary/[0.08] pl-[9px] text-foreground shadow-[inset_0_0_20px_rgba(124,58,237,0.06)]'
+              ? 'border-l-[3px] border-l-primary bg-primary/[0.08] pl-[9px] text-foreground shadow-[inset_0_0_20px_rgba(0,212,170,0.06)]'
               : 'border-l-[3px] border-l-transparent pl-[9px] text-muted-foreground hover:bg-primary/[0.04] hover:text-foreground',
           ].join(' ')
         }}
@@ -304,7 +304,7 @@ export function DashboardLayout() {
 
             <button className="relative rounded-full p-2 text-muted-foreground transition-all hover:bg-primary/[0.08] hover:text-foreground">
               <Bell className="h-5 w-5" />
-              <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground shadow-[0_2px_8px_rgba(124,58,237,0.4)]">
+              <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground shadow-[0_2px_8px_rgba(0,212,170,0.4)]">
                 3
               </span>
             </button>
@@ -316,10 +316,7 @@ export function DashboardLayout() {
         </header>
 
         {/* Content area with orbs */}
-        <main
-          className="relative flex-1 overflow-y-auto p-4 md:p-6"
-          style={{ background: 'linear-gradient(135deg, #ede9f7 0%, #e8f5f0 100%)' }}
-        >
+        <main className="relative flex-1 overflow-y-auto p-4 md:p-6">
           <GradientOrbs variant="default" />
           <div className="relative z-[1]">
             <Outlet />

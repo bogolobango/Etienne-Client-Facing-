@@ -276,6 +276,120 @@ ${ctx.byLocation.map((l) => `| ${l.name} | ${fmtPct(l.rebookingRate)} | ${l.newC
 3. Use no-show risk scoring to proactively reach out to at-risk regulars`
     },
   },
+  {
+    keywords: ['gap', 'losing', 'lost', 'miss', 'waste', 'leak', 'risk'],
+    weight: 9,
+    generate: (ctx) => {
+      const noShowLoss = ctx.totalRevenue * (ctx.avgNoShow / 100)
+      const utilGap = ctx.totalRevenue * ((100 - ctx.avgUtil) / 100) * 0.3
+      const lostOpps = ctx.oppsByStatus.lost
+      const sorted = [...ctx.byLocation].sort((a, b) => b.noShowRate - a.noShowRate)
+      return `## Revenue Gap Analysis
+
+*Analyzing your Zenoti data for revenue leakage points...*
+
+### Total Revenue at Risk: **${fmtCurrency(noShowLoss + utilGap)}**/month
+
+| Gap Source | Est. Monthly Impact | Priority |
+|------------|-------------------|----------|
+| No-show losses | ${fmtCurrency(noShowLoss)} | ${ctx.avgNoShow > 14 ? '🔴 High' : '🟡 Medium'} |
+| Utilization gaps | ${fmtCurrency(utilGap)} | ${ctx.avgUtil < 65 ? '🔴 High' : '🟡 Medium'} |
+| Lost opportunities | ${lostOpps} leads (${fmtCurrency(ctx.oppPipelineValue * 0.15)}) | 🟡 Medium |
+
+### Top No-Show Risk Centers:
+${sorted.slice(0, 3).map((l) => `- **${l.name}**: ${fmtPct(l.noShowRate)} no-show rate → ~${fmtCurrency(l.revenue * l.noShowRate / 100)}/month at risk`).join('\n')}
+
+### Recommendations:
+1. Mandatory deposits for new clients at ${sorted[0].name} could recover ~${fmtCurrency(noShowLoss * 0.4)}/month
+2. Midweek promotions at low-utilization centers could capture ~${fmtCurrency(utilGap * 0.25)}/month
+3. Re-engage ${lostOpps} lost leads with a targeted win-back campaign`
+    },
+  },
+  {
+    keywords: ['provider', 'doctor', 'therapist', 'staff', 'best provider', 'rebook'],
+    weight: 8,
+    generate: (ctx) => {
+      const sorted = [...ctx.byLocation].sort((a, b) => b.rebookingRate - a.rebookingRate)
+      return `## Provider & Rebooking Analysis
+
+*Analyzing your Zenoti provider performance and rebooking data...*
+
+### Rebooking Rate by Center:
+| Center | Rebook Rate | Status |
+|--------|------------|--------|
+${sorted.map((l) => `| ${l.name} | ${fmtPct(l.rebookingRate)} | ${l.rebookingRate >= 70 ? '✅ Strong' : l.rebookingRate >= 55 ? '🟡 Needs Work' : '🔴 Critical'} |`).join('\n')}
+
+### Network Average: **${fmtPct(ctx.avgRebook)}** (industry benchmark: 75%)
+
+### Key Insights:
+- **${sorted[0].name}** leads with ${fmtPct(sorted[0].rebookingRate)} rebooking — model to replicate
+- **${sorted[sorted.length - 1].name}** at ${fmtPct(sorted[sorted.length - 1].rebookingRate)} needs immediate attention
+- ${ctx.totalNewClients} new clients acquired this month — first-visit rebooking is critical
+
+### Recommendations:
+1. Implement AI rebooking prompts at checkout across all centers
+2. Focus provider training at ${sorted[sorted.length - 1].name} on consultation-to-rebook conversion
+3. Track provider-level rebooking rates in Zenoti for weekly performance reviews`
+    },
+  },
+  {
+    keywords: ['soho', 'williamsburg', 'hoboken', 'white plains', 'stamford'],
+    weight: 12,
+    generate: (ctx) => {
+      const sorted = [...ctx.byLocation].sort((a, b) => b.revenue - a.revenue)
+      return `## Center-Specific Analysis
+
+*Pulling your Zenoti data for the requested center(s)...*
+
+### Performance Dashboard:
+| Metric | ${ctx.byLocation.map((l) => l.name.split(' ')[0]).join(' | ')} |
+|--------|${ctx.byLocation.map(() => '------').join('|')}|
+| Revenue | ${ctx.byLocation.map((l) => fmtCurrency(l.revenue)).join(' | ')} |
+| Utilization | ${ctx.byLocation.map((l) => fmtPct(l.utilization)).join(' | ')} |
+| No-Show Rate | ${ctx.byLocation.map((l) => fmtPct(l.noShowRate)).join(' | ')} |
+| New Clients | ${ctx.byLocation.map((l) => String(l.newClients)).join(' | ')} |
+| Rebook Rate | ${ctx.byLocation.map((l) => fmtPct(l.rebookingRate)).join(' | ')} |
+
+### Top Performer: **${sorted[0].name}**
+- Revenue: ${fmtCurrency(sorted[0].revenue)} | Utilization: ${fmtPct(sorted[0].utilization)}
+
+### Needs Attention: **${sorted[sorted.length - 1].name}**
+- Revenue: ${fmtCurrency(sorted[sorted.length - 1].revenue)} | No-show: ${fmtPct(sorted[sorted.length - 1].noShowRate)}
+- Estimated revenue gap: ${fmtCurrency((sorted[0].revenue - sorted[sorted.length - 1].revenue) * 0.4)}/month if brought to network average
+
+### Recommendations:
+1. Replicate ${sorted[0].name}'s scheduling practices at lower-performing centers
+2. Address ${sorted[sorted.length - 1].name}'s no-show rate with deposit requirements
+3. Cross-promote between geographically adjacent centers`
+    },
+  },
+  {
+    keywords: ['service', 'botox', 'filler', 'hydrafacial', 'laser', 'popular', 'treatment'],
+    weight: 7,
+    generate: (ctx) => {
+      return `## Service Performance Analysis
+
+*Analyzing your Zenoti service booking and revenue data...*
+
+### Key Findings:
+- **Total bookings** (30 days): ${fmt(ctx.totalBookings)} across all centers
+- **Average revenue per appointment**: ${fmtCurrency(ctx.totalRevenue / Math.max(ctx.totalBookings, 1))}
+- **Pipeline opportunities**: ${ctx.oppsByStatus.new + ctx.oppsByStatus.contacted} active leads
+
+### By Center Utilization:
+${ctx.byLocation.map((l) => `- **${l.name}**: ${fmtPct(l.utilization)} utilization, ${l.newClients} new clients`).join('\n')}
+
+### Service Mix Insights:
+- High-value treatments (Botox, Fillers) drive ~60% of revenue
+- Hydrafacial serves as the top acquisition service for new clients
+- Laser packages have the highest lifetime value per client
+
+### Recommendations:
+1. Bundle high-margin services with Hydrafacial intro offers for new clients
+2. Track service-level conversion from consultation to booking in Zenoti
+3. Focus upsell training on Chemical Peel and Body Contouring add-ons`
+    },
+  },
 ]
 
 export function generateAIResponse(prompt: string, ctx: AIContext): string {

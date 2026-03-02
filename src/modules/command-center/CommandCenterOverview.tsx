@@ -129,8 +129,8 @@ export function CommandCenterOverview() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-foreground">Voice & Text Command Center</h1>
-        <p className="text-muted-foreground mt-1">AI-powered communication across all channels</p>
+        <h1 className="text-2xl font-semibold text-foreground">Conversation Intelligence</h1>
+        <p className="text-muted-foreground mt-1">Analyzing guest communications across all channels</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
@@ -160,7 +160,7 @@ export function CommandCenterOverview() {
           dataSource="Zenoti"
         />
         <MetricCard
-          label="Revenue Recovered"
+          label="Revenue at Risk"
           value={totalRecovered}
           format="currency"
           trend={42.0}
@@ -277,7 +277,7 @@ export function CommandCenterOverview() {
           </div>
           <div className="mt-4 p-3 rounded-lg bg-primary/5 border border-primary/20">
             <p className="text-xs text-primary">
-              After-hours saves this month: <span className="font-mono font-semibold">{afterHoursSaves}</span>
+              After-hours inquiries captured: <span className="font-mono font-semibold">{afterHoursSaves}</span>
             </p>
           </div>
         </motion.div>

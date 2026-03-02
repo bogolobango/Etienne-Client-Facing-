@@ -63,12 +63,12 @@ export const services: Service[] = [
 // ---------------------------------------------------------------------------
 export const agentStatuses: AgentStatus[] = [
   // Command Center
-  { id: 'agent-vr', name: 'Voice Responder', type: 'voice', module: 'command-center', status: 'online', tasksHandled: 1247, lastActivity: minutesAgo(2) },
-  { id: 'agent-tc', name: 'Text Concierge', type: 'text', module: 'command-center', status: 'online', tasksHandled: 2381, lastActivity: minutesAgo(1) },
-  { id: 'agent-er', name: 'Escalation Router', type: 'routing', module: 'command-center', status: 'online', tasksHandled: 312, lastActivity: minutesAgo(8) },
+  { id: 'agent-vr', name: 'Conversation Analyst', type: 'analysis', module: 'command-center', status: 'online', tasksHandled: 1247, lastActivity: minutesAgo(2) },
+  { id: 'agent-tc', name: 'Response Monitor', type: 'monitoring', module: 'command-center', status: 'online', tasksHandled: 2381, lastActivity: minutesAgo(1) },
+  { id: 'agent-er', name: 'Escalation Tracker', type: 'tracking', module: 'command-center', status: 'online', tasksHandled: 312, lastActivity: minutesAgo(8) },
   // Scheduling
-  { id: 'agent-bo', name: 'Booking Optimizer', type: 'scheduling', module: 'scheduling', status: 'online', tasksHandled: 1893, lastActivity: minutesAgo(3) },
-  { id: 'agent-ng', name: 'No-Show Guardian', type: 'retention', module: 'scheduling', status: 'online', tasksHandled: 647, lastActivity: minutesAgo(5) },
+  { id: 'agent-bo', name: 'Schedule Analyst', type: 'scheduling', module: 'scheduling', status: 'online', tasksHandled: 1893, lastActivity: minutesAgo(3) },
+  { id: 'agent-ng', name: 'No-Show Predictor', type: 'prediction', module: 'scheduling', status: 'online', tasksHandled: 647, lastActivity: minutesAgo(5) },
   { id: 'agent-df', name: 'Demand Forecaster', type: 'analytics', module: 'scheduling', status: 'idle', tasksHandled: 89, lastActivity: minutesAgo(45) },
   // Intelligence
   { id: 'agent-ra', name: 'Revenue Analyst', type: 'analytics', module: 'intelligence', status: 'online', tasksHandled: 412, lastActivity: minutesAgo(12) },
@@ -93,7 +93,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: '2 PM works perfectly.', timestamp: daysAgoISO(1, 14, 23) },
       { role: 'ai', content: 'Wonderful! You are confirmed for Botox at SoHo on Tuesday at 2 PM with Dr. Chen. See you then!', timestamp: daysAgoISO(1, 14, 24) },
     ],
-    locationId: 'soho', agentType: 'Voice Responder', timestamp: daysAgoISO(1, 14, 22),
+    locationId: 'soho', agentType: 'Conversation Analyst', timestamp: daysAgoISO(1, 14, 22),
     duration: 127, sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 450,
   },
   {
@@ -106,13 +106,13 @@ export const conversations: Conversation[] = [
       { role: 'ai', content: 'I am sorry to hear that. Let me connect you with our clinic manager who can review your case.', timestamp: daysAgoISO(2, 11, 6) },
       { role: 'staff', content: 'Hi James, this is Nicole. I can see you in person tomorrow at 10 AM for a complimentary assessment.', timestamp: daysAgoISO(2, 11, 8) },
     ],
-    locationId: 'williamsburg', agentType: 'Voice Responder', timestamp: daysAgoISO(2, 11, 5),
+    locationId: 'williamsburg', agentType: 'Conversation Analyst', timestamp: daysAgoISO(2, 11, 5),
     duration: 245, sentiment: 'negative', resolved: false, afterHours: false,
   },
   {
     id: 'conv-003', clientName: 'Priya Patel', clientPhone: '(201) 555-0303',
     channel: 'voice', status: 'ai_resolved', priority: 'ai_handling',
-    summary: 'After-hours call — booked Hydrafacial at Hoboken for Saturday.',
+    summary: 'After-hours inquiry captured — Hydrafacial booked at Hoboken, Saturday.',
     transcript: [
       { role: 'ai', content: 'Thanks for calling Etienne Intelligence after hours. I can still help with scheduling!', timestamp: daysAgoISO(3, 21, 45) },
       { role: 'client', content: 'Oh great, I was expecting voicemail. Can I book a Hydrafacial at Hoboken this Saturday?', timestamp: daysAgoISO(3, 21, 45) },
@@ -120,7 +120,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: '11 AM please!', timestamp: daysAgoISO(3, 21, 46) },
       { role: 'ai', content: 'Done! Saturday at 11 AM for a Hydrafacial at Hoboken. Confirmation text sent.', timestamp: daysAgoISO(3, 21, 47) },
     ],
-    locationId: 'hoboken', agentType: 'Voice Responder', timestamp: daysAgoISO(3, 21, 45),
+    locationId: 'hoboken', agentType: 'Conversation Analyst', timestamp: daysAgoISO(3, 21, 45),
     duration: 98, sentiment: 'positive', resolved: true, afterHours: true, revenueImpact: 250,
   },
   {
@@ -134,7 +134,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Yes please.', timestamp: daysAgoISO(4, 10, 16) },
       { role: 'ai', content: 'Rescheduled! Friday at 3 PM at White Plains. Confirmation sent.', timestamp: daysAgoISO(4, 10, 16) },
     ],
-    locationId: 'white-plains', agentType: 'Voice Responder', timestamp: daysAgoISO(4, 10, 15),
+    locationId: 'white-plains', agentType: 'Conversation Analyst', timestamp: daysAgoISO(4, 10, 15),
     duration: 72, sentiment: 'neutral', resolved: true, afterHours: false,
   },
   {
@@ -144,7 +144,7 @@ export const conversations: Conversation[] = [
     transcript: [
       { role: 'ai', content: 'Thank you for calling Etienne Intelligence. One moment while I look that up.', timestamp: daysAgoISO(5, 16, 30) },
     ],
-    locationId: 'stamford', agentType: 'Voice Responder', timestamp: daysAgoISO(5, 16, 30),
+    locationId: 'stamford', agentType: 'Conversation Analyst', timestamp: daysAgoISO(5, 16, 30),
     duration: 18, sentiment: 'neutral', resolved: false, afterHours: false,
   },
   // --- SMS conversations ---
@@ -157,7 +157,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'YES', timestamp: daysAgoISO(1, 9, 12) },
       { role: 'ai', content: 'Great, you are all set! See you tomorrow.', timestamp: daysAgoISO(1, 9, 12) },
     ],
-    locationId: 'soho', agentType: 'Text Concierge', timestamp: daysAgoISO(1, 9, 0),
+    locationId: 'soho', agentType: 'Response Monitor', timestamp: daysAgoISO(1, 9, 0),
     sentiment: 'positive', resolved: true, afterHours: false,
   },
   {
@@ -169,7 +169,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Yes running a little late though, maybe 10 min', timestamp: daysAgoISO(0, 7, 45) },
       { role: 'ai', content: 'No problem! We will have everything ready. See you soon!', timestamp: daysAgoISO(0, 7, 45) },
     ],
-    locationId: 'williamsburg', agentType: 'No-Show Guardian', timestamp: daysAgoISO(0, 7, 30),
+    locationId: 'williamsburg', agentType: 'No-Show Predictor', timestamp: daysAgoISO(0, 7, 30),
     sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 250,
   },
   {
@@ -183,7 +183,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Yes next week at Hoboken', timestamp: daysAgoISO(2, 13, 15) },
       { role: 'ai', content: 'Booked for next Thursday at 10 AM at Hoboken. Confirmation sent!', timestamp: daysAgoISO(2, 13, 15) },
     ],
-    locationId: 'hoboken', agentType: 'Text Concierge', timestamp: daysAgoISO(2, 13, 10),
+    locationId: 'hoboken', agentType: 'Response Monitor', timestamp: daysAgoISO(2, 13, 10),
     sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 1200,
   },
   {
@@ -195,20 +195,20 @@ export const conversations: Conversation[] = [
       { role: 'ai', content: 'I apologize for the inconvenience. Let me connect you with our billing team right away.', timestamp: daysAgoISO(3, 15, 1) },
       { role: 'staff', content: 'Hi Rachel, I see the charge. Processing your refund now — please allow 3-5 business days.', timestamp: daysAgoISO(3, 15, 20) },
     ],
-    locationId: 'white-plains', agentType: 'Escalation Router', timestamp: daysAgoISO(3, 15, 0),
+    locationId: 'white-plains', agentType: 'Escalation Tracker', timestamp: daysAgoISO(3, 15, 0),
     sentiment: 'negative', resolved: true, afterHours: false,
   },
   {
     id: 'conv-010', clientName: 'Nina Patel', clientPhone: '(203) 555-0510',
     channel: 'sms', status: 'ai_resolved', priority: 'ai_handling',
-    summary: 'After-hours text: booked Laser Hair Removal at Stamford.',
+    summary: 'After-hours text inquiry tracked — Laser Hair Removal booked at Stamford.',
     transcript: [
       { role: 'client', content: 'Can I book laser hair removal for this weekend?', timestamp: daysAgoISO(1, 22, 10) },
       { role: 'ai', content: 'Hi Nina! Saturday at 2 PM at Stamford is available. Would you like to book?', timestamp: daysAgoISO(1, 22, 10) },
       { role: 'client', content: 'Perfect!', timestamp: daysAgoISO(1, 22, 14) },
       { role: 'ai', content: 'All booked! Saturday 2 PM at Stamford for Laser Hair Removal. See you then!', timestamp: daysAgoISO(1, 22, 14) },
     ],
-    locationId: 'stamford', agentType: 'Text Concierge', timestamp: daysAgoISO(1, 22, 10),
+    locationId: 'stamford', agentType: 'Response Monitor', timestamp: daysAgoISO(1, 22, 10),
     sentiment: 'positive', resolved: true, afterHours: true, revenueImpact: 350,
   },
   // --- Web chat conversations ---
@@ -222,7 +222,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Yes at SoHo please!', timestamp: daysAgoISO(0, 10, 32) },
       { role: 'ai', content: 'Booked! Wednesday at 11 AM at SoHo Flagship. Welcome to Etienne!', timestamp: daysAgoISO(0, 10, 32) },
     ],
-    locationId: 'soho', agentType: 'Text Concierge', timestamp: daysAgoISO(0, 10, 30),
+    locationId: 'soho', agentType: 'Response Monitor', timestamp: daysAgoISO(0, 10, 30),
     sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 212,
   },
   {
@@ -235,7 +235,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Mostly the lines on my forehead', timestamp: minutesAgo(10) },
       { role: 'ai', content: 'Botox would be ideal for forehead lines. Results last 3-4 months. Would you like to book a consultation?', timestamp: minutesAgo(10) },
     ],
-    locationId: 'williamsburg', agentType: 'Text Concierge', timestamp: minutesAgo(15),
+    locationId: 'williamsburg', agentType: 'Response Monitor', timestamp: minutesAgo(15),
     sentiment: 'positive', resolved: false, afterHours: false, revenueImpact: 450,
   },
   {
@@ -248,7 +248,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: '3 PM Thursday', timestamp: daysAgoISO(1, 12, 2) },
       { role: 'ai', content: 'Confirmed! Chemical Peel, Thursday 3 PM at Hoboken. Total is $200.', timestamp: daysAgoISO(1, 12, 2) },
     ],
-    locationId: 'hoboken', agentType: 'Text Concierge', timestamp: daysAgoISO(1, 12, 0),
+    locationId: 'hoboken', agentType: 'Response Monitor', timestamp: daysAgoISO(1, 12, 0),
     sentiment: 'neutral', resolved: true, afterHours: false, revenueImpact: 200,
   },
   {
@@ -258,7 +258,7 @@ export const conversations: Conversation[] = [
     transcript: [
       { role: 'ai', content: 'Welcome to Etienne Intelligence! How can I help you today?', timestamp: daysAgoISO(2, 18, 0) },
     ],
-    locationId: 'white-plains', agentType: 'Text Concierge', timestamp: daysAgoISO(2, 18, 0),
+    locationId: 'white-plains', agentType: 'Response Monitor', timestamp: daysAgoISO(2, 18, 0),
     sentiment: 'neutral', resolved: false, afterHours: false,
   },
   {
@@ -271,7 +271,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Book it!', timestamp: daysAgoISO(4, 23, 18) },
       { role: 'ai', content: 'You are set for Monday at 1 PM at Stamford. Confirmation emailed!', timestamp: daysAgoISO(4, 23, 18) },
     ],
-    locationId: 'stamford', agentType: 'Text Concierge', timestamp: daysAgoISO(4, 23, 15),
+    locationId: 'stamford', agentType: 'Response Monitor', timestamp: daysAgoISO(4, 23, 15),
     sentiment: 'positive', resolved: true, afterHours: true, revenueImpact: 850,
   },
   // --- Social conversations ---
@@ -285,7 +285,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: '10 AM!', timestamp: daysAgoISO(0, 19, 35) },
       { role: 'ai', content: 'Booked! Thursday 10 AM at SoHo for Botox ($450). DM me if you need anything else!', timestamp: daysAgoISO(0, 19, 35) },
     ],
-    locationId: 'soho', agentType: 'Text Concierge', timestamp: daysAgoISO(0, 19, 30),
+    locationId: 'soho', agentType: 'Response Monitor', timestamp: daysAgoISO(0, 19, 30),
     sentiment: 'positive', resolved: true, afterHours: true, revenueImpact: 450,
   },
   {
@@ -296,7 +296,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Do you have package deals for body contouring?', timestamp: minutesAgo(30) },
       { role: 'ai', content: 'Yes! We offer a 3-session Body Contouring package at $3,200 (save $400). Sessions are 90 minutes each. Want to learn more?', timestamp: minutesAgo(29) },
     ],
-    locationId: 'williamsburg', agentType: 'Text Concierge', timestamp: minutesAgo(30),
+    locationId: 'williamsburg', agentType: 'Response Monitor', timestamp: minutesAgo(30),
     sentiment: 'positive', resolved: false, afterHours: false, revenueImpact: 3200,
   },
   {
@@ -309,7 +309,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Saturday 9 AM', timestamp: daysAgoISO(1, 16, 25) },
       { role: 'ai', content: 'Rebooked! Saturday 9 AM at Hoboken for Laser Hair Removal.', timestamp: daysAgoISO(1, 16, 25) },
     ],
-    locationId: 'hoboken', agentType: 'Text Concierge', timestamp: daysAgoISO(1, 16, 20),
+    locationId: 'hoboken', agentType: 'Response Monitor', timestamp: daysAgoISO(1, 16, 20),
     sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 350,
   },
   {
@@ -320,7 +320,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'I left a review about my terrible experience. Nobody has reached out.', timestamp: daysAgoISO(2, 14, 0) },
       { role: 'ai', content: 'I am so sorry about your experience, Hannah. I am escalating this to our clinic director who will personally call you within the hour.', timestamp: daysAgoISO(2, 14, 1) },
     ],
-    locationId: 'white-plains', agentType: 'Escalation Router', timestamp: daysAgoISO(2, 14, 0),
+    locationId: 'white-plains', agentType: 'Escalation Tracker', timestamp: daysAgoISO(2, 14, 0),
     sentiment: 'negative', resolved: false, afterHours: false,
   },
   {
@@ -332,7 +332,7 @@ export const conversations: Conversation[] = [
       { role: 'ai', content: 'Great question! Avoid retinoids for 5 days, skip exfoliants for 3 days, and wear SPF 30+. No direct sun 48 hours before. Anything else?', timestamp: daysAgoISO(3, 11, 0) },
       { role: 'client', content: 'Thank you, that is really helpful!', timestamp: daysAgoISO(3, 11, 5) },
     ],
-    locationId: 'stamford', agentType: 'Text Concierge', timestamp: daysAgoISO(3, 11, 0),
+    locationId: 'stamford', agentType: 'Response Monitor', timestamp: daysAgoISO(3, 11, 0),
     sentiment: 'positive', resolved: true, afterHours: false,
   },
   // --- Conversations 21-30 ---
@@ -346,7 +346,7 @@ export const conversations: Conversation[] = [
       { role: 'ai', content: 'Dermal Filler with Dr. Chen at SoHo. Next Monday at 2 PM?', timestamp: daysAgoISO(5, 9, 1) },
       { role: 'client', content: 'Perfect.', timestamp: daysAgoISO(5, 9, 1) },
     ],
-    locationId: 'soho', agentType: 'Voice Responder', timestamp: daysAgoISO(5, 9, 0),
+    locationId: 'soho', agentType: 'Conversation Analyst', timestamp: daysAgoISO(5, 9, 0),
     duration: 65, sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 850,
   },
   {
@@ -357,7 +357,7 @@ export const conversations: Conversation[] = [
       { role: 'ai', content: 'Hi Chris, your Botox appointment at Williamsburg is in 1 hour. See you soon?', timestamp: daysAgoISO(6, 12, 0) },
       { role: 'client', content: 'On my way!', timestamp: daysAgoISO(6, 12, 5) },
     ],
-    locationId: 'williamsburg', agentType: 'No-Show Guardian', timestamp: daysAgoISO(6, 12, 0),
+    locationId: 'williamsburg', agentType: 'No-Show Predictor', timestamp: daysAgoISO(6, 12, 0),
     sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 450,
   },
   {
@@ -370,20 +370,20 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Yes, at Hoboken please.', timestamp: daysAgoISO(6, 15, 3) },
       { role: 'ai', content: 'Booked! First session next Wednesday at 2 PM at Hoboken.', timestamp: daysAgoISO(6, 15, 3) },
     ],
-    locationId: 'hoboken', agentType: 'Text Concierge', timestamp: daysAgoISO(6, 15, 0),
+    locationId: 'hoboken', agentType: 'Response Monitor', timestamp: daysAgoISO(6, 15, 0),
     sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 1050,
   },
   {
     id: 'conv-024', clientName: 'Amy Stewart', clientPhone: '(914) 555-0424',
     channel: 'voice', status: 'ai_resolved', priority: 'ai_handling',
-    summary: 'After-hours save — booked Hydrafacial at White Plains.',
+    summary: 'After-hours inquiry captured — Hydrafacial booked at White Plains.',
     transcript: [
       { role: 'ai', content: 'Etienne after-hours assistant. I can help with bookings!', timestamp: daysAgoISO(7, 20, 30) },
       { role: 'client', content: 'I want a Hydrafacial this weekend.', timestamp: daysAgoISO(7, 20, 30) },
       { role: 'ai', content: 'Saturday at 10 AM at White Plains is available. Shall I book?', timestamp: daysAgoISO(7, 20, 31) },
       { role: 'client', content: 'Yes!', timestamp: daysAgoISO(7, 20, 31) },
     ],
-    locationId: 'white-plains', agentType: 'Voice Responder', timestamp: daysAgoISO(7, 20, 30),
+    locationId: 'white-plains', agentType: 'Conversation Analyst', timestamp: daysAgoISO(7, 20, 30),
     duration: 58, sentiment: 'positive', resolved: true, afterHours: true, revenueImpact: 250,
   },
   {
@@ -393,7 +393,7 @@ export const conversations: Conversation[] = [
     transcript: [
       { role: 'ai', content: 'Hi Rebecca, we missed you today at your Chemical Peel appointment. Would you like to reschedule?', timestamp: daysAgoISO(8, 17, 0) },
     ],
-    locationId: 'stamford', agentType: 'No-Show Guardian', timestamp: daysAgoISO(8, 17, 0),
+    locationId: 'stamford', agentType: 'No-Show Predictor', timestamp: daysAgoISO(8, 17, 0),
     sentiment: 'neutral', resolved: false, afterHours: false,
   },
   {
@@ -407,7 +407,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Book me in.', timestamp: daysAgoISO(8, 11, 2) },
       { role: 'ai', content: 'Done! Thursday 10 AM at SoHo for Body Contouring. See you then!', timestamp: daysAgoISO(8, 11, 2) },
     ],
-    locationId: 'soho', agentType: 'Voice Responder', timestamp: daysAgoISO(8, 11, 0),
+    locationId: 'soho', agentType: 'Conversation Analyst', timestamp: daysAgoISO(8, 11, 0),
     duration: 145, sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 1200,
   },
   {
@@ -420,7 +420,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Love that. Book me at Williamsburg for Saturday.', timestamp: daysAgoISO(9, 13, 5) },
       { role: 'ai', content: 'Saturday at 10 AM at Williamsburg. See you there!', timestamp: daysAgoISO(9, 13, 5) },
     ],
-    locationId: 'williamsburg', agentType: 'Text Concierge', timestamp: daysAgoISO(9, 13, 0),
+    locationId: 'williamsburg', agentType: 'Response Monitor', timestamp: daysAgoISO(9, 13, 0),
     sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 250,
   },
   {
@@ -433,7 +433,7 @@ export const conversations: Conversation[] = [
       { role: 'ai', content: 'I understand your concern. Let me connect you with our medical director immediately.', timestamp: daysAgoISO(10, 8, 1) },
       { role: 'staff', content: 'Jasmine, this is Dr. Rivera. Mild ptosis can occur but is temporary. Please come in today at 2 PM for evaluation.', timestamp: daysAgoISO(10, 8, 5) },
     ],
-    locationId: 'hoboken', agentType: 'Escalation Router', timestamp: daysAgoISO(10, 8, 0),
+    locationId: 'hoboken', agentType: 'Escalation Tracker', timestamp: daysAgoISO(10, 8, 0),
     duration: 310, sentiment: 'negative', resolved: true, afterHours: false,
   },
   {
@@ -445,7 +445,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Yes!!! Grab it for me.', timestamp: daysAgoISO(10, 16, 2) },
       { role: 'ai', content: 'Done! Tomorrow at 11 AM. Confirmation sent.', timestamp: daysAgoISO(10, 16, 2) },
     ],
-    locationId: 'white-plains', agentType: 'Booking Optimizer', timestamp: daysAgoISO(10, 16, 0),
+    locationId: 'white-plains', agentType: 'Schedule Analyst', timestamp: daysAgoISO(10, 16, 0),
     sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 450,
   },
   {
@@ -458,7 +458,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Yes please', timestamp: daysAgoISO(11, 22, 3) },
       { role: 'ai', content: 'Booked! Tuesday 3 PM at Stamford for Botox. See you then!', timestamp: daysAgoISO(11, 22, 3) },
     ],
-    locationId: 'stamford', agentType: 'Text Concierge', timestamp: daysAgoISO(11, 22, 0),
+    locationId: 'stamford', agentType: 'Response Monitor', timestamp: daysAgoISO(11, 22, 0),
     sentiment: 'positive', resolved: true, afterHours: true, revenueImpact: 450,
   },
   // --- Conversations 31-40 ---
@@ -471,7 +471,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'You know me so well! Same time next month too.', timestamp: daysAgoISO(12, 10, 0) },
       { role: 'ai', content: 'Both booked! This Saturday and the 3rd Saturday of next month, both at 9 AM at SoHo.', timestamp: daysAgoISO(12, 10, 1) },
     ],
-    locationId: 'soho', agentType: 'Voice Responder', timestamp: daysAgoISO(12, 10, 0),
+    locationId: 'soho', agentType: 'Conversation Analyst', timestamp: daysAgoISO(12, 10, 0),
     duration: 45, sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 500,
   },
   {
@@ -483,7 +483,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Yes! Friday works best.', timestamp: daysAgoISO(13, 10, 30) },
       { role: 'ai', content: 'Friday at 1 PM at Williamsburg. See you then!', timestamp: daysAgoISO(13, 10, 30) },
     ],
-    locationId: 'williamsburg', agentType: 'No-Show Guardian', timestamp: daysAgoISO(13, 10, 0),
+    locationId: 'williamsburg', agentType: 'No-Show Predictor', timestamp: daysAgoISO(13, 10, 0),
     sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 350,
   },
   {
@@ -495,20 +495,20 @@ export const conversations: Conversation[] = [
       { role: 'ai', content: 'For acne scars, I recommend our Chemical Peel ($200, 30 min). It promotes cell turnover and reduces scarring over multiple sessions. Want to start?', timestamp: daysAgoISO(14, 14, 0) },
       { role: 'client', content: 'Sounds good, book at Hoboken.', timestamp: daysAgoISO(14, 14, 5) },
     ],
-    locationId: 'hoboken', agentType: 'Text Concierge', timestamp: daysAgoISO(14, 14, 0),
+    locationId: 'hoboken', agentType: 'Response Monitor', timestamp: daysAgoISO(14, 14, 0),
     sentiment: 'neutral', resolved: true, afterHours: false, revenueImpact: 200,
   },
   {
     id: 'conv-034', clientName: 'Patricia Collins', clientPhone: '(914) 555-0434',
     channel: 'voice', status: 'ai_resolved', priority: 'ai_handling',
-    summary: 'After-hours call — booked Dermal Filler at White Plains.',
+    summary: 'After-hours inquiry captured — Dermal Filler booked at White Plains.',
     transcript: [
       { role: 'ai', content: 'Etienne after-hours booking assistant. How can I help?', timestamp: daysAgoISO(14, 21, 0) },
       { role: 'client', content: 'I need cheek filler. What do you have at White Plains?', timestamp: daysAgoISO(14, 21, 0) },
       { role: 'ai', content: 'We have Dermal Filler at $850 for 45 minutes. Next opening is Monday at 10 AM. Interested?', timestamp: daysAgoISO(14, 21, 1) },
       { role: 'client', content: 'Book it.', timestamp: daysAgoISO(14, 21, 2) },
     ],
-    locationId: 'white-plains', agentType: 'Voice Responder', timestamp: daysAgoISO(14, 21, 0),
+    locationId: 'white-plains', agentType: 'Conversation Analyst', timestamp: daysAgoISO(14, 21, 0),
     duration: 82, sentiment: 'positive', resolved: true, afterHours: true, revenueImpact: 850,
   },
   {
@@ -519,7 +519,7 @@ export const conversations: Conversation[] = [
       { role: 'ai', content: 'Reminder: Body Contouring at Stamford tomorrow at 9 AM. Reply YES to confirm.', timestamp: daysAgoISO(15, 9, 0) },
       { role: 'client', content: 'YES', timestamp: daysAgoISO(15, 9, 10) },
     ],
-    locationId: 'stamford', agentType: 'No-Show Guardian', timestamp: daysAgoISO(15, 9, 0),
+    locationId: 'stamford', agentType: 'No-Show Predictor', timestamp: daysAgoISO(15, 9, 0),
     sentiment: 'neutral', resolved: true, afterHours: false, revenueImpact: 1200,
   },
   {
@@ -532,7 +532,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Yes Wednesday afternoon!', timestamp: daysAgoISO(16, 17, 8) },
       { role: 'ai', content: 'Booked for Wednesday at 2 PM at SoHo Flagship!', timestamp: daysAgoISO(16, 17, 8) },
     ],
-    locationId: 'soho', agentType: 'Text Concierge', timestamp: daysAgoISO(16, 17, 0),
+    locationId: 'soho', agentType: 'Response Monitor', timestamp: daysAgoISO(16, 17, 0),
     sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 450,
   },
   {
@@ -544,7 +544,7 @@ export const conversations: Conversation[] = [
       { role: 'ai', content: 'Our standard hours are Monday through Saturday. Let me check with the clinic manager about a special arrangement.', timestamp: daysAgoISO(17, 14, 0) },
       { role: 'staff', content: 'Hi Jennifer, we can accommodate a Sunday appointment on the first Sunday of each month. Would that work?', timestamp: daysAgoISO(17, 14, 30) },
     ],
-    locationId: 'williamsburg', agentType: 'Escalation Router', timestamp: daysAgoISO(17, 14, 0),
+    locationId: 'williamsburg', agentType: 'Escalation Tracker', timestamp: daysAgoISO(17, 14, 0),
     duration: 185, sentiment: 'neutral', resolved: true, afterHours: false,
   },
   {
@@ -556,7 +556,7 @@ export const conversations: Conversation[] = [
       { role: 'ai', content: 'Absolutely! I have two adjacent rooms at Hoboken on Saturday at 11 AM. Both are $250 each. Shall I book?', timestamp: daysAgoISO(18, 11, 0) },
       { role: 'client', content: 'Yes that would be wonderful!', timestamp: daysAgoISO(18, 11, 3) },
     ],
-    locationId: 'hoboken', agentType: 'Booking Optimizer', timestamp: daysAgoISO(18, 11, 0),
+    locationId: 'hoboken', agentType: 'Schedule Analyst', timestamp: daysAgoISO(18, 11, 0),
     sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 500,
   },
   {
@@ -566,7 +566,7 @@ export const conversations: Conversation[] = [
     transcript: [
       { role: 'ai', content: 'Hi Samantha! It has been 3 months since your last Botox session. Time for a touch-up? Reply to book.', timestamp: daysAgoISO(19, 10, 0) },
     ],
-    locationId: 'white-plains', agentType: 'No-Show Guardian', timestamp: daysAgoISO(19, 10, 0),
+    locationId: 'white-plains', agentType: 'No-Show Predictor', timestamp: daysAgoISO(19, 10, 0),
     sentiment: 'neutral', resolved: false, afterHours: false,
   },
   {
@@ -578,7 +578,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Need to move my peel from Tuesday to Thursday.', timestamp: daysAgoISO(20, 9, 30) },
       { role: 'ai', content: 'Moved to Thursday at 2 PM at Stamford. All set!', timestamp: daysAgoISO(20, 9, 31) },
     ],
-    locationId: 'stamford', agentType: 'Voice Responder', timestamp: daysAgoISO(20, 9, 30),
+    locationId: 'stamford', agentType: 'Conversation Analyst', timestamp: daysAgoISO(20, 9, 30),
     duration: 38, sentiment: 'neutral', resolved: true, afterHours: false,
   },
   // --- Conversations 41-50 ---
@@ -592,7 +592,7 @@ export const conversations: Conversation[] = [
       { role: 'ai', content: 'Perfect combo! I can book 75 minutes with Dr. Chen at SoHo. Friday at 1 PM?', timestamp: daysAgoISO(21, 10, 1) },
       { role: 'client', content: 'Done.', timestamp: daysAgoISO(21, 10, 1) },
     ],
-    locationId: 'soho', agentType: 'Voice Responder', timestamp: daysAgoISO(21, 10, 0),
+    locationId: 'soho', agentType: 'Conversation Analyst', timestamp: daysAgoISO(21, 10, 0),
     duration: 55, sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 1300,
   },
   {
@@ -604,7 +604,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Stuck in traffic, be there in 20', timestamp: daysAgoISO(22, 13, 48) },
       { role: 'ai', content: 'No worries! I have adjusted your slot. Take your time and stay safe.', timestamp: daysAgoISO(22, 13, 48) },
     ],
-    locationId: 'williamsburg', agentType: 'No-Show Guardian', timestamp: daysAgoISO(22, 13, 45),
+    locationId: 'williamsburg', agentType: 'No-Show Predictor', timestamp: daysAgoISO(22, 13, 45),
     sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 350,
   },
   {
@@ -616,19 +616,19 @@ export const conversations: Conversation[] = [
       { role: 'ai', content: 'Our Body Contouring uses the latest non-invasive technology similar to CoolSculpting at $1,200 per session. Many clients see results after just one session. Would you like a free consultation?', timestamp: minutesAgo(44) },
       { role: 'client', content: 'Maybe. What is your cancellation policy?', timestamp: minutesAgo(40) },
     ],
-    locationId: 'hoboken', agentType: 'Text Concierge', timestamp: minutesAgo(45),
+    locationId: 'hoboken', agentType: 'Response Monitor', timestamp: minutesAgo(45),
     sentiment: 'neutral', resolved: false, afterHours: false, revenueImpact: 1200,
   },
   {
     id: 'conv-044', clientName: 'Martha Young', clientPhone: '(914) 555-0444',
     channel: 'voice', status: 'ai_resolved', priority: 'ai_handling',
-    summary: 'After-hours save — booked Botox at White Plains from voicemail redirect.',
+    summary: 'After-hours inquiry captured — Botox booked at White Plains via voicemail.',
     transcript: [
       { role: 'ai', content: 'Etienne after-hours. I can help with scheduling.', timestamp: daysAgoISO(22, 21, 15) },
       { role: 'client', content: 'I was just going to leave a voicemail! Can I book Botox for next week?', timestamp: daysAgoISO(22, 21, 15) },
       { role: 'ai', content: 'No voicemail needed! Tuesday at 11 AM at White Plains. Booked!', timestamp: daysAgoISO(22, 21, 16) },
     ],
-    locationId: 'white-plains', agentType: 'Voice Responder', timestamp: daysAgoISO(22, 21, 15),
+    locationId: 'white-plains', agentType: 'Conversation Analyst', timestamp: daysAgoISO(22, 21, 15),
     duration: 62, sentiment: 'positive', resolved: true, afterHours: true, revenueImpact: 450,
   },
   {
@@ -641,7 +641,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Thursday please', timestamp: daysAgoISO(23, 12, 5) },
       { role: 'ai', content: 'Thursday at 2 PM at Stamford. Booked and confirmed!', timestamp: daysAgoISO(23, 12, 5) },
     ],
-    locationId: 'stamford', agentType: 'Text Concierge', timestamp: daysAgoISO(23, 12, 0),
+    locationId: 'stamford', agentType: 'Response Monitor', timestamp: daysAgoISO(23, 12, 0),
     sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 250,
   },
   {
@@ -654,7 +654,7 @@ export const conversations: Conversation[] = [
       { role: 'ai', content: 'Wonderful! We will let Dr. Chen know. Ready to rebook in 3 months?', timestamp: daysAgoISO(24, 17, 15) },
       { role: 'client', content: 'Yes same time same place', timestamp: daysAgoISO(24, 17, 20) },
     ],
-    locationId: 'soho', agentType: 'Text Concierge', timestamp: daysAgoISO(24, 17, 0),
+    locationId: 'soho', agentType: 'Response Monitor', timestamp: daysAgoISO(24, 17, 0),
     sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 450,
   },
   {
@@ -666,7 +666,7 @@ export const conversations: Conversation[] = [
       { role: 'ai', content: 'I sincerely apologize. Let me connect you with billing right away to resolve this.', timestamp: daysAgoISO(25, 10, 0) },
       { role: 'staff', content: 'Robert, I see the duplicate charge. Refund initiated — allow 3-5 days.', timestamp: daysAgoISO(25, 10, 10) },
     ],
-    locationId: 'williamsburg', agentType: 'Escalation Router', timestamp: daysAgoISO(25, 10, 0),
+    locationId: 'williamsburg', agentType: 'Escalation Tracker', timestamp: daysAgoISO(25, 10, 0),
     duration: 420, sentiment: 'negative', resolved: true, afterHours: false,
   },
   {
@@ -679,7 +679,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Yes that sounds great', timestamp: daysAgoISO(26, 15, 5) },
       { role: 'ai', content: 'Booked a consultation + Chemical Peel at Hoboken, Wednesday at 10 AM.', timestamp: daysAgoISO(26, 15, 5) },
     ],
-    locationId: 'hoboken', agentType: 'Text Concierge', timestamp: daysAgoISO(26, 15, 0),
+    locationId: 'hoboken', agentType: 'Response Monitor', timestamp: daysAgoISO(26, 15, 0),
     sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 200,
   },
   {
@@ -692,7 +692,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Yes', timestamp: daysAgoISO(27, 23, 32) },
       { role: 'ai', content: 'Tomorrow at 3 PM at White Plains. See you!', timestamp: daysAgoISO(27, 23, 32) },
     ],
-    locationId: 'white-plains', agentType: 'Text Concierge', timestamp: daysAgoISO(27, 23, 30),
+    locationId: 'white-plains', agentType: 'Response Monitor', timestamp: daysAgoISO(27, 23, 30),
     sentiment: 'positive', resolved: true, afterHours: true, revenueImpact: 350,
   },
   {
@@ -706,7 +706,7 @@ export const conversations: Conversation[] = [
       { role: 'client', content: 'Morning please, any day.', timestamp: daysAgoISO(28, 13, 2) },
       { role: 'ai', content: 'Monday at 9 AM at Stamford. Look forward to meeting you!', timestamp: daysAgoISO(28, 13, 2) },
     ],
-    locationId: 'stamford', agentType: 'Voice Responder', timestamp: daysAgoISO(28, 13, 0),
+    locationId: 'stamford', agentType: 'Conversation Analyst', timestamp: daysAgoISO(28, 13, 0),
     duration: 95, sentiment: 'positive', resolved: true, afterHours: false, revenueImpact: 450,
   },
 ]
@@ -1067,8 +1067,8 @@ export const alerts: Alert[] = [
   },
   {
     id: 'alert-011', type: 'opportunity',
-    title: 'After-hours calls converting at 78%',
-    description: 'After-hours AI booking is converting 78% of inbound calls to appointments. Increasing ad spend during 8-10 PM could capture more demand.',
+    title: 'After-hours inquiry conversion: 78%',
+    description: 'After-hours inquiries are converting at 78% — response time averaging 12 seconds vs. 4.2 hour industry benchmark.',
     locationId: 'soho', impact: 5400, timestamp: daysAgoISO(1, 9, 0),
     actionLabel: 'Increase Evening Ads', dismissed: false,
   },

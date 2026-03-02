@@ -84,8 +84,8 @@ export function Reports() {
             across {selectedLocation === 'all' ? 'all 5 locations' : locations.find(l => l.id === selectedLocation)?.name},
             representing a <span className={revenueChange >= 0 ? 'text-primary' : 'text-destructive'}>
               {revenueChange >= 0 ? '+' : ''}{revenueChange.toFixed(1)}%
-            </span> change week-over-week. AI systems recovered <strong className="text-primary">{formatCurrency(weekRecovered)}</strong> through
-            missed call follow-ups, no-show prevention, and upsell capture. The average no-show rate sits at{' '}
+            </span> change week-over-week. EIP identified <strong className="text-primary">{formatCurrency(weekRecovered)}</strong> in revenue gaps through
+            response gap analysis, no-show pattern detection, and utilization insights. The average no-show rate sits at{' '}
             <strong className="text-foreground">{avgNoShow.toFixed(1)}%</strong> with utilization at{' '}
             <strong className="text-foreground">{avgUtil.toFixed(1)}%</strong>.
           </p>

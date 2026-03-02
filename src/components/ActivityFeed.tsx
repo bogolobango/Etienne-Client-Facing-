@@ -29,16 +29,16 @@ const colorMap = {
 }
 
 const defaultActivities: Activity[] = [
-  { id: '1', type: 'call', message: 'AI answered after-hours call — booked Botox consultation', time: '2m ago', location: 'SoHo' },
-  { id: '2', type: 'revenue', message: 'Revenue recovered: $850 from missed call follow-up', time: '5m ago', location: 'Williamsburg' },
-  { id: '3', type: 'sms', message: 'AI sent appointment reminder — client confirmed', time: '8m ago', location: 'Hoboken' },
-  { id: '4', type: 'booking', message: 'Waitlist fill: Hydrafacial slot filled from cancellation', time: '12m ago', location: 'SoHo' },
+  { id: '1', type: 'call', message: 'After-hours inquiry detected — response time: 8 seconds (vs. 4.2 hr avg)', time: '2m ago', location: 'SoHo' },
+  { id: '2', type: 'revenue', message: 'Revenue gap identified: $850 from delayed lead follow-up', time: '5m ago', location: 'Williamsburg' },
+  { id: '3', type: 'sms', message: 'Appointment reminder tracked — client confirmed within 3 min', time: '8m ago', location: 'Hoboken' },
+  { id: '4', type: 'booking', message: 'Waitlist conversion tracked: Hydrafacial slot filled from cancellation', time: '12m ago', location: 'SoHo' },
   { id: '5', type: 'alert', message: 'White Plains utilization dropping — 3 open slots tomorrow', time: '15m ago', location: 'White Plains' },
-  { id: '6', type: 'call', message: 'Escalation: VIP client requesting specific provider', time: '18m ago', location: 'SoHo' },
-  { id: '7', type: 'sms', message: 'No-show prevention: reminder sent to at-risk appointment', time: '22m ago', location: 'Stamford' },
-  { id: '8', type: 'revenue', message: 'Upsell captured: client added Chemical Peel to visit', time: '28m ago', location: 'Hoboken' },
-  { id: '9', type: 'web', message: 'Web chat converted to Dermal Filler booking', time: '35m ago', location: 'Williamsburg' },
-  { id: '10', type: 'booking', message: 'AI optimized tomorrow\'s schedule — moved 2 appointments', time: '42m ago', location: 'SoHo' },
+  { id: '6', type: 'call', message: 'Escalation flagged: VIP client requesting specific provider', time: '18m ago', location: 'SoHo' },
+  { id: '7', type: 'sms', message: 'No-show risk detected: at-risk appointment flagged for follow-up', time: '22m ago', location: 'Stamford' },
+  { id: '8', type: 'revenue', message: 'Upsell opportunity logged: Chemical Peel added to visit', time: '28m ago', location: 'Hoboken' },
+  { id: '9', type: 'web', message: 'Web inquiry converted to Dermal Filler booking', time: '35m ago', location: 'Williamsburg' },
+  { id: '10', type: 'booking', message: 'Schedule optimization detected — 2 appointments consolidated', time: '42m ago', location: 'SoHo' },
 ]
 
 interface ActivityFeedProps {

@@ -133,11 +133,11 @@ export function IntelligenceOverview() {
         animate={{ opacity: 1, y: 0 }}
         className="rounded-xl border border-primary/20 bg-gradient-to-r from-primary/5 to-transparent p-5 md:p-8"
       >
-        <p className="text-sm text-primary font-medium mb-2">Revenue Recovered This Month</p>
+        <p className="text-sm text-primary font-medium mb-2">Revenue Gaps Identified This Month</p>
         <p className="text-3xl md:text-5xl font-mono font-bold text-foreground tracking-tight">{formatCurrency(totalRecovered)}</p>
         <div className="flex flex-wrap gap-4 md:gap-6 mt-4">
           <div>
-            <p className="text-xs text-muted-foreground">Missed Call Recovery</p>
+            <p className="text-xs text-muted-foreground">Response Gap Analysis</p>
             <p className="text-base md:text-lg font-mono text-foreground">{formatCurrency(missedCallRecovery)}</p>
           </div>
           <div>

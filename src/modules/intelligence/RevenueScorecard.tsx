@@ -137,7 +137,7 @@ export function RevenueScorecard() {
         transition={{ delay: 0.1 }}
         className="card-premium p-6"
       >
-        <h3 className="text-sm font-medium text-muted-foreground mb-4">Revenue Recovery Trend (90 Days)</h3>
+        <h3 className="text-sm font-medium text-muted-foreground mb-4">Revenue Gap Trend (90 Days)</h3>
         <div className="h-[280px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={recoveryTrend}>

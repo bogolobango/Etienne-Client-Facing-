@@ -20,16 +20,18 @@ const templates: ResponseTemplate[] = [
       const bottom = sorted[sorted.length - 1]
       return `## Revenue Analysis — Last 30 Days
 
-**Total revenue: ${fmtCurrency(ctx.totalRevenue)}** across all locations. AI-recovered revenue accounts for ${fmtCurrency(ctx.totalRecovered)}.
+*Analyzing your Zenoti revenue data across all 5 centers...*
 
-### By Location:
+**Total revenue: ${fmtCurrency(ctx.totalRevenue)}** across all centers. EIP identified ${fmtCurrency(ctx.totalRecovered)} in revenue at risk.
+
+### By Center:
 ${sorted.map((l) => `- **${l.name}**: ${fmtCurrency(l.revenue)} (${fmtPct(l.utilization)} utilization)`).join('\n')}
 
-### Key Drivers:
+### Key Findings:
 - **${top.name}** is the top performer at ${fmtCurrency(top.revenue)}
 - **${bottom.name}** has room to grow — currently at ${fmtCurrency(bottom.revenue)}
-- AI booked **${ctx.aiBooked} appointments** this period
-- Revenue recovered from prevented no-shows: **${fmtCurrency(ctx.totalRecovered)}**
+- **${ctx.aiBooked} bookings** tracked via Zenoti this period
+- Revenue gaps identified from no-show patterns: **${fmtCurrency(ctx.totalRecovered)}**
 
 ### Recommendation:
 ${bottom.noShowRate > 14 ? `Address the ${fmtPct(bottom.noShowRate)} no-show rate at ${bottom.name} — this alone could recover an estimated ${fmtCurrency(bottom.revenue * 0.12)}/month.` : `Focus on increasing utilization at ${bottom.name} (currently ${fmtPct(bottom.utilization)}) through targeted midweek promotions.`}`
@@ -43,6 +45,8 @@ ${bottom.noShowRate > 14 ? `Address the ${fmtPct(bottom.noShowRate)} no-show rat
       const worst = sorted[0]
       const best = sorted[sorted.length - 1]
       return `## Location Performance Analysis
+
+*Based on your Zenoti appointment and invoice data...*
 
 **${worst.name} is currently underperforming** relative to capacity.
 
@@ -70,6 +74,8 @@ ${ctx.byLocation.sort((a, b) => b.revenue - a.revenue).map((l) => `| ${l.name ==
       const lowestUtil = [...ctx.byLocation].sort((a, b) => a.utilization - b.utilization)[0]
       return `## This Week's Priority Actions
 
+*Analyzing your Zenoti data across all 5 centers...*
+
 Based on your current data, here are the **top 5 things to focus on**:
 
 ### 1. ${worstNoShow.noShowRate > 14 ? '🔴' : '🟡'} ${worstNoShow.name} No-Show Rate
@@ -78,11 +84,11 @@ Based on your current data, here are the **top 5 things to focus on**:
 
 ### 2. 🟡 Pipeline Follow-up
 - ${ctx.oppsByStatus.new} new leads need contact, ${ctx.oppsByStatus.contacted} awaiting response
-- **Action**: Assign Text Concierge to auto-nurture sequence
+- **Action**: Assign Response Monitor to auto-nurture sequence
 
-### 3. 🟢 Capitalize on AI Bookings
-- AI has booked ${ctx.aiBooked} appointments — conversion is strong
-- **Action**: Increase AI booking authority to include package upsells
+### 3. 🟢 Booking Conversion Insights
+- Zenoti shows ${ctx.aiBooked} AI-attributed bookings — conversion is strong
+- **Action**: Expand AI booking attribution to include package upsells
 
 ### 4. 🟡 ${lowestUtil.name} Utilization
 - Running at ${fmtPct(lowestUtil.utilization)} utilization — lowest across locations
@@ -100,6 +106,8 @@ Based on your current data, here are the **top 5 things to focus on**:
       const sorted = [...ctx.byLocation].sort((a, b) => b.revenue - a.revenue)
       const maxRev = sorted[0].revenue
       return `## Multi-Location Comparison Report
+
+*Comparing Zenoti data across all centers...*
 
 ### Revenue Performance (Last 30 Days)
 \`\`\`
@@ -158,6 +166,8 @@ ${ctx.byLocation.map((l) => {
       const sorted = [...ctx.byLocation].sort((a, b) => b.noShowRate - a.noShowRate)
       return `## No-Show Trend Analysis
 
+*Analyzing your Zenoti appointment data for no-show patterns...*
+
 ### Current Overview:
 \`\`\`
 Before EIP (baseline):   ████████████████████████████ 28.2%
@@ -167,9 +177,9 @@ Current:                 ${'█'.repeat(Math.round(ctx.avgNoShow / 28.2 * 28))}$
 **Total reduction: ${((1 - ctx.avgNoShow / 28.2) * 100).toFixed(0)}%** (28.2% → ${fmtPct(ctx.avgNoShow)})
 
 ### Impact:
-- **${fmtCurrency(ctx.totalRecovered)}/month** in recovered revenue from prevented no-shows
-- **${ctx.highRiskAppts} high-risk appointments** currently flagged
-- AI resolved **${ctx.aiResolved} conversations** to prevent cancellations
+- **${fmtCurrency(ctx.totalRecovered)}/month** in revenue at risk from no-show patterns
+- **${ctx.highRiskAppts} high-risk appointments** currently flagged by EIP
+- EIP tracked **${ctx.aiResolved} conversations** related to potential cancellations
 
 ### By Location (Current):
 ${sorted.map((l) => `- ${l.name}: ${fmtPct(l.noShowRate)} ${l.noShowRate < 12 ? '✅' : l.noShowRate < 15 ? '⚠️' : '🔴'}`).join('\n')}
@@ -185,6 +195,8 @@ ${sorted.map((l) => `- ${l.name}: ${fmtPct(l.noShowRate)} ${l.noShowRate < 12 ? 
     weight: 8,
     generate: (ctx) => {
       return `## Opportunity Pipeline Report
+
+*Analyzing your Zenoti lead and opportunity data...*
 
 ### Pipeline Overview:
 | Stage | Count | Est. Value |
@@ -205,32 +217,34 @@ ${sorted.map((l) => `- ${l.name}: ${fmtPct(l.noShowRate)} ${l.noShowRate < 12 ? 
 ### Recommendations:
 1. Prioritize the ${ctx.oppsByStatus.new} uncontacted leads — speed-to-lead is critical
 2. Re-engage the ${ctx.oppsByStatus.lost} lost opportunities with a win-back campaign
-3. Set up AI Text Concierge for automated follow-up sequences`
+3. Configure Response Monitor for automated follow-up tracking`
     },
   },
   {
     keywords: ['ai', 'agent', 'automat', 'bot', 'performance'],
     weight: 6,
     generate: (ctx) => {
-      return `## AI Agent Performance Report
+      return `## EIP Intelligence Agent Report
+
+*Analyzing your Zenoti conversation and booking data...*
 
 ### Communication Metrics:
-- **Total conversations handled**: ${ctx.totalConversations}
+- **Total conversations tracked**: ${ctx.totalConversations}
 - **AI-resolved**: ${ctx.aiResolved} (${ctx.totalConversations ? ((ctx.aiResolved / ctx.totalConversations) * 100).toFixed(0) : 0}% resolution rate)
 - **Avg response time**: ${ctx.avgResponseTime.toFixed(0)}s
 
 ### Booking Impact:
-- **AI-booked appointments**: ${ctx.aiBooked}
-- **Revenue recovered**: ${fmtCurrency(ctx.totalRecovered)}
+- **AI-attributed bookings**: ${ctx.aiBooked}
+- **Revenue gaps identified**: ${fmtCurrency(ctx.totalRecovered)}
 - **High-risk appointments flagged**: ${ctx.highRiskAppts}
 
-### Efficiency Gains:
-- Response time reduced from **~4 hours** to **${ctx.avgResponseTime.toFixed(0)}s** (${((1 - ctx.avgResponseTime / 14400) * 100).toFixed(0)}% improvement)
-- After-hours coverage: **24/7** (previously 0)
-- No-show prevention: **${((1 - ctx.avgNoShow / 28.2) * 100).toFixed(0)}%** reduction
+### Efficiency Insights:
+- Your response time data shows a drop from **~4 hours** to **${ctx.avgResponseTime.toFixed(0)}s** (${((1 - ctx.avgResponseTime / 14400) * 100).toFixed(0)}% improvement)
+- After-hours inquiry coverage: **24/7** (previously 0)
+- No-show pattern detection: **${((1 - ctx.avgNoShow / 28.2) * 100).toFixed(0)}%** reduction identified
 
 ### Recommendation:
-Your AI agents are performing well. Consider expanding AI booking authority to include upsell recommendations and package deals to further increase revenue per appointment.`
+Your intelligence agents are surfacing strong insights. Consider expanding booking attribution tracking to include upsell patterns and package conversion opportunities.`
     },
   },
   {
@@ -238,6 +252,8 @@ Your AI agents are performing well. Consider expanding AI booking authority to i
     weight: 6,
     generate: (ctx) => {
       return `## Client Retention Analysis
+
+*Analyzing your Zenoti guest rebooking and retention data...*
 
 ### Key Metrics:
 - **Rebooking rate**: ${fmtPct(ctx.avgRebook)} (target: 75%)
@@ -252,7 +268,7 @@ ${ctx.byLocation.map((l) => `| ${l.name} | ${fmtPct(l.rebookingRate)} | ${l.newC
 ### Insights:
 - ${ctx.avgRebook >= 70 ? 'Rebooking rate is strong' : 'Rebooking rate needs improvement'} at ${fmtPct(ctx.avgRebook)}
 - ${ctx.totalNewClients} new clients acquired in the last 30 days
-- AI-driven follow-ups have improved same-day rebooking by an estimated 18%
+- Your Zenoti data shows same-day rebooking improved by an estimated 18%
 
 ### Recommendations:
 1. Enable AI rebooking prompts at checkout
@@ -291,12 +307,14 @@ export function generateAIResponse(prompt: string, ctx: AIContext): string {
 }
 
 function generateDefaultResponse(ctx: AIContext): string {
-  return `## Analysis
+  return `## Executive Summary
 
-I've analyzed your business data across all locations. Here's a summary:
+*Analyzing your Zenoti data across all 5 centers...*
+
+Here's a snapshot of your business performance:
 
 - **Total monthly revenue**: ${fmtCurrency(ctx.totalRevenue)}
-- **Revenue recovered by AI**: ${fmtCurrency(ctx.totalRecovered)}
+- **Revenue gaps identified**: ${fmtCurrency(ctx.totalRecovered)} at risk
 - **Utilization rate**: ${fmtPct(ctx.avgUtil)} average
 - **No-show rate**: ${fmtPct(ctx.avgNoShow)} (down from 28.2% baseline)
 - **Pipeline value**: ${fmtCurrency(ctx.oppPipelineValue)}

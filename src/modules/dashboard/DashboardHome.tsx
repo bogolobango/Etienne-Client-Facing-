@@ -97,11 +97,11 @@ export function DashboardHome() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-semibold text-foreground">
-          {role === 'owner' ? 'Business Overview' : 'Today\'s Dashboard'}
+          {role === 'owner' ? 'Revenue Intelligence' : 'Today\'s Dashboard'}
         </h1>
         <p className="text-muted-foreground mt-1">
           {role === 'owner'
-            ? `${selectedLocation === 'all' ? 'All locations' : locations.find(l => l.id === selectedLocation)?.name} — Last 30 days`
+            ? `${selectedLocation === 'all' ? 'All Centers' : locations.find(l => l.id === selectedLocation)?.name} — Last 30 Days via Zenoti`
             : 'Your tasks and performance today'}
         </p>
       </div>
@@ -121,7 +121,7 @@ export function DashboardHome() {
               dataSource="Zenoti"
             />
             <MetricCard
-              label="Revenue Recovered"
+              label="Revenue at Risk"
               value={metrics.revenueRecovered}
               format="currency"
               trend={42.5}

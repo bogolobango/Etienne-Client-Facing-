@@ -36,7 +36,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { label: 'Home', path: '/', icon: LayoutDashboard },
   {
-    label: 'Voice & Text', path: '/command-center', icon: Phone,
+    label: 'Conversations', path: '/command-center', icon: Phone,
     children: [
       { label: 'Inbox', path: '/command-center/inbox' },
       { label: 'Performance', path: '/command-center/performance' },

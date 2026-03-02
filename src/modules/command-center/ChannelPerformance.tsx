@@ -83,7 +83,7 @@ export function ChannelPerformance() {
                 contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', color: 'var(--foreground)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                 formatter={(value: number = 0) => [value < 60 ? `${Math.round(value)}s` : `${(value / 60).toFixed(1)}m`, 'Avg Response']}
               />
-              <Area type="monotone" dataKey="responseTime" stroke="var(--channel-voice)" strokeWidth={2} fill="url(#responseGrad)" />
+              <Area type="monotone" dataKey="responseTime" stroke="var(--channel-voice)" strokeWidth={2} fill="url(#responseGrad)" animationDuration={1500} animationEasing="ease-out" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -104,8 +104,8 @@ export function ChannelPerformance() {
                 <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} interval={6} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} />
                 <Tooltip contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', color: 'var(--foreground)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
-                <Bar dataKey="answered" fill="var(--chart-3)" radius={[3, 3, 0, 0]} name="Answered" />
-                <Bar dataKey="missed" fill="var(--destructive)" radius={[3, 3, 0, 0]} name="Missed" />
+                <Bar dataKey="answered" fill="var(--chart-3)" radius={[3, 3, 0, 0]} name="Answered" animationDuration={1500} animationEasing="ease-out" />
+                <Bar dataKey="missed" fill="var(--destructive)" radius={[3, 3, 0, 0]} name="Missed" animationDuration={1500} animationEasing="ease-out" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -125,8 +125,8 @@ export function ChannelPerformance() {
                 <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} interval={6} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} />
                 <Tooltip contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', color: 'var(--foreground)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
-                <Line type="monotone" dataKey="aiResolved" stroke="var(--chart-3)" strokeWidth={2} dot={false} name="AI Resolved" />
-                <Line type="monotone" dataKey="escalated" stroke="var(--warning)" strokeWidth={2} dot={false} name="Escalated" />
+                <Line type="monotone" dataKey="aiResolved" stroke="var(--chart-3)" strokeWidth={2} dot={false} name="AI Resolved" animationDuration={1500} animationEasing="ease-out" />
+                <Line type="monotone" dataKey="escalated" stroke="var(--warning)" strokeWidth={2} dot={false} name="Escalated" animationDuration={1500} animationEasing="ease-out" />
               </LineChart>
             </ResponsiveContainer>
           </div>

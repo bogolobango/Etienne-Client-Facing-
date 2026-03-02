@@ -189,6 +189,8 @@ export function CommandCenterOverview() {
                   outerRadius={80}
                   paddingAngle={4}
                   dataKey="value"
+                  animationDuration={1500}
+                  animationEasing="ease-out"
                 >
                   {channelData.map((entry, index) => (
                     <Cell key={index} fill={entry.color} />
@@ -235,6 +237,8 @@ export function CommandCenterOverview() {
                   outerRadius={80}
                   paddingAngle={4}
                   dataKey="value"
+                  animationDuration={1500}
+                  animationEasing="ease-out"
                 >
                   {resolutionData.map((entry, index) => (
                     <Cell key={index} fill={entry.color} />
@@ -310,8 +314,8 @@ export function CommandCenterOverview() {
                   boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                 }}
               />
-              <Bar dataKey="answered" fill="var(--chart-3)" radius={[4, 4, 0, 0]} name="Answered" />
-              <Bar dataKey="missed" fill="var(--destructive)" radius={[4, 4, 0, 0]} name="Missed" />
+              <Bar dataKey="answered" fill="var(--chart-3)" radius={[4, 4, 0, 0]} name="Answered" animationDuration={1500} animationEasing="ease-out" />
+              <Bar dataKey="missed" fill="var(--destructive)" radius={[4, 4, 0, 0]} name="Missed" animationDuration={1500} animationEasing="ease-out" />
             </BarChart>
           </ResponsiveContainer>
         </div>

@@ -153,7 +153,7 @@ export function RevenueScorecard() {
                 contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', color: 'var(--foreground)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                 formatter={(value: number = 0) => [formatCurrency(value), 'Recovered']}
               />
-              <Area type="monotone" dataKey="recovered" stroke="var(--chart-3)" strokeWidth={2} fill="url(#recoverGrad)" />
+              <Area type="monotone" dataKey="recovered" stroke="var(--chart-3)" strokeWidth={2} fill="url(#recoverGrad)" animationDuration={1500} animationEasing="ease-out" />
             </AreaChart>
           </ResponsiveContainer>
         </div>

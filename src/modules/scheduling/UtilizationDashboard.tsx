@@ -152,7 +152,7 @@ export function UtilizationDashboard() {
                   contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', color: 'var(--foreground)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   formatter={(value: number = 0) => [`${value}%`, 'Utilization']}
                 />
-                <Bar dataKey="utilization" fill="var(--chart-3)" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="utilization" fill="var(--chart-3)" radius={[0, 4, 4, 0]} animationDuration={1500} animationEasing="ease-out" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -175,7 +175,7 @@ export function UtilizationDashboard() {
                   contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', color: 'var(--foreground)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   formatter={(value: number = 0) => [`$${value}/hr`, 'Revenue']}
                 />
-                <Bar dataKey="revenuePerHour" fill="var(--chart-4)" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="revenuePerHour" fill="var(--chart-4)" radius={[0, 4, 4, 0]} animationDuration={1500} animationEasing="ease-out" />
               </BarChart>
             </ResponsiveContainer>
           </div>

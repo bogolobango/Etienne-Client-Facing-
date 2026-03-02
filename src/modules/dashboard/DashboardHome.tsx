@@ -197,6 +197,8 @@ export function DashboardHome() {
                       stroke="var(--primary)"
                       strokeWidth={2}
                       fill="url(#revenueGradient)"
+                      animationDuration={1500}
+                      animationEasing="ease-out"
                     />
                   </AreaChart>
                 </ResponsiveContainer>

@@ -202,8 +202,8 @@ export function IntelligenceOverview() {
                   contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', color: 'var(--foreground)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   formatter={(value: number = 0) => [formatCurrency(value)]}
                 />
-                <Bar dataKey="revenue" fill="var(--chart-3)" radius={[4, 4, 0, 0]} name="Revenue" />
-                <Bar dataKey="recovered" fill="var(--chart-4)" radius={[4, 4, 0, 0]} name="Recovered" />
+                <Bar dataKey="revenue" fill="var(--chart-3)" radius={[4, 4, 0, 0]} name="Revenue" animationDuration={1500} animationEasing="ease-out" />
+                <Bar dataKey="recovered" fill="var(--chart-4)" radius={[4, 4, 0, 0]} name="Recovered" animationDuration={1500} animationEasing="ease-out" />
               </BarChart>
             </ResponsiveContainer>
           </div>

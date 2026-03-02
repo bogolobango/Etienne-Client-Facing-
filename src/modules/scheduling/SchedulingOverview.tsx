@@ -174,7 +174,7 @@ export function SchedulingOverview() {
                   contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', color: 'var(--foreground)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   formatter={(value: number = 0) => [`${value.toFixed(1)}%`, 'No-Show Rate']}
                 />
-                <Line type="monotone" dataKey="noShowRate" stroke="var(--destructive)" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="noShowRate" stroke="var(--destructive)" strokeWidth={2} dot={false} animationDuration={1500} animationEasing="ease-out" />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -197,7 +197,7 @@ export function SchedulingOverview() {
                   contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', color: 'var(--foreground)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   formatter={(value: number = 0) => [`${value.toFixed(1)}%`, 'Utilization']}
                 />
-                <Line type="monotone" dataKey="utilization" stroke="var(--chart-3)" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="utilization" stroke="var(--chart-3)" strokeWidth={2} dot={false} animationDuration={1500} animationEasing="ease-out" />
               </LineChart>
             </ResponsiveContainer>
           </div>

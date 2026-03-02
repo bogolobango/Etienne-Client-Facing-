@@ -182,7 +182,7 @@ export function AIAnalyst() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center max-w-lg"
               >
-                <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
                   <Sparkles className="w-8 h-8 text-primary" />
                 </div>
                 <h2 className="text-xl font-semibold text-foreground mb-2">
@@ -197,7 +197,7 @@ export function AIAnalyst() {
                     <button
                       key={prompt.label}
                       onClick={() => sendMessage(prompt.label)}
-                      className="flex items-center gap-2 p-3 rounded-lg border border-border bg-primary/[0.06] hover:border-primary/30 hover:bg-primary/5 hover:shadow-elevation-sm transition-all text-left"
+                      className="flex items-center gap-2 p-3 rounded-lg border border-border bg-primary/[0.06] hover:border-primary/30 hover:bg-primary/5 transition-all text-left"
                     >
                       <span className="text-lg">{prompt.icon}</span>
                       <span className="text-sm text-muted-foreground">{prompt.label}</span>

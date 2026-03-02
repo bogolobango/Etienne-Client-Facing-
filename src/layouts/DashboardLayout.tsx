@@ -15,7 +15,6 @@ import {
 } from 'lucide-react'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useLocationStore } from '@/stores/useLocationStore'
-import { GradientOrbs } from '@/components/GradientOrbs'
 import { ZenotiSyncBadge } from '@/components/ZenotiSyncBadge'
 
 const locations = [
@@ -134,12 +133,7 @@ function SidebarItem({ item }: { item: NavItem }) {
           ].join(' ')
         }}
       >
-        <motion.div
-          whileHover={{ scale: 1.1 }}
-          transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-        >
-          <Icon className="h-5 w-5 shrink-0" />
-        </motion.div>
+        <Icon className="h-5 w-5 shrink-0" />
         <span>{item.label}</span>
       </NavLink>
 
@@ -181,9 +175,6 @@ function SidebarContent({ onClose, showClose }: { onClose?: () => void; showClos
 
   return (
     <>
-      {/* Sidebar orb glow */}
-      <div className="absolute -left-20 top-1/4 w-[200px] h-[200px] rounded-full bg-primary opacity-[0.03] blur-[80px] pointer-events-none" />
-
       {/* Logo + Close button */}
       <div className="flex h-16 items-center justify-between border-b border-border px-5">
         <div className="flex items-center gap-2">
@@ -355,12 +346,9 @@ export function DashboardLayout() {
           </div>
         )}
 
-        {/* Content area with orbs */}
-        <main className="relative flex-1 overflow-y-auto p-4 md:p-6">
-          <GradientOrbs variant="default" />
-          <div className="relative z-[1]">
-            <Outlet />
-          </div>
+        {/* Content area */}
+        <main className="flex-1 overflow-y-auto p-4 md:p-6">
+          <Outlet />
         </main>
       </div>
     </div>

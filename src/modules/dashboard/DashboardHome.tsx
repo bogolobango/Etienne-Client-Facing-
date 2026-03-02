@@ -1,7 +1,9 @@
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { AlertTriangle } from 'lucide-react'
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { MetricCard } from '@/components/MetricCard'
+import { MetricSkeleton } from '@/components/MetricSkeleton'
 import { AgentStatusBadge } from '@/components/AgentStatusBadge'
 import { ActivityFeed } from '@/components/ActivityFeed'
 import { useAuthStore } from '@/stores/useAuthStore'
@@ -88,9 +90,16 @@ function getRevenueChartData(locationId: string) {
 export function DashboardHome() {
   const { role } = useAuthStore()
   const { selectedLocation } = useLocationStore()
+  const [loading, setLoading] = useState(true)
   const metrics = getFilteredMetrics(selectedLocation)
   const chartData = getRevenueChartData(selectedLocation)
   const activeAlerts = alerts.filter((a) => !a.dismissed).slice(0, 5)
+
+  useEffect(() => {
+    setLoading(true)
+    const t = setTimeout(() => setLoading(false), 600)
+    return () => clearTimeout(t)
+  }, [selectedLocation])
 
   return (
     <div className="space-y-6">
@@ -110,6 +119,13 @@ export function DashboardHome() {
       {role === 'owner' ? (
         <>
           {/* Hero Metrics */}
+          {loading ? (
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <MetricSkeleton key={i} />
+              ))}
+            </div>
+          ) : (
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             <MetricCard
               label="Total Revenue"
@@ -148,6 +164,7 @@ export function DashboardHome() {
               dataSource="Zenoti"
             />
           </div>
+          )}
 
           {/* Revenue Chart + Alerts */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -220,10 +237,10 @@ export function DashboardHome() {
                     className={cn(
                       'p-3 rounded-lg border transition-all duration-200 cursor-pointer',
                       alert.type === 'critical'
-                        ? 'border-destructive/20 bg-destructive/5 hover:border-destructive/40 hover:shadow-elevation-sm'
+                        ? 'border-destructive/20 bg-destructive/5 hover:border-destructive/40'
                         : alert.type === 'warning'
-                        ? 'border-warning/20 bg-warning/5 hover:border-warning/40 hover:shadow-elevation-sm'
-                        : 'border-primary/20 bg-primary/5 hover:border-primary/40 hover:shadow-elevation-sm'
+                        ? 'border-warning/20 bg-warning/5 hover:border-warning/40'
+                        : 'border-primary/20 bg-primary/5 hover:border-primary/40'
                     )}
                   >
                     <div className="flex items-start gap-2">
@@ -294,7 +311,7 @@ export function DashboardHome() {
                   return (
                     <div
                       key={loc.id}
-                      className="p-4 rounded-lg border border-border bg-section-alt hover:border-primary/20 hover:shadow-elevation-sm transition-all duration-200"
+                      className="p-4 rounded-lg border border-border bg-section-alt hover:border-primary/20 transition-all duration-200"
                     >
                       <p className="text-sm font-medium text-foreground">{loc.name}</p>
                       <p className="text-xs text-muted-foreground">{loc.city}, {loc.state}</p>

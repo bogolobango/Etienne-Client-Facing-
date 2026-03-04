@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, AlertTriangle } from 'lucide-react'
-import { XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts'
+import { XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, ReferenceLine } from 'recharts'
 import { MetricCard } from '@/components/MetricCard'
 import { AgentStatusBadge } from '@/components/AgentStatusBadge'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useLocationStore } from '@/stores/useLocationStore'
 import { agentStatuses, dailyMetrics, appointments } from '@/data/seed'
+import { INDUSTRY_BENCHMARKS } from '@/data/benchmarks'
 import { formatCurrency } from '@/lib/utils'
 import { Link } from 'react-router-dom'
 
@@ -174,6 +175,7 @@ export function SchedulingOverview() {
                   contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', color: 'var(--foreground)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   formatter={(value: number = 0) => [`${value.toFixed(1)}%`, 'No-Show Rate']}
                 />
+                <ReferenceLine y={INDUSTRY_BENCHMARKS.noShowRate.avg} stroke="#FFB547" strokeDasharray="4 4" strokeWidth={1.5} label={{ value: `Industry avg ${INDUSTRY_BENCHMARKS.noShowRate.avg}%`, position: 'insideTopRight', fontSize: 10, fill: '#FFB547' }} />
                 <Line type="monotone" dataKey="noShowRate" stroke="var(--destructive)" strokeWidth={2} dot={false} animationDuration={1500} animationEasing="ease-out" />
               </LineChart>
             </ResponsiveContainer>
@@ -197,6 +199,8 @@ export function SchedulingOverview() {
                   contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', color: 'var(--foreground)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   formatter={(value: number = 0) => [`${value.toFixed(1)}%`, 'Utilization']}
                 />
+                <ReferenceLine y={INDUSTRY_BENCHMARKS.utilizationRate.avg} stroke="#FFB547" strokeDasharray="4 4" strokeWidth={1.5} label={{ value: `Industry avg ${INDUSTRY_BENCHMARKS.utilizationRate.avg}%`, position: 'insideBottomRight', fontSize: 10, fill: '#FFB547' }} />
+                <ReferenceLine y={INDUSTRY_BENCHMARKS.utilizationRate.topPerformer} stroke="#00D4AA" strokeDasharray="4 4" strokeWidth={1} label={{ value: `Top ${INDUSTRY_BENCHMARKS.utilizationRate.topPerformer}%`, position: 'insideTopRight', fontSize: 10, fill: '#00D4AA' }} />
                 <Line type="monotone" dataKey="utilization" stroke="var(--chart-3)" strokeWidth={2} dot={false} animationDuration={1500} animationEasing="ease-out" />
               </LineChart>
             </ResponsiveContainer>

@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts'
 import { useLocationStore } from '@/stores/useLocationStore'
 import { dailyMetrics, locations } from '@/data/seed'
+import { INDUSTRY_BENCHMARKS } from '@/data/benchmarks'
 import { cn } from '@/lib/utils'
 import { Link } from 'react-router-dom'
 
@@ -17,23 +18,38 @@ function getHeatmapColor(value: number): string {
   return 'bg-primary/[0.06]'
 }
 
-// Deterministic heatmap data
-function generateHeatmapData(): number[][] {
-  const base = [
-    [65, 72, 78, 82, 85, 80, 75, 68, 55],
-    [58, 68, 75, 80, 78, 72, 70, 62, 48],
-    [70, 78, 85, 88, 82, 78, 72, 65, 52],
-    [62, 72, 80, 85, 82, 76, 70, 60, 45],
-    [75, 82, 88, 90, 85, 80, 75, 68, 55],
-    [80, 85, 90, 88, 82, 75, 65, 50, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  ]
-  return base
+const hourMultipliers = [0.65, 0.78, 0.92, 1.05, 1.08, 1.02, 0.95, 0.82, 0.55]
+
+function generateHeatmapData(selectedLocation: string): number[][] {
+  const now = new Date()
+  const last30 = dailyMetrics.filter((m) => {
+    const d = new Date(m.date)
+    return (now.getTime() - d.getTime()) / 86400000 <= 30 &&
+      (selectedLocation === 'all' || m.locationId === selectedLocation)
+  })
+
+  // Group by day-of-week (0=Mon..5=Sat, 6=Sun)
+  const dayBuckets: number[][] = Array.from({ length: 7 }, () => [])
+  last30.forEach((m) => {
+    const d = new Date(m.date)
+    let dow = d.getDay() - 1 // JS: 0=Sun, so shift Mon=0
+    if (dow < 0) dow = 6 // Sunday becomes 6
+    dayBuckets[dow].push(m.utilizationRate)
+  })
+
+  return dayBuckets.map((bucket, dayIdx) => {
+    if (dayIdx === 6) return Array(9).fill(0) // Sunday closed
+    const dayAvg = bucket.length ? bucket.reduce((s, v) => s + v, 0) / bucket.length : 0
+    return hourMultipliers.map((mult) => {
+      if (dayIdx === 5) mult *= 0.85 // Saturday winds down earlier
+      return Math.min(100, Math.max(0, Math.round(dayAvg * mult)))
+    })
+  })
 }
 
 export function UtilizationDashboard() {
   const { selectedLocation } = useLocationStore()
-  const heatmapData = generateHeatmapData()
+  const heatmapData = generateHeatmapData(selectedLocation)
 
   const last30 = dailyMetrics.filter((m) => {
     const d = new Date(m.date)
@@ -152,6 +168,8 @@ export function UtilizationDashboard() {
                   contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', color: 'var(--foreground)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   formatter={(value: number = 0) => [`${value}%`, 'Utilization']}
                 />
+                <ReferenceLine x={INDUSTRY_BENCHMARKS.utilizationRate.avg} stroke="#FFB547" strokeDasharray="4 4" strokeWidth={1.5} label={{ value: `Avg ${INDUSTRY_BENCHMARKS.utilizationRate.avg}%`, position: 'top', fontSize: 10, fill: '#FFB547' }} />
+                <ReferenceLine x={INDUSTRY_BENCHMARKS.utilizationRate.topPerformer} stroke="#00D4AA" strokeDasharray="4 4" strokeWidth={1} label={{ value: `Top ${INDUSTRY_BENCHMARKS.utilizationRate.topPerformer}%`, position: 'top', fontSize: 10, fill: '#00D4AA' }} />
                 <Bar dataKey="utilization" fill="var(--chart-3)" radius={[0, 4, 4, 0]} animationDuration={1500} animationEasing="ease-out" />
               </BarChart>
             </ResponsiveContainer>

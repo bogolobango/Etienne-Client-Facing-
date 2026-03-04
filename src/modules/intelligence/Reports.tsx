@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { ArrowLeft, FileText, Download, Calendar, TrendingUp, TrendingDown } from 'lucide-react'
 import { useLocationStore } from '@/stores/useLocationStore'
 import { dailyMetrics, locations } from '@/data/seed'
+import { INDUSTRY_BENCHMARKS } from '@/data/benchmarks'
 import { cn, formatCurrency } from '@/lib/utils'
 import { Link } from 'react-router-dom'
 
@@ -35,6 +36,20 @@ export function Reports() {
 
   const revenueChange = prevWeekRevenue ? ((weekRevenue - prevWeekRevenue) / prevWeekRevenue) * 100 : 0
 
+  const now = new Date()
+
+  // 30-day metrics for Executive Insight
+  const last30 = dailyMetrics.filter((m) => {
+    const d = new Date(m.date)
+    return (now.getTime() - d.getTime()) / 86400000 <= 30 &&
+      (selectedLocation === 'all' || m.locationId === selectedLocation)
+  })
+  const totalRevenue30 = last30.reduce((s, m) => s + m.revenue, 0)
+  const avgNoShow30 = last30.length ? last30.reduce((s, m) => s + m.noShowRate, 0) / last30.length : 0
+  const avgUtil30 = last30.length ? last30.reduce((s, m) => s + m.utilizationRate, 0) / last30.length : 0
+  const avgRebook30 = last30.length ? last30.reduce((s, m) => s + m.rebookingRate, 0) / last30.length : 0
+  const utilizationOpportunity = Math.round((0.82 - avgUtil30 / 100) * totalRevenue30)
+
   const locSummaries = locations.map((loc) => {
     const locWeek = last7.filter((m) => m.locationId === loc.id)
     return {
@@ -46,7 +61,6 @@ export function Reports() {
     }
   })
 
-  const now = new Date()
   const weekStart = new Date(now.getTime() - 7 * 86400000)
   const dateRange = `${weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} — ${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
 
@@ -88,6 +102,13 @@ export function Reports() {
             response gap analysis, no-show pattern detection, and utilization insights. The average no-show rate sits at{' '}
             <strong className="text-foreground">{avgNoShow.toFixed(1)}%</strong> with utilization at{' '}
             <strong className="text-foreground">{avgUtil.toFixed(1)}%</strong>.
+          </p>
+          <p className="text-primary leading-relaxed mt-3 border-t border-border pt-3">
+            <strong>Executive Insight:</strong> {selectedLocation === 'all' ? 'GlowUp Aesthetics' : locations.find(l => l.id === selectedLocation)?.name} is performing{' '}
+            {avgNoShow30 < INDUSTRY_BENCHMARKS.noShowRate.avg ? 'above' : 'below'} industry average on no-show rate ({avgNoShow30.toFixed(1)}% vs. {INDUSTRY_BENCHMARKS.noShowRate.avg}% avg)
+            and rebook rate ({avgRebook30.toFixed(1)}% vs. {INDUSTRY_BENCHMARKS.rebookingRate.avg}% avg), while
+            utilization ({avgUtil30.toFixed(1)}%) has room to reach the {INDUSTRY_BENCHMARKS.utilizationRate.topPerformer}% top-performer benchmark
+            — an estimated <strong>{formatCurrency(utilizationOpportunity)}</strong>/month opportunity.
           </p>
         </div>
       </motion.div>
@@ -135,7 +156,9 @@ export function Reports() {
                 <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">Revenue</th>
                 <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">Bookings</th>
                 <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">No-Show %</th>
-                <th className="text-right text-xs text-muted-foreground font-medium pb-3 pl-4">Utilization</th>
+                <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">vs. Industry</th>
+                <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">Utilization</th>
+                <th className="text-right text-xs text-muted-foreground font-medium pb-3 pl-4">vs. Industry</th>
               </tr>
             </thead>
             <tbody>
@@ -147,8 +170,18 @@ export function Reports() {
                   <td className={cn('text-right py-3 px-4 font-mono text-sm', loc.noShowRate > 15 ? 'text-destructive' : 'text-muted-foreground')}>
                     {loc.noShowRate.toFixed(1)}%
                   </td>
-                  <td className={cn('text-right py-3 pl-4 font-mono text-sm', loc.utilization >= 70 ? 'text-primary' : 'text-muted-foreground')}>
+                  <td className={cn('text-right py-3 px-4 font-mono text-xs', loc.noShowRate < INDUSTRY_BENCHMARKS.noShowRate.avg ? 'text-primary' : 'text-destructive')}>
+                    {loc.noShowRate < INDUSTRY_BENCHMARKS.noShowRate.avg
+                      ? `${(INDUSTRY_BENCHMARKS.noShowRate.avg - loc.noShowRate).toFixed(1)}% below avg`
+                      : `+${(loc.noShowRate - INDUSTRY_BENCHMARKS.noShowRate.avg).toFixed(1)}% above avg`}
+                  </td>
+                  <td className={cn('text-right py-3 px-4 font-mono text-sm', loc.utilization >= 70 ? 'text-primary' : 'text-muted-foreground')}>
                     {loc.utilization.toFixed(1)}%
+                  </td>
+                  <td className={cn('text-right py-3 pl-4 font-mono text-xs', loc.utilization >= INDUSTRY_BENCHMARKS.utilizationRate.avg ? 'text-primary' : 'text-destructive')}>
+                    {loc.utilization >= INDUSTRY_BENCHMARKS.utilizationRate.avg
+                      ? `+${(loc.utilization - INDUSTRY_BENCHMARKS.utilizationRate.avg).toFixed(1)}% above avg`
+                      : `${(INDUSTRY_BENCHMARKS.utilizationRate.avg - loc.utilization).toFixed(1)}% below avg`}
                   </td>
                 </tr>
               ))}

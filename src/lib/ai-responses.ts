@@ -1,4 +1,5 @@
 import type { AIContext } from './ai-context'
+import { INDUSTRY_BENCHMARKS } from '@/data/benchmarks'
 
 interface ResponseTemplate {
   keywords: string[]
@@ -33,6 +34,8 @@ ${sorted.map((l) => `- **${l.name}**: ${fmtCurrency(l.revenue)} (${fmtPct(l.util
 - **${ctx.aiBooked} bookings** tracked via Zenoti this period
 - Revenue gaps identified from no-show patterns: **${fmtCurrency(ctx.totalRecovered)}**
 
+**Industry Context:** Your utilization (${fmtPct(ctx.avgUtil)}) is ${ctx.avgUtil >= INDUSTRY_BENCHMARKS.utilizationRate.avg ? 'above' : 'below'} the ${INDUSTRY_BENCHMARKS.utilizationRate.avg}% industry average. Top performers reach ${INDUSTRY_BENCHMARKS.utilizationRate.topPerformer}% — closing this gap is worth an estimated ${fmtCurrency(ctx.totalRevenue * 0.105)}/month.
+
 ### Recommendation:
 ${bottom.noShowRate > 14 ? `Address the ${fmtPct(bottom.noShowRate)} no-show rate at ${bottom.name} — this alone could recover an estimated ${fmtCurrency(bottom.revenue * 0.12)}/month.` : `Focus on increasing utilization at ${bottom.name} (currently ${fmtPct(bottom.utilization)}) through targeted midweek promotions.`}`
     },
@@ -59,6 +62,8 @@ ${ctx.byLocation.sort((a, b) => b.revenue - a.revenue).map((l) => `| ${l.name ==
 1. **${worst.noShowRate > 14 ? 'High' : 'Elevated'} no-show rate (${fmtPct(worst.noShowRate)})** — Above the 12% benchmark
 2. **Low utilization (${fmtPct(worst.utilization)})** — Significant room for improvement
 3. **Rebooking rate at ${fmtPct(worst.rebookingRate)}** — Below the 75% industry benchmark
+
+**Industry Context:** The industry average no-show rate is ${INDUSTRY_BENCHMARKS.noShowRate.avg}% — ${worst.noShowRate < INDUSTRY_BENCHMARKS.noShowRate.avg ? `${worst.name} is performing ABOVE average` : `${worst.name} is ${(worst.noShowRate - INDUSTRY_BENCHMARKS.noShowRate.avg).toFixed(1)} points BELOW industry average`}. Top performers operate at ${INDUSTRY_BENCHMARKS.noShowRate.topPerformer}%.
 
 ### Action Items:
 - Deploy targeted no-show prevention (tiered reminders + deposits)
@@ -184,6 +189,8 @@ Current:                 ${'█'.repeat(Math.round(ctx.avgNoShow / 28.2 * 28))}$
 ### By Location (Current):
 ${sorted.map((l) => `- ${l.name}: ${fmtPct(l.noShowRate)} ${l.noShowRate < 12 ? '✅' : l.noShowRate < 15 ? '⚠️' : '🔴'}`).join('\n')}
 
+**Industry Context:** The industry average no-show rate is ${INDUSTRY_BENCHMARKS.noShowRate.avg}%. Your chain is at ${fmtPct(ctx.avgNoShow)} — ${ctx.avgNoShow < INDUSTRY_BENCHMARKS.noShowRate.avg ? `well below average, near the ${INDUSTRY_BENCHMARKS.noShowRate.topPerformer}% top-performer benchmark` : `above average and needs attention`}.
+
 ### What's Working:
 1. **Tiered reminders** (48h, 24h, 2h) — reduced no-shows by 35%
 2. **Risk scoring** — high-risk flagging catches 78% of actual no-shows
@@ -269,6 +276,8 @@ ${ctx.byLocation.map((l) => `| ${l.name} | ${fmtPct(l.rebookingRate)} | ${l.newC
 - ${ctx.avgRebook >= 70 ? 'Rebooking rate is strong' : 'Rebooking rate needs improvement'} at ${fmtPct(ctx.avgRebook)}
 - ${ctx.totalNewClients} new clients acquired in the last 30 days
 - Your Zenoti data shows same-day rebooking improved by an estimated 18%
+
+**Industry Context:** The industry average rebook rate is ${INDUSTRY_BENCHMARKS.rebookingRate.avg}%. Your chain is at ${fmtPct(ctx.avgRebook)} — ${ctx.avgRebook >= INDUSTRY_BENCHMARKS.rebookingRate.topPerformer ? 'exceeding the top-performer benchmark' : ctx.avgRebook >= INDUSTRY_BENCHMARKS.rebookingRate.avg ? `above average, targeting ${INDUSTRY_BENCHMARKS.rebookingRate.topPerformer}% top-performer benchmark` : 'below average and needs focus'}.
 
 ### Recommendations:
 1. Enable AI rebooking prompts at checkout
@@ -388,6 +397,51 @@ ${ctx.byLocation.map((l) => `- **${l.name}**: ${fmtPct(l.utilization)} utilizati
 1. Bundle high-margin services with Hydrafacial intro offers for new clients
 2. Track service-level conversion from consultation to booking in Zenoti
 3. Focus upsell training on Chemical Peel and Body Contouring add-ons`
+    },
+  },
+  {
+    keywords: ['waterfall', 'leakage', 'losing', 'potential', 'capacity', 'maximum'],
+    weight: 11,
+    generate: (ctx) => {
+      const noShowLoss = Math.round(ctx.totalBookings * 0.12 * INDUSTRY_BENCHMARKS.avgTicket.avg)
+      const afterHoursLoss = Math.round(ctx.totalRevenue * 0.08)
+      const utilizationGap = Math.round(ctx.totalRevenue * 0.105)
+      const retentionLoss = Math.round(ctx.totalRevenue * 0.06)
+      const totalLeakage = noShowLoss + afterHoursLoss + utilizationGap + retentionLoss
+      return `## Revenue Leakage Analysis — Last 30 Days
+
+*Based on your Zenoti data vs. industry benchmarks...*
+
+**Estimated total revenue leakage this month: ${fmtCurrency(totalLeakage)}**
+
+| Category | Monthly Loss | Driver |
+|---|---|---|
+| No-Show Losses | ${fmtCurrency(noShowLoss)} | ${fmtPct(ctx.avgNoShow)} no-show rate × $${INDUSTRY_BENCHMARKS.avgTicket.avg} avg ticket |
+| After-Hours Misses | ${fmtCurrency(afterHoursLoss)} | ~8% of bookings lost after 6pm |
+| Utilization Gap | ${fmtCurrency(utilizationGap)} | ${fmtPct(ctx.avgUtil)} vs. ${INDUSTRY_BENCHMARKS.utilizationRate.topPerformer}% top-performer benchmark |
+| Retention Failures | ${fmtCurrency(retentionLoss)} | ${fmtPct(ctx.avgRebook)} rebook vs. ${INDUSTRY_BENCHMARKS.rebookingRate.topPerformer}% benchmark |
+
+**The good news:** Your no-show rate (${fmtPct(ctx.avgNoShow)}) is ${ctx.avgNoShow <= INDUSTRY_BENCHMARKS.noShowRate.topPerformer ? 'already at the top-performer benchmark' : `close to the ${INDUSTRY_BENCHMARKS.noShowRate.topPerformer}% top-performer benchmark`}. The primary opportunity is utilization — closing the gap from ${fmtPct(ctx.avgUtil)} to ${INDUSTRY_BENCHMARKS.utilizationRate.topPerformer}% is worth an estimated ${fmtCurrency(utilizationGap * 12)}/year across the chain.`
+    },
+  },
+  {
+    keywords: ['benchmark', 'industry', 'average', 'compare to', 'how do we rank', 'peers'],
+    weight: 11,
+    generate: (ctx) => {
+      const metrics = [
+        { name: 'No-Show Rate', yours: fmtPct(ctx.avgNoShow), industry: `${INDUSTRY_BENCHMARKS.noShowRate.avg}%`, top: `${INDUSTRY_BENCHMARKS.noShowRate.topPerformer}%`, better: ctx.avgNoShow <= INDUSTRY_BENCHMARKS.noShowRate.avg },
+        { name: 'Utilization', yours: fmtPct(ctx.avgUtil), industry: `${INDUSTRY_BENCHMARKS.utilizationRate.avg}%`, top: `${INDUSTRY_BENCHMARKS.utilizationRate.topPerformer}%`, better: ctx.avgUtil >= INDUSTRY_BENCHMARKS.utilizationRate.avg },
+        { name: 'Rebook Rate', yours: fmtPct(ctx.avgRebook), industry: `${INDUSTRY_BENCHMARKS.rebookingRate.avg}%`, top: `${INDUSTRY_BENCHMARKS.rebookingRate.topPerformer}%`, better: ctx.avgRebook >= INDUSTRY_BENCHMARKS.rebookingRate.avg },
+      ]
+      return `## Industry Benchmark Comparison
+
+*Benchmarks sourced from AmSpa 2024, Zenoti 2025 Benchmark Report, Phorest (5,000+ locations)*
+
+| Metric | GlowUp | Industry Avg | Top Performers | Status |
+|---|---|---|---|---|
+${metrics.map(m => `| ${m.name} | **${m.yours}** | ${m.industry} | ${m.top} | ${m.better ? '✅ Above avg' : '⚠️ Below avg'} |`).join('\n')}
+
+**Summary:** GlowUp is performing at or above industry average on no-show rate and rebook rate. The primary gap is utilization — at ${fmtPct(ctx.avgUtil)} vs. an ${INDUSTRY_BENCHMARKS.utilizationRate.topPerformer}% top-performer benchmark, there is meaningful room to grow without adding a single new client.`
     },
   },
 ]

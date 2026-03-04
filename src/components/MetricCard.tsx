@@ -12,6 +12,7 @@ interface MetricCardProps {
   delay?: number
   onClick?: () => void
   dataSource?: string
+  benchmarkLabel?: string
 }
 
 function formatValue(value: number, format: string): string {
@@ -43,6 +44,7 @@ export function MetricCard({
   delay = 0,
   onClick,
   dataSource,
+  benchmarkLabel,
 }: MetricCardProps) {
   const [displayValue, setDisplayValue] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
@@ -125,8 +127,13 @@ export function MetricCard({
             )}
           </div>
         )}
+        {benchmarkLabel && (
+          <p className="text-[10px] text-muted-foreground/60 mt-1.5">
+            {benchmarkLabel}
+          </p>
+        )}
         {dataSource && (
-          <p className="text-[10px] text-muted-foreground/50 mt-1.5 tracking-wide uppercase">
+          <p className="text-[10px] text-muted-foreground/50 mt-1 tracking-wide uppercase">
             via {dataSource}
           </p>
         )}

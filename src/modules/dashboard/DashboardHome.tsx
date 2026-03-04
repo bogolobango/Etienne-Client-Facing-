@@ -8,6 +8,7 @@ import { AgentStatusBadge } from '@/components/AgentStatusBadge'
 import { ActivityFeed } from '@/components/ActivityFeed'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useLocationStore } from '@/stores/useLocationStore'
+import { INDUSTRY_BENCHMARKS } from '@/data/benchmarks'
 import { locations, agentStatuses, dailyMetrics, alerts } from '@/data/seed'
 import { cn, formatCurrency } from '@/lib/utils'
 
@@ -152,6 +153,7 @@ export function DashboardHome() {
               trend={metrics.noShowTrend}
               trendLabel="vs prev period"
               delay={2}
+              benchmarkLabel={`Industry avg: ${INDUSTRY_BENCHMARKS.noShowRate.avg}% · Top: ${INDUSTRY_BENCHMARKS.noShowRate.topPerformer}%`}
               dataSource="Zenoti"
             />
             <MetricCard

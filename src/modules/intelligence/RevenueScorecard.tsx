@@ -3,6 +3,7 @@ import { ArrowLeft, TrendingUp, TrendingDown } from 'lucide-react'
 import { XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts'
 import { useLocationStore } from '@/stores/useLocationStore'
 import { dailyMetrics, locations } from '@/data/seed'
+import { INDUSTRY_BENCHMARKS } from '@/data/benchmarks'
 import { cn, formatCurrency } from '@/lib/utils'
 import { Link } from 'react-router-dom'
 
@@ -128,6 +129,72 @@ export function RevenueScorecard() {
             )
           })}
         </div>
+      </motion.div>
+
+      {/* Revenue Leakage Waterfall */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.08 }}
+        className="card-premium p-6"
+      >
+        <h3 className="text-sm font-medium text-muted-foreground mb-2">Revenue Leakage Analysis</h3>
+        <p className="text-xs text-muted-foreground mb-5">Where revenue is being lost vs. theoretical capacity</p>
+        {(() => {
+          const last30 = all.filter((m) => {
+            const d = new Date(m.date)
+            const now = new Date()
+            return (now.getTime() - d.getTime()) / 86400000 <= 30
+          })
+          const actualRevenue = last30.reduce((s, m) => s + m.revenue, 0)
+          const totalNoShows = last30.reduce((s, m) => s + m.noShows, 0)
+          const avgUtil = last30.length ? last30.reduce((s, m) => s + m.utilizationRate, 0) / last30.length : 0
+          const totalRecoveredAmount = last30.reduce((s, m) => s + m.revenueRecovered, 0)
+
+          const noShowLoss = Math.round(totalNoShows * INDUSTRY_BENCHMARKS.avgTicket.avg)
+          const afterHoursLoss = Math.round(actualRevenue * 0.08)
+          const utilizationGap = Math.round(actualRevenue * ((0.80 - avgUtil / 100) / 0.80) * 0.4)
+          const retentionLoss = Math.round(actualRevenue * 0.06)
+          const totalLeakage = noShowLoss + afterHoursLoss + utilizationGap + retentionLoss
+          const theoreticalRevenue = actualRevenue + totalLeakage
+
+          const items = [
+            { label: 'Total Capacity Revenue', value: theoreticalRevenue, isTotal: true, color: 'bg-primary/20' },
+            { label: 'No-Show Losses', value: -noShowLoss, isTotal: false, color: 'bg-destructive/60' },
+            { label: 'After-Hours Misses', value: -afterHoursLoss, isTotal: false, color: 'bg-destructive/40' },
+            { label: 'Utilization Gap', value: -utilizationGap, isTotal: false, color: 'bg-warning/50' },
+            { label: 'Retention Failures', value: -retentionLoss, isTotal: false, color: 'bg-warning/30' },
+            { label: 'Actual Revenue', value: actualRevenue, isTotal: true, color: 'bg-primary' },
+          ]
+
+          const maxVal = theoreticalRevenue
+
+          return (
+            <div className="space-y-2.5">
+              {items.map((item) => (
+                <div key={item.label} className="flex items-center gap-3">
+                  <div className="w-40 shrink-0 text-right">
+                    <p className={cn('text-xs', item.isTotal ? 'font-medium text-foreground' : 'text-muted-foreground')}>{item.label}</p>
+                  </div>
+                  <div className="flex-1 h-7 bg-primary/[0.06] rounded overflow-hidden relative">
+                    <div
+                      className={cn('h-full rounded transition-all', item.color)}
+                      style={{ width: `${(Math.abs(item.value) / maxVal) * 100}%` }}
+                    />
+                  </div>
+                  <div className="w-24 shrink-0 text-right">
+                    <span className={cn('text-sm font-mono', item.isTotal ? 'text-foreground font-semibold' : 'text-destructive')}>
+                      {item.value < 0 ? '-' : ''}{formatCurrency(Math.abs(item.value))}
+                    </span>
+                  </div>
+                </div>
+              ))}
+              <p className="text-xs text-primary mt-4 pt-3 border-t border-border">
+                EIP has recovered <strong className="font-mono">{formatCurrency(totalRecoveredAmount)}</strong> of the leakage gap this month.
+              </p>
+            </div>
+          )
+        })()}
       </motion.div>
 
       {/* Recovery Trend */}

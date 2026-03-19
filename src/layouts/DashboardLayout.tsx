@@ -12,6 +12,7 @@ import {
   User,
   Menu,
   PanelLeftClose,
+  Building2,
 } from 'lucide-react'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useLocationStore } from '@/stores/useLocationStore'
@@ -54,8 +55,18 @@ const navItems: NavItem[] = [
       { label: 'Scorecard', path: '/intelligence/scorecard' },
       { label: 'AI Analyst', path: '/intelligence/analyst' },
       { label: 'Gap Analysis', path: '/intelligence/gap-analysis' },
+      { label: 'Provider P&L', path: '/intelligence/providers' },
+      { label: 'Revenue Engine', path: '/intelligence/revenue-engine' },
+      { label: 'Package Truth', path: '/intelligence/packages' },
+      { label: 'Predictive Alerts', path: '/intelligence/predictive-alerts' },
+      { label: 'What-If Simulator', path: '/intelligence/simulator' },
+      { label: 'Benchmarks', path: '/intelligence/benchmarks' },
+      { label: 'Auto Reports', path: '/intelligence/automated-reports' },
       { label: 'Reports', path: '/intelligence/reports' },
     ],
+  },
+  {
+    label: 'Brands', path: '/brands', icon: Building2,
   },
   { label: 'Settings', path: '/settings', icon: Settings },
 ]

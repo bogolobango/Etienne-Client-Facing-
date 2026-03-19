@@ -12,6 +12,14 @@ import { RevenueScorecard } from '@/modules/intelligence/RevenueScorecard'
 import { AIAnalyst } from '@/modules/intelligence/AIAnalyst'
 import { Reports } from '@/modules/intelligence/Reports'
 import { GapAnalysis } from '@/modules/intelligence/GapAnalysis'
+import { ProviderPnL } from '@/modules/intelligence/ProviderPnL'
+import { RevenueEngine } from '@/modules/intelligence/RevenueEngine'
+import { PackageTruth } from '@/modules/intelligence/PackageTruth'
+import { AutomatedReports } from '@/modules/intelligence/AutomatedReports'
+import { PredictiveAlerts } from '@/modules/intelligence/PredictiveAlerts'
+import { WhatIfSimulator } from '@/modules/intelligence/WhatIfSimulator'
+import { NetworkBenchmarks } from '@/modules/intelligence/NetworkBenchmarks'
+import { BrandOverview } from '@/modules/brands/BrandOverview'
 import { Settings } from '@/modules/settings/Settings'
 
 export default function App() {
@@ -31,6 +39,14 @@ export default function App() {
           <Route path="/intelligence/analyst" element={<AIAnalyst />} />
           <Route path="/intelligence/reports" element={<Reports />} />
           <Route path="/intelligence/gap-analysis" element={<GapAnalysis />} />
+          <Route path="/intelligence/providers" element={<ProviderPnL />} />
+          <Route path="/intelligence/revenue-engine" element={<RevenueEngine />} />
+          <Route path="/intelligence/packages" element={<PackageTruth />} />
+          <Route path="/intelligence/automated-reports" element={<AutomatedReports />} />
+          <Route path="/intelligence/predictive-alerts" element={<PredictiveAlerts />} />
+          <Route path="/intelligence/simulator" element={<WhatIfSimulator />} />
+          <Route path="/intelligence/benchmarks" element={<NetworkBenchmarks />} />
+          <Route path="/brands" element={<BrandOverview />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/integrations" element={<Settings />} />
         </Route>

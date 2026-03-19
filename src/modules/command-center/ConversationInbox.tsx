@@ -2,12 +2,13 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Phone, MessageSquare, Globe, Share2, Search, ArrowLeft, Send, Bot, User as UserIcon } from 'lucide-react'
 import { useLocationStore } from '@/stores/useLocationStore'
-import { conversations } from '@/data/seed'
+import { useEIPData } from '@/contexts/EIPDataContext'
 import { cn } from '@/lib/utils'
 import { Link } from 'react-router-dom'
 import type { Conversation } from '@/types'
 
 export function ConversationInbox() {
+  const { conversations } = useEIPData()
   const { selectedLocation } = useLocationStore()
   const [selectedConvo, setSelectedConvo] = useState<Conversation | null>(null)
   const [searchQuery, setSearchQuery] = useState('')

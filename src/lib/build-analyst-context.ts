@@ -1,8 +1,8 @@
-import { computeContext } from './ai-context'
+import { computeContext, type ComputeContextData } from './ai-context'
 import { INDUSTRY_BENCHMARKS } from '@/data/benchmarks'
 
-export function buildAnalystContext(selectedLocation: string) {
-  const ctx = computeContext(selectedLocation)
+export function buildAnalystContext(selectedLocation: string, data?: ComputeContextData) {
+  const ctx = computeContext(selectedLocation, data)
 
   const metrics = JSON.stringify(
     {

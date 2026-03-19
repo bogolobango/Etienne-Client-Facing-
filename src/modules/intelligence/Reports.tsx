@@ -1,12 +1,13 @@
 import { motion } from 'framer-motion'
 import { ArrowLeft, FileText, Download, Calendar, TrendingUp, TrendingDown } from 'lucide-react'
 import { useLocationStore } from '@/stores/useLocationStore'
-import { dailyMetrics, locations } from '@/data/seed'
+import { useEIPData } from '@/contexts/EIPDataContext'
 import { INDUSTRY_BENCHMARKS } from '@/data/benchmarks'
 import { cn, formatCurrency } from '@/lib/utils'
 import { Link } from 'react-router-dom'
 
 export function Reports() {
+  const { dailyMetrics, locations } = useEIPData()
   const { selectedLocation } = useLocationStore()
 
   const last7 = dailyMetrics.filter((m) => {

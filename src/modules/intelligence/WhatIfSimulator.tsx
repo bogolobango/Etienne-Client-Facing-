@@ -30,7 +30,7 @@ import {
 } from 'recharts'
 import { Link } from 'react-router-dom'
 import { useLocationStore } from '@/stores/useLocationStore'
-import { locations } from '@/data/seed'
+import { useEIPData } from '@/contexts/EIPDataContext'
 import { cn, formatCurrency } from '@/lib/utils'
 import {
   scenarioTemplates,
@@ -117,6 +117,7 @@ function ChartTooltip({ active, payload, label }: { active?: boolean; payload?: 
 // ---------------------------------------------------------------------------
 
 export function WhatIfSimulator() {
+  const { locations } = useEIPData()
   const { selectedLocation } = useLocationStore()
 
   const [activeTemplate, setActiveTemplate] = useState<ScenarioTemplate | null>(null)

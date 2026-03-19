@@ -22,7 +22,7 @@ import {
 } from 'recharts'
 import { Link } from 'react-router-dom'
 import { useLocationStore } from '@/stores/useLocationStore'
-import { locations } from '@/data/seed'
+import { useEIPData } from '@/contexts/EIPDataContext'
 import {
   providerMetrics,
   getProvidersByLocation,
@@ -58,7 +58,7 @@ interface ProviderRow {
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-function locationName(locationId: string): string {
+function locationName(locationId: string, locations: { id: string; name: string }[]): string {
   return locations.find((l) => l.id === locationId)?.name ?? locationId
 }
 
@@ -80,6 +80,7 @@ function strengthTag(row: ProviderRow, allRows: ProviderRow[]): { label: string;
 // Component
 // ---------------------------------------------------------------------------
 export function ProviderPnL() {
+  const { locations } = useEIPData()
   const { selectedLocation } = useLocationStore()
   const [sortKey, setSortKey] = useState<SortKey>('revenue')
   const [sortAsc, setSortAsc] = useState(false)
@@ -91,7 +92,7 @@ export function ProviderPnL() {
       const agg = getAggregatedProviderMetrics(p.id)
       return {
         provider: p,
-        locationName: locationName(p.locationId),
+        locationName: locationName(p.locationId, locations),
         revenue: agg.totalRevenue,
         revPerHour: agg.avgRevenuePerHour,
         utilization: agg.avgUtilization,

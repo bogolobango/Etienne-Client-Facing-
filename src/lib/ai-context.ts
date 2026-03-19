@@ -1,6 +1,35 @@
-import { dailyMetrics, appointments, conversations, opportunities } from '@/data/seed'
+import type {
+  DailyMetrics,
+  Appointment,
+  Conversation,
+  Opportunity,
+  Location,
+} from '@/types'
 
-export function computeContext(locationId: string) {
+// Seed data — used as default when no live data is provided
+import {
+  dailyMetrics as seedDailyMetrics,
+  appointments as seedAppointments,
+  conversations as seedConversations,
+  opportunities as seedOpportunities,
+  locations as seedLocations,
+} from '@/data/seed'
+
+export interface ComputeContextData {
+  dailyMetrics?: DailyMetrics[]
+  appointments?: Appointment[]
+  conversations?: Conversation[]
+  opportunities?: Opportunity[]
+  locations?: Location[]
+}
+
+export function computeContext(locationId: string, data?: ComputeContextData) {
+  const dailyMetrics = data?.dailyMetrics ?? seedDailyMetrics
+  const appointments = data?.appointments ?? seedAppointments
+  const conversations = data?.conversations ?? seedConversations
+  const opportunities = data?.opportunities ?? seedOpportunities
+  const allLocations = data?.locations ?? seedLocations
+
   const now = new Date()
 
   const last30 = dailyMetrics.filter((m) => {
@@ -43,26 +72,17 @@ export function computeContext(locationId: string) {
     .filter((o) => o.status !== 'lost')
     .reduce((s, o) => s + o.estimatedRevenue, 0)
 
-  // Per-location breakdown
-  const locationIds = ['soho', 'williamsburg', 'hoboken', 'white-plains', 'stamford']
-  const locationNames: Record<string, string> = {
-    'soho': 'SoHo Flagship',
-    'williamsburg': 'Williamsburg',
-    'hoboken': 'Hoboken',
-    'white-plains': 'White Plains',
-    'stamford': 'Stamford',
-  }
-
-  const byLocation = locationIds.map((lid) => {
-    const locMetrics = last30.filter((m) => m.locationId === lid)
+  // Per-location breakdown — use actual locations from data
+  const byLocation = allLocations.map((loc) => {
+    const locMetrics = last30.filter((m) => m.locationId === loc.id)
     const locRevenue = locMetrics.reduce((s, m) => s + m.revenue, 0)
     const locUtil = locMetrics.length ? locMetrics.reduce((s, m) => s + m.utilizationRate, 0) / locMetrics.length : 0
     const locNoShow = locMetrics.length ? locMetrics.reduce((s, m) => s + m.noShowRate, 0) / locMetrics.length : 0
     const locNewClients = locMetrics.reduce((s, m) => s + m.newClients, 0)
     const locRebook = locMetrics.length ? locMetrics.reduce((s, m) => s + m.rebookingRate, 0) / locMetrics.length : 0
     return {
-      id: lid,
-      name: locationNames[lid],
+      id: loc.id,
+      name: loc.name,
       revenue: locRevenue,
       utilization: locUtil,
       noShowRate: locNoShow,

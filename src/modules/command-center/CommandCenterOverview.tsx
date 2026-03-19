@@ -5,11 +5,12 @@ import { MetricCard } from '@/components/MetricCard'
 import { AgentStatusBadge } from '@/components/AgentStatusBadge'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useLocationStore } from '@/stores/useLocationStore'
-import { agentStatuses, dailyMetrics, conversations } from '@/data/seed'
+import { useEIPData } from '@/contexts/EIPDataContext'
 import { cn } from '@/lib/utils'
 import { Link } from 'react-router-dom'
 
 export function CommandCenterOverview() {
+  const { agentStatuses, dailyMetrics, conversations } = useEIPData()
   const { role } = useAuthStore()
   const { selectedLocation } = useLocationStore()
 

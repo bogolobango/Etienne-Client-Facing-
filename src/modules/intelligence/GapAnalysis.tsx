@@ -6,8 +6,9 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { cn } from '@/lib/utils'
 import { useLocationStore } from '@/stores/useLocationStore'
+import { useEIPData } from '@/contexts/EIPDataContext'
 import { buildAnalystContext } from '@/lib/build-analyst-context'
-import { computeContext } from '@/lib/ai-context'
+import { computeContext, type ComputeContextData } from '@/lib/ai-context'
 import { INDUSTRY_BENCHMARKS } from '@/data/benchmarks'
 
 function ReportRenderer({ content }: { content: string }) {
@@ -79,8 +80,8 @@ function ReportRenderer({ content }: { content: string }) {
   )
 }
 
-function buildLocalReport(selectedLocation: string): string {
-  const ctx = computeContext(selectedLocation)
+function buildLocalReport(selectedLocation: string, data?: ComputeContextData): string {
+  const ctx = computeContext(selectedLocation, data)
   const sorted = [...ctx.byLocation].sort((a, b) => b.revenue - a.revenue)
   const worst = sorted[sorted.length - 1]
   const best = sorted[0]
@@ -168,7 +169,9 @@ Data sourced from Zenoti via API integration. Analysis period: ${thirtyDaysAgo.t
 }
 
 export function GapAnalysis() {
+  const { dailyMetrics, appointments, conversations, opportunities, locations: eipLocations } = useEIPData()
   const { selectedLocation } = useLocationStore()
+  const eipData: ComputeContextData = { dailyMetrics, appointments, conversations, opportunities, locations: eipLocations }
   const [report, setReport] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [useAI, setUseAI] = useState(true)
@@ -179,7 +182,7 @@ export function GapAnalysis() {
     setReport('')
 
     try {
-      const { metrics, locations } = buildAnalystContext(selectedLocation)
+      const { metrics, locations } = buildAnalystContext(selectedLocation, eipData)
       const benchmarks = JSON.stringify(INDUSTRY_BENCHMARKS, null, 2)
 
       const abortController = new AbortController()
@@ -220,7 +223,7 @@ export function GapAnalysis() {
 
       console.warn('Claude API unavailable for report generation, using local template:', error)
       setUseAI(false)
-      const localReport = buildLocalReport(selectedLocation)
+      const localReport = buildLocalReport(selectedLocation, eipData)
       setReport(localReport)
     }
 

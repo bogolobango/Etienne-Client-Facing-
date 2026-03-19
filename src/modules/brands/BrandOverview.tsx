@@ -24,7 +24,7 @@ import {
 import { Link } from 'react-router-dom'
 import { useBrandStore } from '@/stores/useBrandStore'
 import type { Brand } from '@/stores/useBrandStore'
-import { dailyMetrics, locations } from '@/data/seed'
+import { useEIPData } from '@/contexts/EIPDataContext'
 import { cn, formatCurrency } from '@/lib/utils'
 import type { DailyMetrics } from '@/types'
 
@@ -32,7 +32,7 @@ import type { DailyMetrics } from '@/types'
 // Helpers
 // ---------------------------------------------------------------------------
 
-function getLast30DaysMetrics(locationIds: string[]): DailyMetrics[] {
+function getLast30DaysMetrics(locationIds: string[], dailyMetrics: DailyMetrics[]): DailyMetrics[] {
   const now = new Date()
   return dailyMetrics.filter((m) => {
     if (!locationIds.includes(m.locationId)) return false
@@ -57,8 +57,8 @@ interface BrandMetrics {
   bookings: number
 }
 
-function computeBrandMetrics(brand: Brand): BrandMetrics {
-  const metrics = getLast30DaysMetrics(brand.locationIds)
+function computeBrandMetrics(brand: Brand, dailyMetrics: DailyMetrics[]): BrandMetrics {
+  const metrics = getLast30DaysMetrics(brand.locationIds, dailyMetrics)
   return {
     brand,
     revenue: metrics.reduce((s, m) => s + m.revenue, 0),
@@ -304,9 +304,10 @@ function BrandDrillDown({
   brand: Brand
   allMetrics: BrandMetrics[]
 }) {
+  const { locations, dailyMetrics } = useEIPData()
   const companyMetrics = useMemo(() => {
     const all = getLast30DaysMetrics(
-      locations.map((l) => l.id)
+      locations.map((l) => l.id), dailyMetrics
     )
     return {
       revenue: all.reduce((s, m) => s + m.revenue, 0) / locations.length,
@@ -314,20 +315,20 @@ function BrandDrillDown({
       rebookRate: avgField(all, 'rebookingRate'),
       noShowRate: avgField(all, 'noShowRate'),
     }
-  }, [])
+  }, [locations, dailyMetrics])
 
   const brandMetrics = allMetrics.find((bm) => bm.brand.id === brand.id)!
 
   const locationRows = brand.locationIds.map((locId) => {
     const loc = locations.find((l) => l.id === locId)!
-    const metrics = getLast30DaysMetrics([locId])
+    const metrics = getLast30DaysMetrics([locId], dailyMetrics)
     const locRevenue = metrics.reduce((s, m) => s + m.revenue, 0)
     const locUtil = avgField(metrics, 'utilizationRate')
     const locRebook = avgField(metrics, 'rebookingRate')
     const locNoShow = avgField(metrics, 'noShowRate')
 
     // Company-wide average for same location across all brands
-    const companyLocMetrics = getLast30DaysMetrics([locId])
+    const companyLocMetrics = getLast30DaysMetrics([locId], dailyMetrics)
     const companyLocRevenue = companyLocMetrics.reduce((s, m) => s + m.revenue, 0)
 
     return {
@@ -487,6 +488,7 @@ function BrandDrillDown({
 }
 
 function BrandRankingsTable({ allMetrics }: { allMetrics: BrandMetrics[] }) {
+  const { dailyMetrics } = useEIPData()
   // Build 7-day sparkline data per brand
   const sparklines = useMemo(() => {
     const now = new Date()
@@ -617,6 +619,7 @@ function BrandRankingsTable({ allMetrics }: { allMetrics: BrandMetrics[] }) {
 }
 
 function RollUpSummary({ allMetrics }: { allMetrics: BrandMetrics[] }) {
+  const { locations, dailyMetrics } = useEIPData()
   const companyRevenue = allMetrics.reduce((s, bm) => s + bm.revenue, 0)
 
   return (
@@ -672,7 +675,7 @@ function RollUpSummary({ allMetrics }: { allMetrics: BrandMetrics[] }) {
               <div className="space-y-1 ml-5 mt-2 border-l border-border/50 pl-3">
                 {bm.brand.locationIds.map((locId) => {
                   const loc = locations.find((l) => l.id === locId)!
-                  const locMetrics = getLast30DaysMetrics([locId])
+                  const locMetrics = getLast30DaysMetrics([locId], dailyMetrics)
                   const locRevenue = locMetrics.reduce(
                     (s, m) => s + m.revenue,
                     0
@@ -706,11 +709,12 @@ function RollUpSummary({ allMetrics }: { allMetrics: BrandMetrics[] }) {
 // ---------------------------------------------------------------------------
 
 export function BrandOverview() {
+  const { dailyMetrics, locations } = useEIPData()
   const { brands, selectedBrand, setBrand } = useBrandStore()
 
   const allMetrics = useMemo(
-    () => brands.map(computeBrandMetrics),
-    [brands]
+    () => brands.map((b) => computeBrandMetrics(b, dailyMetrics)),
+    [brands, dailyMetrics]
   )
 
   const activeBrand = brands.find((b) => b.id === selectedBrand)

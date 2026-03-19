@@ -9,10 +9,11 @@ import { ActivityFeed } from '@/components/ActivityFeed'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useLocationStore } from '@/stores/useLocationStore'
 import { INDUSTRY_BENCHMARKS } from '@/data/benchmarks'
-import { locations, agentStatuses, dailyMetrics, alerts } from '@/data/seed'
+import { useEIPData } from '@/contexts/EIPDataContext'
 import { cn, formatCurrency } from '@/lib/utils'
+import type { DailyMetrics } from '@/types'
 
-function getFilteredMetrics(locationId: string) {
+function getFilteredMetrics(locationId: string, dailyMetrics: DailyMetrics[]) {
   const filtered = locationId === 'all'
     ? dailyMetrics
     : dailyMetrics.filter((m) => m.locationId === locationId)
@@ -69,7 +70,7 @@ function getFilteredMetrics(locationId: string) {
   }
 }
 
-function getRevenueChartData(locationId: string) {
+function getRevenueChartData(locationId: string, dailyMetrics: DailyMetrics[]) {
   const filtered = locationId === 'all'
     ? dailyMetrics
     : dailyMetrics.filter((m) => m.locationId === locationId)
@@ -89,11 +90,12 @@ function getRevenueChartData(locationId: string) {
 }
 
 export function DashboardHome() {
+  const { locations, agentStatuses, dailyMetrics, alerts } = useEIPData()
   const { role } = useAuthStore()
   const { selectedLocation } = useLocationStore()
   const [loading, setLoading] = useState(true)
-  const metrics = getFilteredMetrics(selectedLocation)
-  const chartData = getRevenueChartData(selectedLocation)
+  const metrics = getFilteredMetrics(selectedLocation, dailyMetrics)
+  const chartData = getRevenueChartData(selectedLocation, dailyMetrics)
   const activeAlerts = alerts.filter((a) => !a.dismissed).slice(0, 5)
 
   useEffect(() => {

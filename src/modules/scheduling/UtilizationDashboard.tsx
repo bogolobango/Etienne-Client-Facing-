@@ -2,9 +2,10 @@ import { motion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts'
 import { useLocationStore } from '@/stores/useLocationStore'
-import { dailyMetrics, locations } from '@/data/seed'
+import { useEIPData } from '@/contexts/EIPDataContext'
 import { INDUSTRY_BENCHMARKS } from '@/data/benchmarks'
 import { cn } from '@/lib/utils'
+import type { DailyMetrics } from '@/types'
 import { Link } from 'react-router-dom'
 
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -20,7 +21,7 @@ function getHeatmapColor(value: number): string {
 
 const hourMultipliers = [0.65, 0.78, 0.92, 1.05, 1.08, 1.02, 0.95, 0.82, 0.55]
 
-function generateHeatmapData(selectedLocation: string): number[][] {
+function generateHeatmapData(selectedLocation: string, dailyMetrics: DailyMetrics[]): number[][] {
   const now = new Date()
   const last30 = dailyMetrics.filter((m) => {
     const d = new Date(m.date)
@@ -48,8 +49,9 @@ function generateHeatmapData(selectedLocation: string): number[][] {
 }
 
 export function UtilizationDashboard() {
+  const { dailyMetrics, locations } = useEIPData()
   const { selectedLocation } = useLocationStore()
-  const heatmapData = generateHeatmapData(selectedLocation)
+  const heatmapData = generateHeatmapData(selectedLocation, dailyMetrics)
 
   const last30 = dailyMetrics.filter((m) => {
     const d = new Date(m.date)

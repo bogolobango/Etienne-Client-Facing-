@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowLeft, ChevronLeft, ChevronRight, CalendarOff } from 'lucide-react'
 import { useLocationStore } from '@/stores/useLocationStore'
-import { appointments } from '@/data/seed'
+import { useEIPData } from '@/contexts/EIPDataContext'
 import { cn } from '@/lib/utils'
 import { Link } from 'react-router-dom'
 
@@ -22,6 +22,7 @@ const timeSlots = [
 ]
 
 export function CalendarView() {
+  const { appointments } = useEIPData()
   const { selectedLocation } = useLocationStore()
   const [dateOffset, setDateOffset] = useState(0)
 

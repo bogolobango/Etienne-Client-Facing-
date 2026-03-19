@@ -29,7 +29,7 @@ import {
 import { Link } from 'react-router-dom'
 import { cn, formatCurrency } from '@/lib/utils'
 import { useLocationStore } from '@/stores/useLocationStore'
-import { locations } from '@/data/seed'
+import { useEIPData } from '@/contexts/EIPDataContext'
 import { revenueOpportunities, type RevenueOpportunity } from '@/data/revenue-opportunities'
 
 // ---------------------------------------------------------------------------
@@ -93,6 +93,7 @@ const EFFORT_NUMERIC: Record<string, number> = { low: 1, medium: 2, high: 3 }
 // ---------------------------------------------------------------------------
 
 export function RevenueEngine() {
+  const { locations } = useEIPData()
   const { selectedLocation } = useLocationStore()
 
   // Local state for opportunity statuses

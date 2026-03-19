@@ -27,7 +27,7 @@ import {
 } from 'recharts'
 import { Link } from 'react-router-dom'
 import { useLocationStore } from '@/stores/useLocationStore'
-import { locations } from '@/data/seed'
+import { useEIPData } from '@/contexts/EIPDataContext'
 import { predictiveAlerts, dashboardTrends, type PredictiveAlert } from '@/data/predictive-alerts'
 import { cn, formatCurrency } from '@/lib/utils'
 
@@ -79,7 +79,7 @@ const typeConfig: Record<PredictiveAlert['type'], { icon: typeof TrendingDown; l
   threshold: { icon: Gauge, label: 'Threshold' },
 }
 
-function getLocationName(id: string): string {
+function getLocationName(id: string, locations: { id: string; name: string }[]): string {
   return locations.find((l) => l.id === id)?.name ?? id
 }
 
@@ -224,7 +224,7 @@ function AlertCard({
             )}
           </div>
           <div className="flex items-center gap-3 mt-0.5">
-            <span className="text-xs text-muted-foreground">{getLocationName(alert.locationId)}</span>
+            <span className="text-xs text-muted-foreground">{getLocationName(alert.locationId, locations)}</span>
             <span className="text-xs text-muted-foreground">·</span>
             <span className="text-xs text-muted-foreground flex items-center gap-1">
               <TypeIcon className="w-3 h-3" />
@@ -356,7 +356,7 @@ function TimelineEntry({ alert }: { alert: PredictiveAlert }) {
         <p className="text-xs text-muted-foreground">{formatDate(alert.detectedAt)}</p>
         <p className="text-sm text-foreground mt-0.5">{alert.title}</p>
         <p className="text-xs text-muted-foreground mt-0.5">
-          {getLocationName(alert.locationId)} · {formatCurrency(alert.estimatedImpact)} impact
+          {getLocationName(alert.locationId, locations)} · {formatCurrency(alert.estimatedImpact)} impact
         </p>
         {alert.status !== 'active' && (
           <span className={cn(
@@ -376,6 +376,7 @@ function TimelineEntry({ alert }: { alert: PredictiveAlert }) {
 // ---------------------------------------------------------------------------
 
 export function PredictiveAlerts() {
+  const { locations } = useEIPData()
   const { selectedLocation } = useLocationStore()
 
   // Local state for alert statuses

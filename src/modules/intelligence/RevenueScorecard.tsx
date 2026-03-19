@@ -2,12 +2,13 @@ import { motion } from 'framer-motion'
 import { ArrowLeft, TrendingUp, TrendingDown } from 'lucide-react'
 import { XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts'
 import { useLocationStore } from '@/stores/useLocationStore'
-import { dailyMetrics, locations } from '@/data/seed'
+import { useEIPData } from '@/contexts/EIPDataContext'
 import { INDUSTRY_BENCHMARKS } from '@/data/benchmarks'
 import { cn, formatCurrency } from '@/lib/utils'
 import { Link } from 'react-router-dom'
 
 export function RevenueScorecard() {
+  const { dailyMetrics, locations } = useEIPData()
   const { selectedLocation } = useLocationStore()
 
   const all = dailyMetrics.filter(

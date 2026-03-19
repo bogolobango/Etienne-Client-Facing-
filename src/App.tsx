@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
+import { EIPDataProvider } from '@/contexts/EIPDataContext'
 import { DashboardLayout } from '@/layouts/DashboardLayout'
 import { DashboardHome } from '@/modules/dashboard/DashboardHome'
 import { CommandCenterOverview } from '@/modules/command-center/CommandCenterOverview'
@@ -23,35 +25,48 @@ import { NetworkBenchmarks } from '@/modules/intelligence/NetworkBenchmarks'
 import { BrandOverview } from '@/modules/brands/BrandOverview'
 import { Settings } from '@/modules/settings/Settings'
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+})
+
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<ErrorBoundary><DashboardLayout /></ErrorBoundary>}>
-          <Route path="/" element={<DashboardHome />} />
-          <Route path="/command-center" element={<CommandCenterOverview />} />
-          <Route path="/command-center/inbox" element={<ConversationInbox />} />
-          <Route path="/command-center/performance" element={<ChannelPerformance />} />
-          <Route path="/scheduling" element={<SchedulingOverview />} />
-          <Route path="/scheduling/calendar" element={<CalendarView />} />
-          <Route path="/scheduling/utilization" element={<UtilizationDashboard />} />
-          <Route path="/intelligence" element={<IntelligenceOverview />} />
-          <Route path="/intelligence/scorecard" element={<RevenueScorecard />} />
-          <Route path="/intelligence/analyst" element={<AIAnalyst />} />
-          <Route path="/intelligence/reports" element={<Reports />} />
-          <Route path="/intelligence/gap-analysis" element={<GapAnalysis />} />
-          <Route path="/intelligence/providers" element={<ProviderPnL />} />
-          <Route path="/intelligence/revenue-engine" element={<RevenueEngine />} />
-          <Route path="/intelligence/packages" element={<PackageTruth />} />
-          <Route path="/intelligence/automated-reports" element={<AutomatedReports />} />
-          <Route path="/intelligence/predictive-alerts" element={<PredictiveAlerts />} />
-          <Route path="/intelligence/simulator" element={<WhatIfSimulator />} />
-          <Route path="/intelligence/benchmarks" element={<NetworkBenchmarks />} />
-          <Route path="/brands" element={<BrandOverview />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/settings/integrations" element={<Settings />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <EIPDataProvider>
+          <Routes>
+            <Route element={<ErrorBoundary><DashboardLayout /></ErrorBoundary>}>
+              <Route path="/" element={<DashboardHome />} />
+              <Route path="/command-center" element={<CommandCenterOverview />} />
+              <Route path="/command-center/inbox" element={<ConversationInbox />} />
+              <Route path="/command-center/performance" element={<ChannelPerformance />} />
+              <Route path="/scheduling" element={<SchedulingOverview />} />
+              <Route path="/scheduling/calendar" element={<CalendarView />} />
+              <Route path="/scheduling/utilization" element={<UtilizationDashboard />} />
+              <Route path="/intelligence" element={<IntelligenceOverview />} />
+              <Route path="/intelligence/scorecard" element={<RevenueScorecard />} />
+              <Route path="/intelligence/analyst" element={<AIAnalyst />} />
+              <Route path="/intelligence/reports" element={<Reports />} />
+              <Route path="/intelligence/gap-analysis" element={<GapAnalysis />} />
+              <Route path="/intelligence/providers" element={<ProviderPnL />} />
+              <Route path="/intelligence/revenue-engine" element={<RevenueEngine />} />
+              <Route path="/intelligence/packages" element={<PackageTruth />} />
+              <Route path="/intelligence/automated-reports" element={<AutomatedReports />} />
+              <Route path="/intelligence/predictive-alerts" element={<PredictiveAlerts />} />
+              <Route path="/intelligence/simulator" element={<WhatIfSimulator />} />
+              <Route path="/intelligence/benchmarks" element={<NetworkBenchmarks />} />
+              <Route path="/brands" element={<BrandOverview />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/settings/integrations" element={<Settings />} />
+            </Route>
+          </Routes>
+        </EIPDataProvider>
+      </BrowserRouter>
+    </QueryClientProvider>
   )
 }

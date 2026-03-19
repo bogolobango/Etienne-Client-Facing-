@@ -7,7 +7,8 @@ import remarkGfm from 'remark-gfm'
 import { cn } from '@/lib/utils'
 import { useChatStore } from '@/stores/useChatStore'
 import { useLocationStore } from '@/stores/useLocationStore'
-import { computeContext } from '@/lib/ai-context'
+import { useEIPData } from '@/contexts/EIPDataContext'
+import { computeContext, type ComputeContextData } from '@/lib/ai-context'
 import { buildAnalystContext } from '@/lib/build-analyst-context'
 import { generateAIResponse } from '@/lib/ai-responses'
 import type { ChatMessage } from '@/types'
@@ -88,8 +89,9 @@ async function streamFromAPI(
   selectedLocation: string,
   onChunk: (text: string) => void,
   signal: AbortSignal,
+  data?: ComputeContextData,
 ): Promise<boolean> {
-  const { metrics, locations, alerts } = buildAnalystContext(selectedLocation)
+  const { metrics, locations, alerts } = buildAnalystContext(selectedLocation, data)
 
   const response = await fetch('/api/analyst', {
     method: 'POST',
@@ -117,8 +119,10 @@ async function streamFromAPI(
 }
 
 export function AIAnalyst() {
+  const { dailyMetrics, appointments, conversations, opportunities, locations } = useEIPData()
   const { messages, isLoading, addMessage, updateLastMessage, setLoading, clearMessages } = useChatStore()
   const { selectedLocation } = useLocationStore()
+  const eipData: ComputeContextData = { dailyMetrics, appointments, conversations, opportunities, locations }
   const [input, setInput] = useState('')
   const [usingAPI, setUsingAPI] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -178,6 +182,7 @@ export function AIAnalyst() {
           updateLastMessage(accumulated)
         },
         abortController.signal,
+        eipData,
       )
 
       setUsingAPI(true)
@@ -193,7 +198,7 @@ export function AIAnalyst() {
       setUsingAPI(false)
 
       // Fallback to keyword matching
-      const ctx = computeContext(selectedLocation)
+      const ctx = computeContext(selectedLocation, eipData)
       const fullResponse = generateAIResponse(content, ctx)
 
       // If we already added the assistant message with empty content, update it

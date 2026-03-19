@@ -2,10 +2,11 @@ import { motion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, AreaChart, Area } from 'recharts'
 import { useLocationStore } from '@/stores/useLocationStore'
-import { dailyMetrics } from '@/data/seed'
+import { useEIPData } from '@/contexts/EIPDataContext'
 import { Link } from 'react-router-dom'
 
 export function ChannelPerformance() {
+  const { dailyMetrics } = useEIPData()
   const { selectedLocation } = useLocationStore()
 
   const filtered = dailyMetrics.filter(

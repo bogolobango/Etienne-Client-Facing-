@@ -53,6 +53,7 @@ const navItems: NavItem[] = [
     children: [
       { label: 'Scorecard', path: '/intelligence/scorecard' },
       { label: 'AI Analyst', path: '/intelligence/analyst' },
+      { label: 'Gap Analysis', path: '/intelligence/gap-analysis' },
       { label: 'Reports', path: '/intelligence/reports' },
     ],
   },

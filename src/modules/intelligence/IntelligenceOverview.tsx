@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Brain, ArrowRight } from 'lucide-react'
+import { Brain, ArrowRight, FileText } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { MetricCard } from '@/components/MetricCard'
 import { AgentStatusBadge } from '@/components/AgentStatusBadge'
@@ -273,6 +273,33 @@ export function IntelligenceOverview() {
           </Link>
         </motion.div>
       </div>
+
+      {/* Gap Analysis CTA */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+      >
+        <Link
+          to="/intelligence/gap-analysis"
+          className="block rounded-xl border border-primary/20 bg-gradient-to-r from-primary/5 to-transparent p-6 hover:border-primary/40 hover:shadow-elevation-md transition-all duration-200"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <FileText className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="text-lg font-medium text-foreground">Generate Gap Analysis Report</h3>
+                <p className="text-sm text-muted-foreground mt-0.5">
+                  Cross-location intelligence report with revenue gaps, benchmarks, and 90-day action plan
+                </p>
+              </div>
+            </div>
+            <ArrowRight className="w-5 h-5 text-primary shrink-0" />
+          </div>
+        </Link>
+      </motion.div>
     </div>
   )
 }

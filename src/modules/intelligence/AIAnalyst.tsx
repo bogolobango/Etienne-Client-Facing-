@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Send, Brain, Sparkles, RefreshCw } from 'lucide-react'
+import { ArrowLeft, Send, Brain, Sparkles, RefreshCw, Wifi, WifiOff } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 import { useChatStore } from '@/stores/useChatStore'
 import { useLocationStore } from '@/stores/useLocationStore'
 import { computeContext } from '@/lib/ai-context'
+import { buildAnalystContext } from '@/lib/build-analyst-context'
 import { generateAIResponse } from '@/lib/ai-responses'
 import type { ChatMessage } from '@/types'
 
@@ -82,13 +83,48 @@ function MarkdownRenderer({ content }: { content: string }) {
   )
 }
 
+async function streamFromAPI(
+  question: string,
+  selectedLocation: string,
+  onChunk: (text: string) => void,
+  signal: AbortSignal,
+): Promise<boolean> {
+  const { metrics, locations, alerts } = buildAnalystContext(selectedLocation)
+
+  const response = await fetch('/api/analyst', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ question, metrics, locations, alerts }),
+    signal,
+  })
+
+  if (!response.ok) {
+    throw new Error(`API error: ${response.status}`)
+  }
+
+  const reader = response.body?.getReader()
+  if (!reader) throw new Error('No response body')
+
+  const decoder = new TextDecoder()
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+    const text = decoder.decode(value, { stream: true })
+    onChunk(text)
+  }
+
+  return true
+}
+
 export function AIAnalyst() {
   const { messages, isLoading, addMessage, updateLastMessage, setLoading, clearMessages } = useChatStore()
   const { selectedLocation } = useLocationStore()
   const [input, setInput] = useState('')
+  const [usingAPI, setUsingAPI] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const idCounter = useRef(0)
   const streamRef = useRef<number | null>(null)
+  const abortRef = useRef<AbortController | null>(null)
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -97,10 +133,11 @@ export function AIAnalyst() {
   useEffect(() => {
     return () => {
       if (streamRef.current) clearInterval(streamRef.current)
+      if (abortRef.current) abortRef.current.abort()
     }
   }, [])
 
-  const sendMessage = useCallback((content: string) => {
+  const sendMessage = useCallback(async (content: string) => {
     if (!content.trim() || isLoading) return
 
     idCounter.current += 1
@@ -114,34 +151,86 @@ export function AIAnalyst() {
     setInput('')
     setLoading(true)
 
-    const ctx = computeContext(selectedLocation)
-    const fullResponse = generateAIResponse(content, ctx)
+    // Create assistant message placeholder
+    idCounter.current += 1
+    const assistantMessage: ChatMessage = {
+      id: `assistant-${idCounter.current}`,
+      role: 'assistant',
+      content: '',
+      timestamp: new Date().toISOString(),
+    }
 
-    setTimeout(() => {
-      idCounter.current += 1
-      const assistantMessage: ChatMessage = {
-        id: `assistant-${idCounter.current}`,
-        role: 'assistant',
-        content: '',
-        timestamp: new Date().toISOString(),
-      }
+    // Try Claude API first, fall back to keyword matching
+    try {
+      const abortController = new AbortController()
+      abortRef.current = abortController
+
+      // Small delay for UX
+      await new Promise((r) => setTimeout(r, 300))
       addMessage(assistantMessage)
 
-      let charIndex = 0
-      const chunkSize = 3
-      streamRef.current = window.setInterval(() => {
-        charIndex += chunkSize
-        if (charIndex >= fullResponse.length) {
-          charIndex = fullResponse.length
-          if (streamRef.current) {
-            clearInterval(streamRef.current)
-            streamRef.current = null
+      let accumulated = ''
+      await streamFromAPI(
+        content,
+        selectedLocation,
+        (chunk) => {
+          accumulated += chunk
+          updateLastMessage(accumulated)
+        },
+        abortController.signal,
+      )
+
+      setUsingAPI(true)
+      setLoading(false)
+    } catch (error) {
+      // If abort, just stop
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        setLoading(false)
+        return
+      }
+
+      console.warn('Claude API unavailable, falling back to local responses:', error)
+      setUsingAPI(false)
+
+      // Fallback to keyword matching
+      const ctx = computeContext(selectedLocation)
+      const fullResponse = generateAIResponse(content, ctx)
+
+      // If we already added the assistant message with empty content, update it
+      // Otherwise add a new one
+      if (assistantMessage.content === '') {
+        let charIndex = 0
+        const chunkSize = 3
+        streamRef.current = window.setInterval(() => {
+          charIndex += chunkSize
+          if (charIndex >= fullResponse.length) {
+            charIndex = fullResponse.length
+            if (streamRef.current) {
+              clearInterval(streamRef.current)
+              streamRef.current = null
+            }
+            setLoading(false)
           }
-          setLoading(false)
-        }
-        updateLastMessage(fullResponse.slice(0, charIndex))
-      }, 12)
-    }, 600)
+          updateLastMessage(fullResponse.slice(0, charIndex))
+        }, 12)
+      } else {
+        addMessage({ ...assistantMessage, content: '' })
+        let charIndex = 0
+        const chunkSize = 3
+        streamRef.current = window.setInterval(() => {
+          charIndex += chunkSize
+          if (charIndex >= fullResponse.length) {
+            charIndex = fullResponse.length
+            if (streamRef.current) {
+              clearInterval(streamRef.current)
+              streamRef.current = null
+            }
+            setLoading(false)
+          }
+          updateLastMessage(fullResponse.slice(0, charIndex))
+        }, 12)
+      }
+    }
   }, [isLoading, addMessage, updateLastMessage, setLoading, selectedLocation])
 
   return (
@@ -155,13 +244,30 @@ export function AIAnalyst() {
             <Brain className="w-5 h-5 text-primary" />
             <h1 className="text-2xl font-semibold text-foreground">AI Revenue Analyst</h1>
           </div>
-          <p className="text-muted-foreground mt-0.5">Powered by Claude — Ask anything about your business</p>
+          <div className="flex items-center gap-2 mt-0.5">
+            <p className="text-muted-foreground">Powered by Claude — Ask anything about your business</p>
+            {usingAPI ? (
+              <span className="flex items-center gap-1 text-xs text-primary">
+                <Wifi className="w-3 h-3" />
+                Live AI
+              </span>
+            ) : (
+              <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                <WifiOff className="w-3 h-3" />
+                Local
+              </span>
+            )}
+          </div>
         </div>
         <button
           onClick={() => {
             if (streamRef.current) {
               clearInterval(streamRef.current)
               streamRef.current = null
+            }
+            if (abortRef.current) {
+              abortRef.current.abort()
+              abortRef.current = null
             }
             setLoading(false)
             clearMessages()

@@ -11,6 +11,7 @@ import { IntelligenceOverview } from '@/modules/intelligence/IntelligenceOvervie
 import { RevenueScorecard } from '@/modules/intelligence/RevenueScorecard'
 import { AIAnalyst } from '@/modules/intelligence/AIAnalyst'
 import { Reports } from '@/modules/intelligence/Reports'
+import { GapAnalysis } from '@/modules/intelligence/GapAnalysis'
 import { Settings } from '@/modules/settings/Settings'
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/intelligence/scorecard" element={<RevenueScorecard />} />
           <Route path="/intelligence/analyst" element={<AIAnalyst />} />
           <Route path="/intelligence/reports" element={<Reports />} />
+          <Route path="/intelligence/gap-analysis" element={<GapAnalysis />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/integrations" element={<Settings />} />
         </Route>

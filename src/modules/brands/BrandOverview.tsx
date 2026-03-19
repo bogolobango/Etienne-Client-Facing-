@@ -15,11 +15,13 @@ import {
   Building2,
   TrendingUp,
   TrendingDown,
+  ArrowLeft,
   ChevronRight,
   Crown,
   MapPin,
   Layers,
 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { useBrandStore } from '@/stores/useBrandStore'
 import type { Brand } from '@/stores/useBrandStore'
 import { dailyMetrics, locations } from '@/data/seed'
@@ -719,13 +721,22 @@ export function BrandOverview() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
+        className="flex items-center gap-3"
       >
-        <h1 className="text-2xl font-semibold text-foreground">
-          Multi-Brand Intelligence
-        </h1>
-        <p className="text-muted-foreground mt-0.5">
-          Cross-brand visibility, benchmarking, and drill-down analytics
-        </p>
+        <Link
+          to="/"
+          className="p-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5" />
+        </Link>
+        <div>
+          <h1 className="text-2xl font-semibold text-foreground">
+            Multi-Brand Intelligence
+          </h1>
+          <p className="text-muted-foreground mt-0.5">
+            Cross-brand visibility, benchmarking, and drill-down analytics
+          </p>
+        </div>
       </motion.div>
 
       {/* Brand Selector */}

@@ -98,12 +98,12 @@ function AnimatedValue({
 // Custom tooltip for chart
 // ---------------------------------------------------------------------------
 
-function ChartTooltip({ active, payload, label }: any) {
+function ChartTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ name: string; value: number }>; label?: string }) {
   if (!active || !payload?.length) return null
   return (
     <div className="rounded-lg border border-border bg-card p-3 shadow-xl">
       <p className="text-xs text-muted-foreground mb-1">{label}</p>
-      {payload.map((entry: any) => (
+      {payload.map((entry) => (
         <p key={entry.name} className="text-sm font-medium text-foreground">
           {entry.name}: {formatCurrency(entry.value)}
         </p>

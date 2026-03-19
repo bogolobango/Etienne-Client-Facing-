@@ -2,20 +2,7 @@
 // Package Revenue Truth Engine — Data
 // ---------------------------------------------------------------------------
 
-const TODAY = new Date()
-TODAY.setHours(0, 0, 0, 0)
-
-function daysAgo(n: number): string {
-  const d = new Date(TODAY)
-  d.setDate(d.getDate() - n)
-  return d.toISOString().slice(0, 10)
-}
-
-function daysFromNow(n: number): string {
-  const d = new Date(TODAY)
-  d.setDate(d.getDate() + n)
-  return d.toISOString().slice(0, 10)
-}
+import { daysAgo, daysFromNow } from '@/lib/utils'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -116,7 +103,7 @@ const defMap = new Map(packageDefinitions.map((d) => [d.id, d]))
 export const packageSales: PackageSale[] = [
   // ---- SoHo Flagship ----
   {
-    id: 'sale-001', packageDefId: 'pkg-botox-3', clientName: 'Olivia Chen', clientId: 'c-101',
+    id: 'sale-001', packageDefId: 'pkg-botox-3', clientName: 'Olivia Park', clientId: 'c-101',
     locationId: 'soho', purchaseDate: daysAgo(45), sessionsUsed: 2, sessionsRemaining: 1,
     status: 'active', revenueRecognized: 800, revenueDeferred: 400,
     expirationDate: daysFromNow(45), nextSessionDate: daysFromNow(12),

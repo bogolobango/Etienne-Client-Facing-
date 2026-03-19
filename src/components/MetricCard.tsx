@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { TrendingUp, TrendingDown } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn, formatCurrency, formatNumber, formatDuration } from '@/lib/utils'
 
 interface MetricCardProps {
   label: string
@@ -18,20 +18,13 @@ interface MetricCardProps {
 function formatValue(value: number, format: string): string {
   switch (format) {
     case 'currency':
-      return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      }).format(value)
+      return formatCurrency(value)
     case 'percent':
       return `${value.toFixed(1)}%`
     case 'time':
-      if (value < 60) return `${Math.round(value)}s`
-      if (value < 3600) return `${Math.floor(value / 60)}m ${Math.round(value % 60)}s`
-      return `${(value / 3600).toFixed(1)}h`
+      return formatDuration(value)
     default:
-      return new Intl.NumberFormat('en-US').format(value)
+      return formatNumber(value)
   }
 }
 

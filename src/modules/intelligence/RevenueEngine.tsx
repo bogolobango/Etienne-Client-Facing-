@@ -8,6 +8,7 @@ import {
   BarChart3,
   Target,
   Sparkles,
+  ArrowLeft,
   ArrowRight,
   ShieldCheck,
   CircleDot,
@@ -25,6 +26,7 @@ import {
   CartesianGrid,
   ZAxis,
 } from 'recharts'
+import { Link } from 'react-router-dom'
 import { cn, formatCurrency } from '@/lib/utils'
 import { useLocationStore } from '@/stores/useLocationStore'
 import { locations } from '@/data/seed'
@@ -165,9 +167,17 @@ export function RevenueEngine() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-2xl font-semibold text-foreground">Revenue Intelligence Engine</h1>
-        <p className="text-muted-foreground mt-1">AI-identified opportunities ranked by estimated impact</p>
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3">
+        <Link
+          to="/intelligence"
+          className="p-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5" />
+        </Link>
+        <div>
+          <h1 className="text-2xl font-semibold text-foreground">Revenue Intelligence Engine</h1>
+          <p className="text-muted-foreground mt-1">AI-identified opportunities ranked by estimated impact</p>
+        </div>
       </motion.div>
 
       {/* Hero Banner */}

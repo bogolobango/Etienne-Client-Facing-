@@ -173,7 +173,7 @@ function SidebarItem({ item }: { item: NavItem }) {
   )
 }
 
-const STAFF_HIDDEN_PATHS = ['/intelligence', '/settings']
+const STAFF_HIDDEN_PATHS = ['/intelligence', '/settings', '/brands']
 
 function SidebarContent({ onClose, showClose }: { onClose?: () => void; showClose?: boolean }) {
   const { role } = useAuthStore()
@@ -247,7 +247,8 @@ export function DashboardLayout() {
   // Redirect staff from restricted routes
   const isRestricted = role === 'staff' && (
     location.pathname.startsWith('/intelligence') ||
-    location.pathname.startsWith('/settings')
+    location.pathname.startsWith('/settings') ||
+    location.pathname.startsWith('/brands')
   )
   if (isRestricted) {
     return <Navigate to="/" replace />

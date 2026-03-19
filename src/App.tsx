@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { DashboardLayout } from '@/layouts/DashboardLayout'
 import { DashboardHome } from '@/modules/dashboard/DashboardHome'
 import { CommandCenterOverview } from '@/modules/command-center/CommandCenterOverview'
@@ -26,7 +27,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<DashboardLayout />}>
+        <Route element={<ErrorBoundary><DashboardLayout /></ErrorBoundary>}>
           <Route path="/" element={<DashboardHome />} />
           <Route path="/command-center" element={<CommandCenterOverview />} />
           <Route path="/command-center/inbox" element={<ConversationInbox />} />

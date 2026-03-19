@@ -27,17 +27,7 @@ export interface ProviderMetrics {
   revenuePerHour: number
 }
 
-// ---------------------------------------------------------------------------
-// Date helpers
-// ---------------------------------------------------------------------------
-const TODAY = new Date()
-TODAY.setHours(0, 0, 0, 0)
-
-function daysAgo(n: number): string {
-  const d = new Date(TODAY)
-  d.setDate(d.getDate() - n)
-  return d.toISOString().slice(0, 10)
-}
+import { daysAgo } from '@/lib/utils'
 
 // ---------------------------------------------------------------------------
 // Providers

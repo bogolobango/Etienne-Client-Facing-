@@ -1,8 +1,33 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+const ALLOWED_ORIGINS = [
+  'https://etienne-client-facing.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000',
+];
+
+const rateLimit = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT = 10;
+const RATE_WINDOW = 60000;
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimit.get(ip);
+  if (!entry || now > entry.resetAt) {
+    rateLimit.set(ip, { count: 1, resetAt: now + RATE_WINDOW });
+    return true;
+  }
+  if (entry.count >= RATE_LIMIT) return false;
+  entry.count++;
+  return true;
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const origin = req.headers.origin || '';
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -14,15 +39,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  const clientIp = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || 'unknown';
+  if (!checkRateLimit(clientIp)) {
+    return res.status(429).json({ error: 'Too many requests' });
+  }
+
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     console.error('ANTHROPIC_API_KEY is not set');
     return res.status(500).json({ error: 'API key not configured' });
   }
 
-  try {
-    const { clientName, metrics, locations, benchmarks } = req.body;
+  // Input validation
+  const { clientName, metrics, locations, benchmarks } = req.body;
+  if (typeof clientName !== 'string' || clientName.length === 0 || clientName.length > 200) {
+    return res.status(400).json({ error: 'Invalid clientName: must be a string under 200 characters' });
+  }
 
+  try {
     const systemPrompt = `You are a senior operational intelligence consultant at Etienne Agency. You are generating a professional Cross-Location Intelligence Report (Gap Analysis) for a multi-location med spa client.
 
 Write a complete, data-rich gap analysis report in markdown format. Use the actual data provided — never use placeholder values.

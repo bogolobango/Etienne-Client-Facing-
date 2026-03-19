@@ -362,11 +362,10 @@ function PercentileHistorySection() {
                 fontSize: 12,
               }}
               labelStyle={{ color: 'rgba(255,255,255,0.7)' }}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              formatter={((value: any, name: any) => [
+              formatter={(value: number, name: string) => [
                 `P${value}`,
                 metricLabels[name] || name,
-              ]) as any}
+              ]}
             />
             <Legend
               wrapperStyle={{ fontSize: 11, color: 'rgba(255,255,255,0.6)' }}

@@ -362,10 +362,11 @@ function PercentileHistorySection() {
                 fontSize: 12,
               }}
               labelStyle={{ color: 'rgba(255,255,255,0.7)' }}
-              formatter={(value: unknown, name: string) => [
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              formatter={((value: any, name: any) => [
                 `P${value}`,
                 metricLabels[name] || name,
-              ]}
+              ]) as any}
             />
             <Legend
               wrapperStyle={{ fontSize: 11, color: 'rgba(255,255,255,0.6)' }}
@@ -631,7 +632,7 @@ export function NetworkBenchmarks() {
           variants={stagger}
           className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         >
-          {networkBenchmarks.map((bm, i) => (
+          {networkBenchmarks.map((bm) => (
             <PercentileCard key={bm.metric} benchmark={bm} />
           ))}
         </motion.div>

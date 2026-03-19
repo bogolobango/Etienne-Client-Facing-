@@ -7,6 +7,16 @@ export function buildAnalystContext(selectedLocation: string) {
   const metrics = JSON.stringify(
     {
       totalRevenue: ctx.totalRevenue,
+      totalNormalizedRevenue: ctx.totalNormalizedRevenue,
+      revenueDisaggregation: {
+        serviceRevenue: ctx.revenueByType.service,
+        packageRevenue: ctx.revenueByType.package,
+        productRevenue: ctx.revenueByType.product,
+        membershipRevenue: ctx.revenueByType.membership,
+        giftcardRevenue: ctx.revenueByType.giftcard,
+        packageDistortion: ctx.totalRevenue - ctx.totalNormalizedRevenue,
+      },
+      totalPackageBookings: ctx.totalPackageBookings,
       avgUtilization: ctx.avgUtil,
       avgNoShowRate: ctx.avgNoShow,
       avgRebookRate: ctx.avgRebook,

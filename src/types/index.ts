@@ -40,6 +40,8 @@ export interface TranscriptMessage {
   timestamp: string
 }
 
+export type SaleType = 'service' | 'package' | 'product' | 'membership' | 'giftcard'
+
 export interface Appointment {
   id: string
   clientName: string
@@ -55,13 +57,34 @@ export interface Appointment {
   noShowRisk: 'low' | 'medium' | 'high'
   room: number
   revenue: number
+  /** Revenue for this specific visit (package revenue spread across sessions) */
+  normalizedRevenue: number
+  saleType: SaleType
+  /** Package ID if this appointment is part of a multi-session package */
+  packageId?: string
+  /** e.g. "2 of 6" — which session in the package */
+  packageSession?: string
+}
+
+export interface RevenueBreakdown {
+  service: number
+  package: number
+  product: number
+  membership: number
+  giftcard: number
 }
 
 export interface DailyMetrics {
   date: string
   locationId: string
   revenue: number
+  /** Revenue with package amounts normalized across sessions */
+  normalizedRevenue: number
+  /** Breakdown by sale type */
+  revenueByType: RevenueBreakdown
   bookings: number
+  /** Bookings that are part of a package */
+  packageBookings: number
   noShows: number
   noShowRate: number
   responseTimeAvg: number

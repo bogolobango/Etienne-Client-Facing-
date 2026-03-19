@@ -714,8 +714,63 @@ export const conversations: Conversation[] = [
 
 // ---------------------------------------------------------------------------
 // 5. Appointments (100 records)
+//    saleType: 'service' = individual visit, 'package' = part of multi-session package
+//    normalizedRevenue: for packages, revenue spread across all sessions
+//    packageId + packageSession: track multi-session packages
 // ---------------------------------------------------------------------------
-export const appointments: Appointment[] = [
+
+// Package definitions: some Body Contouring and Laser clients purchased packages
+const PACKAGES: Record<string, { totalRevenue: number; sessions: number }> = {
+  'pkg-001': { totalRevenue: 3600, sessions: 6 },  // Body Contouring 6-session
+  'pkg-002': { totalRevenue: 1800, sessions: 6 },  // Laser Hair Removal 6-session
+  'pkg-003': { totalRevenue: 1050, sessions: 3 },  // Hydrafacial 3-pack
+  'pkg-004': { totalRevenue: 3600, sessions: 6 },  // Body Contouring 6-session
+  'pkg-005': { totalRevenue: 1800, sessions: 6 },  // Laser Hair Removal 6-session
+}
+
+// Map certain appointments to packages for realistic demo data
+const PKG_MAP: Record<string, { pkgId: string; session: string }> = {
+  'apt-003': { pkgId: 'pkg-001', session: '1 of 6' },  // Sofia — Body Contouring
+  'apt-007': { pkgId: 'pkg-001', session: '2 of 6' },  // Vanessa — Body Contouring
+  'apt-020': { pkgId: 'pkg-001', session: '3 of 6' },  // Jessica — Body Contouring
+  'apt-012': { pkgId: 'pkg-002', session: '1 of 6' },  // Maria — Laser
+  'apt-023': { pkgId: 'pkg-004', session: '1 of 6' },  // Kayla — Body Contouring
+  'apt-027': { pkgId: 'pkg-005', session: '1 of 6' },  // Angela — Laser
+  'apt-028': { pkgId: 'pkg-005', session: '2 of 6' },  // Laura — Laser
+  'apt-034': { pkgId: 'pkg-005', session: '3 of 6' },  // Tiffany — Laser
+  'apt-040': { pkgId: 'pkg-004', session: '2 of 6' },  // Sarah — Body Contouring
+  'apt-048': { pkgId: 'pkg-004', session: '3 of 6' },  // Gregory — Body Contouring
+  'apt-068': { pkgId: 'pkg-003', session: '1 of 3' },  // David — Hydrafacial
+  'apt-072': { pkgId: 'pkg-003', session: '2 of 3' },  // Martha — Hydrafacial
+  'apt-083': { pkgId: 'pkg-001', session: '4 of 6' },  // Ryan — Body Contouring
+}
+
+type RawAppointment = Omit<Appointment, 'normalizedRevenue' | 'saleType' | 'packageId' | 'packageSession'>
+
+function enrichAppointments(raw: RawAppointment[]): Appointment[] {
+  return raw.map((apt) => {
+    const pkg = PKG_MAP[apt.id]
+    if (pkg) {
+      const pkgDef = PACKAGES[pkg.pkgId]
+      return {
+        ...apt,
+        saleType: 'package' as const,
+        packageId: pkg.pkgId,
+        packageSession: pkg.session,
+        // Package revenue: full amount booked on first session, $0 on rest (Zenoti behavior)
+        revenue: pkg.session.startsWith('1 ') ? pkgDef.totalRevenue : 0,
+        normalizedRevenue: Math.round(pkgDef.totalRevenue / pkgDef.sessions),
+      }
+    }
+    return {
+      ...apt,
+      saleType: 'service' as const,
+      normalizedRevenue: apt.revenue,
+    }
+  })
+}
+
+const rawAppointments: RawAppointment[] = [
   // SoHo appointments (rooms 1-6, 3 providers)
   { id: 'apt-001', clientName: 'Maria Santos', clientId: 'cli-001', service: 'Botox', provider: 'Dr. Chen', locationId: 'soho', date: daysAgo(0), startTime: '09:00', endTime: '09:30', status: 'confirmed', bookedBy: 'ai', noShowRisk: 'low', room: 1, revenue: 450 },
   { id: 'apt-002', clientName: 'Danielle Parker', clientId: 'cli-002', service: 'Dermal Filler', provider: 'Dr. Chen', locationId: 'soho', date: daysAgo(0), startTime: '10:00', endTime: '10:45', status: 'confirmed', bookedBy: 'ai', noShowRisk: 'low', room: 2, revenue: 850 },
@@ -829,6 +884,8 @@ export const appointments: Appointment[] = [
   { id: 'apt-100', clientName: 'Priya Patel', clientId: 'cli-021', service: 'Chemical Peel', provider: 'PA Martinez', locationId: 'hoboken', date: daysAgo(28), startTime: '15:00', endTime: '15:30', status: 'completed', bookedBy: 'staff', noShowRisk: 'low', room: 3, revenue: 200 },
 ]
 
+export const appointments: Appointment[] = enrichAppointments(rawAppointments)
+
 
 // ---------------------------------------------------------------------------
 // 6. Daily Metrics  (90 days x 5 locations = 450 records)
@@ -908,11 +965,40 @@ function buildDailyMetrics(): DailyMetrics[] {
       // Revenue recovered (from no-show prevention, after-hours saves, etc.)
       const revenueRecovered = phase === 0 ? 0 : Math.round(noShows * 350 * (phase === 1 ? 0.3 : 0.6) * (0.5 + seededValue(dayOffset, li, 11)))
 
+      // Revenue disaggregation — realistic mix of service types
+      // ~65% service, ~20% package, ~8% product, ~5% membership, ~2% gift card
+      const pkgPct = 0.15 + seededValue(dayOffset, li, 12) * 0.10  // 15-25%
+      const prodPct = 0.05 + seededValue(dayOffset, li, 13) * 0.06 // 5-11%
+      const memPct = 0.03 + seededValue(dayOffset, li, 14) * 0.04  // 3-7%
+      const gcPct = 0.01 + seededValue(dayOffset, li, 15) * 0.02   // 1-3%
+      const svcPct = 1 - pkgPct - prodPct - memPct - gcPct
+
+      const serviceRevenue = Math.round(revenue * svcPct)
+      const packageRevenue = Math.round(revenue * pkgPct)
+      const productRevenue = Math.round(revenue * prodPct)
+      const membershipRevenue = Math.round(revenue * memPct)
+      const giftcardRevenue = revenue - serviceRevenue - packageRevenue - productRevenue - membershipRevenue
+
+      // Package bookings: ~15-25% of total bookings
+      const packageBookings = Math.round(bookings * pkgPct)
+
+      // Normalized revenue: spread package revenue evenly (simulate proper normalization)
+      const normalizedRevenue = serviceRevenue + Math.round(packageRevenue * 0.85) + productRevenue + membershipRevenue + giftcardRevenue
+
       metrics.push({
         date: daysAgo(dayOffset),
         locationId: locId,
         revenue,
+        normalizedRevenue,
+        revenueByType: {
+          service: serviceRevenue,
+          package: packageRevenue,
+          product: productRevenue,
+          membership: membershipRevenue,
+          giftcard: giftcardRevenue,
+        },
         bookings,
+        packageBookings,
         noShows,
         noShowRate,
         responseTimeAvg,

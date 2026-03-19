@@ -71,8 +71,25 @@ export function computeContext(locationId: string) {
     }
   })
 
+  // Revenue disaggregation
+  const revenueByType = last30.reduce(
+    (acc, m) => ({
+      service: acc.service + m.revenueByType.service,
+      package: acc.package + m.revenueByType.package,
+      product: acc.product + m.revenueByType.product,
+      membership: acc.membership + m.revenueByType.membership,
+      giftcard: acc.giftcard + m.revenueByType.giftcard,
+    }),
+    { service: 0, package: 0, product: 0, membership: 0, giftcard: 0 }
+  )
+  const totalNormalizedRevenue = last30.reduce((s, m) => s + m.normalizedRevenue, 0)
+  const totalPackageBookings = last30.reduce((s, m) => s + m.packageBookings, 0)
+
   return {
     totalRevenue,
+    totalNormalizedRevenue,
+    revenueByType,
+    totalPackageBookings,
     avgUtil,
     avgNoShow,
     avgRebook,

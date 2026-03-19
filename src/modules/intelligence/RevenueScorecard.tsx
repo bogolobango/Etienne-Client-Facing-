@@ -226,6 +226,91 @@ export function RevenueScorecard() {
         </div>
       </motion.div>
 
+      {/* Revenue Disaggregation — Package vs Service */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.12 }}
+        className="card-premium p-6"
+      >
+        <h3 className="text-sm font-medium text-muted-foreground mb-2">Revenue Disaggregation</h3>
+        <p className="text-xs text-muted-foreground mb-5">Package sales vs. individual visits — critical for accurate per-visit metrics</p>
+        {(() => {
+          const last30 = all.filter((m) => {
+            const d = new Date(m.date)
+            const now = new Date()
+            return (now.getTime() - d.getTime()) / 86400000 <= 30
+          })
+
+          const totals = last30.reduce(
+            (acc, m) => ({
+              service: acc.service + m.revenueByType.service,
+              package: acc.package + m.revenueByType.package,
+              product: acc.product + m.revenueByType.product,
+              membership: acc.membership + m.revenueByType.membership,
+              giftcard: acc.giftcard + m.revenueByType.giftcard,
+            }),
+            { service: 0, package: 0, product: 0, membership: 0, giftcard: 0 }
+          )
+          const grandTotal = totals.service + totals.package + totals.product + totals.membership + totals.giftcard
+          const totalNormalized = last30.reduce((s, m) => s + m.normalizedRevenue, 0)
+          const totalRaw = last30.reduce((s, m) => s + m.revenue, 0)
+          const distortion = totalRaw - totalNormalized
+
+          const categories = [
+            { label: 'Service Revenue', value: totals.service, color: 'bg-primary' },
+            { label: 'Package Revenue', value: totals.package, color: 'bg-chart-4' },
+            { label: 'Product Revenue', value: totals.product, color: 'bg-chart-3' },
+            { label: 'Membership Revenue', value: totals.membership, color: 'bg-chart-5' },
+            { label: 'Gift Card Revenue', value: totals.giftcard, color: 'bg-chart-2' },
+          ]
+
+          return (
+            <div className="space-y-4">
+              {/* Stacked bar */}
+              <div className="flex h-8 rounded-lg overflow-hidden">
+                {categories.map((cat) => (
+                  cat.value > 0 && (
+                    <div
+                      key={cat.label}
+                      className={cn('h-full transition-all', cat.color)}
+                      style={{ width: `${(cat.value / grandTotal) * 100}%` }}
+                      title={`${cat.label}: ${formatCurrency(cat.value)}`}
+                    />
+                  )
+                ))}
+              </div>
+
+              {/* Legend */}
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                {categories.map((cat) => (
+                  <div key={cat.label} className="flex items-center gap-2">
+                    <div className={cn('w-3 h-3 rounded-sm shrink-0', cat.color)} />
+                    <div>
+                      <p className="text-xs text-muted-foreground">{cat.label}</p>
+                      <p className="text-sm font-mono text-foreground">{formatCurrency(cat.value)}</p>
+                      <p className="text-xs text-muted-foreground">{grandTotal > 0 ? ((cat.value / grandTotal) * 100).toFixed(1) : 0}%</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Package distortion callout */}
+              {distortion > 0 && (
+                <div className="mt-3 p-3 rounded-lg border border-warning/20 bg-warning/5">
+                  <p className="text-xs text-foreground">
+                    <strong className="text-warning">Package Revenue Distortion:</strong>{' '}
+                    {formatCurrency(distortion)} difference between raw and normalized revenue this month.
+                    Package sales booked on day 1 inflate that day's metrics while making subsequent visits appear as $0 revenue.
+                    Normalized view spreads package revenue evenly across all sessions.
+                  </p>
+                </div>
+              )}
+            </div>
+          )
+        })()}
+      </motion.div>
+
       {/* Location Scorecard Table */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}

@@ -310,7 +310,13 @@ export interface ZenotiSalesReport {
 export interface ZenotiDailySales {
   date: string
   revenue: number
+  service_revenue?: number
+  product_revenue?: number
+  package_revenue?: number
+  membership_revenue?: number
+  gift_card_revenue?: number
   bookings: number
+  package_bookings?: number
   no_shows: number
   cancellations: number
   new_clients: number

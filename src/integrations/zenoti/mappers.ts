@@ -10,6 +10,7 @@ import type {
   Appointment,
   Client,
   DailyMetrics,
+  RevenueBreakdown,
 } from '@/types'
 
 import type {
@@ -20,18 +21,59 @@ import type {
   ZenotiSalesReport,
   ZenotiDailySales,
   ZenotiCollection,
+  ZenotiInvoice,
 } from './types'
+
+// ================================================================
+// Data Cleansing & Validation Utilities
+// ================================================================
+
+/** Clamp a number to a valid range */
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max)
+}
+
+/** Ensure revenue is non-negative, capped at a sane daily max */
+function cleanRevenue(value: number | null | undefined): number {
+  const v = value ?? 0
+  if (v < 0) return 0
+  // Flag anything over $500k/day as likely erroneous
+  if (v > 500000) return 0
+  return Math.round(v * 100) / 100
+}
+
+/** Ensure percentage is between 0 and 100 */
+function cleanPercent(value: number | null | undefined): number {
+  return clamp(value ?? 0, 0, 100)
+}
+
+/** Ensure a count is non-negative integer */
+function cleanCount(value: number | null | undefined): number {
+  const v = Math.round(value ?? 0)
+  return v < 0 ? 0 : v
+}
+
+/** Validate an ISO date string */
+function isValidDate(dateStr: string): boolean {
+  const d = new Date(dateStr)
+  return !isNaN(d.getTime())
+}
+
+/** Clean and trim a string, replacing null/undefined with empty */
+function cleanString(value: string | null | undefined): string {
+  return (value ?? '').trim()
+}
 
 // ── Centers → Locations ─────────────────────────────────────────
 
 export function mapCenter(c: ZenotiCenter): Location {
   return {
     id: c.id,
-    name: c.display_name || c.name,
-    city: c.city,
-    state: c.state?.code ?? c.state?.name ?? '',
+    name: cleanString(c.display_name) || cleanString(c.name),
+    city: cleanString(c.city),
+    state: cleanString(c.state?.code ?? c.state?.name),
     rooms: c.rooms?.filter((r) => r.is_active).length ?? 0,
-    providers: c.provider_count ?? 0,
+    providers: cleanCount(c.provider_count),
   }
 }
 
@@ -61,9 +103,9 @@ function inferServiceCategory(
 export function mapService(s: ZenotiService): Service {
   return {
     id: s.id,
-    name: s.name,
-    price: s.price?.sales ?? 0,
-    duration: s.duration,
+    name: cleanString(s.name),
+    price: cleanRevenue(s.price?.sales),
+    duration: cleanCount(s.duration),
     category: inferServiceCategory(s.category?.name ?? ''),
   }
 }
@@ -125,13 +167,14 @@ function mapBookingSource(source: number): Appointment['bookedBy'] {
 export function mapAppointment(a: ZenotiAppointment): Appointment {
   const start = new Date(a.start_time)
   const end = new Date(a.end_time)
+  const revenue = cleanRevenue(a.price?.sales)
 
   return {
     id: a.appointment_id,
-    clientName: `${a.guest.first_name} ${a.guest.last_name}`.trim(),
+    clientName: cleanString(`${a.guest.first_name} ${a.guest.last_name}`),
     clientId: a.guest.id,
-    service: a.service?.name ?? '',
-    provider: `${a.therapist.first_name} ${a.therapist.last_name}`.trim(),
+    service: cleanString(a.service?.name),
+    provider: cleanString(`${a.therapist.first_name} ${a.therapist.last_name}`),
     locationId: a.center_id,
     date: start.toISOString().slice(0, 10),
     startTime: start.toTimeString().slice(0, 5),
@@ -139,15 +182,108 @@ export function mapAppointment(a: ZenotiAppointment): Appointment {
     status: mapAppointmentStatus(a.status),
     bookedBy: mapBookingSource(a.booking_source),
     noShowRisk: 'low', // EIP AI calculates this separately
-    room: a.room ? 1 : 1, // Zenoti returns room object; map to number
-    revenue: a.price?.sales ?? 0,
+    room: a.room ? 1 : 1,
+    revenue,
+    normalizedRevenue: revenue, // Will be updated by normalizePackageRevenue()
+    saleType: 'service', // Default; updated when invoice data is available
   }
 }
 
 export function mapAppointments(
   appointments: ZenotiAppointment[],
 ): Appointment[] {
-  return appointments.map(mapAppointment)
+  return appointments
+    .filter((a) => isValidDate(a.start_time)) // Skip appointments with invalid dates
+    .map(mapAppointment)
+}
+
+// ── Invoice → Appointment enrichment ────────────────────────────
+
+/**
+ * Enrich appointments with invoice data to determine sale type
+ * and package information. Call this after mapping appointments.
+ */
+export function enrichAppointmentsFromInvoice(
+  appointments: Appointment[],
+  invoice: ZenotiInvoice,
+): Appointment[] {
+  const packageItems = invoice.items.filter((i) => i.type === 'package')
+  const serviceItems = invoice.items.filter((i) => i.type === 'service')
+
+  return appointments.map((apt) => {
+    // Check if any invoice item matches this appointment's service
+    const pkgItem = packageItems.find(
+      (i) => cleanString(i.name).toLowerCase().includes(apt.service.toLowerCase()),
+    )
+
+    if (pkgItem) {
+      return {
+        ...apt,
+        saleType: 'package' as const,
+        revenue: cleanRevenue(pkgItem.net.amount),
+        // normalizedRevenue will be computed by normalizePackageRevenue()
+      }
+    }
+
+    const svcItem = serviceItems.find(
+      (i) => cleanString(i.name).toLowerCase().includes(apt.service.toLowerCase()),
+    )
+    if (svcItem) {
+      return {
+        ...apt,
+        saleType: 'service' as const,
+        revenue: cleanRevenue(svcItem.net.amount),
+        normalizedRevenue: cleanRevenue(svcItem.net.amount),
+      }
+    }
+
+    return apt
+  })
+}
+
+// ── Package Revenue Normalization ───────────────────────────────
+
+/**
+ * Spread package revenue evenly across all sessions in the package.
+ *
+ * Problem: Zenoti may book a 6-session package as $3,000 on day 1 and $0
+ * on sessions 2-6. This distorts per-visit revenue, utilization value,
+ * and location comparisons.
+ *
+ * Solution: Group appointments by packageId, divide total package revenue
+ * by session count, assign normalizedRevenue to each session.
+ */
+export function normalizePackageRevenue(
+  appointments: Appointment[],
+): Appointment[] {
+  // Group package appointments by packageId
+  const packageGroups = new Map<string, Appointment[]>()
+
+  for (const apt of appointments) {
+    if (apt.saleType === 'package' && apt.packageId) {
+      const group = packageGroups.get(apt.packageId) ?? []
+      group.push(apt)
+      packageGroups.set(apt.packageId, group)
+    }
+  }
+
+  // Normalize revenue within each package group
+  const normalized = new Map<string, number>()
+  for (const [pkgId, group] of packageGroups) {
+    const totalRevenue = group.reduce((sum, a) => sum + a.revenue, 0)
+    const perSession = totalRevenue / group.length
+    normalized.set(pkgId, perSession)
+  }
+
+  return appointments.map((apt) => {
+    if (apt.saleType === 'package' && apt.packageId && normalized.has(apt.packageId)) {
+      return {
+        ...apt,
+        normalizedRevenue: Math.round(normalized.get(apt.packageId)! * 100) / 100,
+      }
+    }
+    return apt
+  })
 }
 
 // ── Guests → Clients ────────────────────────────────────────────
@@ -156,16 +292,16 @@ export function mapGuest(g: ZenotiGuest): Client {
   const p = g.personal_info
   return {
     id: g.id,
-    name: `${p.first_name} ${p.last_name}`.trim(),
-    email: p.email ?? '',
-    phone: p.mobile_phone?.number ?? p.home_phone?.number ?? '',
+    name: cleanString(`${p.first_name} ${p.last_name}`),
+    email: cleanString(p.email),
+    phone: cleanString(p.mobile_phone?.number ?? p.home_phone?.number),
     preferredLocation: g.home_center_id ?? g.center_id,
-    totalVisits: g.total_visits ?? 0,
-    clv: g.clv ?? 0,
+    totalVisits: cleanCount(g.total_visits),
+    clv: cleanRevenue(g.clv),
     lastVisit: g.last_visit_date ?? g.creation_date,
     joinDate: g.creation_date,
     favoriteService: g.preferred_service_id ?? '',
-    noShowCount: g.no_show_count ?? 0,
+    noShowCount: cleanCount(g.no_show_count),
   }
 }
 
@@ -187,18 +323,38 @@ export function mapDailySales(
   d: ZenotiDailySales,
   centerId: string,
 ): DailyMetrics {
-  const bookings = d.bookings ?? 0
-  const noShows = d.no_shows ?? 0
+  const bookings = cleanCount(d.bookings)
+  const noShows = cleanCount(d.no_shows)
+  const revenue = cleanRevenue(d.revenue)
+
+  const revenueByType: RevenueBreakdown = {
+    service: cleanRevenue(d.service_revenue),
+    package: cleanRevenue(d.package_revenue),
+    product: cleanRevenue(d.product_revenue),
+    membership: cleanRevenue(d.membership_revenue),
+    giftcard: cleanRevenue(d.gift_card_revenue),
+  }
+
+  // If individual breakdowns don't exist, attribute all to service
+  const breakdownTotal = revenueByType.service + revenueByType.package +
+    revenueByType.product + revenueByType.membership + revenueByType.giftcard
+  if (breakdownTotal === 0 && revenue > 0) {
+    revenueByType.service = revenue
+  }
+
   return {
     date: d.date,
     locationId: centerId,
-    revenue: d.revenue ?? 0,
+    revenue,
+    normalizedRevenue: revenue - revenueByType.package + revenueByType.package, // placeholder; normalized later
+    revenueByType,
     bookings,
+    packageBookings: cleanCount(d.package_bookings),
     noShows,
-    noShowRate: bookings > 0 ? (noShows / bookings) * 100 : 0,
+    noShowRate: bookings > 0 ? cleanPercent((noShows / bookings) * 100) : 0,
     responseTimeAvg: 0, // Populated by EIP command‑center
-    utilizationRate: (d.utilization_rate ?? 0) * 100,
-    newClients: d.new_clients ?? 0,
+    utilizationRate: cleanPercent((d.utilization_rate ?? 0) * 100),
+    newClients: cleanCount(d.new_clients),
     rebookingRate: 0, // Calculated separately by EIP
     callsAnswered: 0, // Populated by EIP command‑center
     callsMissed: 0,
@@ -221,11 +377,24 @@ export function mapSalesReport(report: ZenotiSalesReport): DailyMetrics[] {
  * endpoint is unavailable.
  */
 export function mapCollection(c: ZenotiCollection): DailyMetrics {
+  const revenueByType: RevenueBreakdown = {
+    service: cleanRevenue(c.service_revenue),
+    package: cleanRevenue(c.package_revenue),
+    product: cleanRevenue(c.product_revenue),
+    membership: cleanRevenue(c.membership_revenue),
+    giftcard: cleanRevenue(c.gift_card_revenue),
+  }
+
+  const revenue = cleanRevenue(c.net_revenue ?? c.total_revenue)
+
   return {
     date: c.date,
     locationId: c.center_id,
-    revenue: c.net_revenue ?? c.total_revenue ?? 0,
-    bookings: c.total_transactions ?? 0,
+    revenue,
+    normalizedRevenue: revenue,
+    revenueByType,
+    bookings: cleanCount(c.total_transactions),
+    packageBookings: 0,
     noShows: 0,
     noShowRate: 0,
     responseTimeAvg: 0,

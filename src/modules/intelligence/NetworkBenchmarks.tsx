@@ -362,10 +362,10 @@ function PercentileHistorySection() {
                 fontSize: 12,
               }}
               labelStyle={{ color: 'rgba(255,255,255,0.7)' }}
-              formatter={(value: number, name: string) => [
-                `P${value}`,
-                metricLabels[name] || name,
-              ]}
+              formatter={((value: number | undefined, name?: string) => [
+                `P${value ?? 0}`,
+                metricLabels[name ?? ''] || name || '',
+              ]) as never}
             />
             <Legend
               wrapperStyle={{ fontSize: 11, color: 'rgba(255,255,255,0.6)' }}

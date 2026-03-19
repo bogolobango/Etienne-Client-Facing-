@@ -24,7 +24,6 @@ import { Link } from 'react-router-dom'
 import { useLocationStore } from '@/stores/useLocationStore'
 import { locations } from '@/data/seed'
 import {
-  providers,
   providerMetrics,
   getProvidersByLocation,
   getAggregatedProviderMetrics,
@@ -498,7 +497,7 @@ export function ProviderPnL() {
                           fontSize: '12px',
                           boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                         }}
-                        formatter={(value: number) => [formatCurrency(value), 'Revenue']}
+                        formatter={(value: number = 0) => [formatCurrency(value), 'Revenue']}
                       />
                       <Bar
                         dataKey="revenue"

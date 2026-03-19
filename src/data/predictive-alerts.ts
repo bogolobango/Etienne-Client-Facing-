@@ -38,7 +38,7 @@ export interface PredictiveAlert {
   suggestedAction: string
   detectedAt: string
   status: 'active' | 'acknowledged' | 'resolved'
-  trendData: { date: string; actual: number; projected?: number }[]
+  trendData: { date: string; actual?: number; projected?: number }[]
 }
 
 // ---------------------------------------------------------------------------
@@ -50,8 +50,8 @@ function generateTrendData(
   declinePct: number,
   volatility: number,
   projectedEndValue: number,
-): { date: string; actual: number; projected?: number }[] {
-  const data: { date: string; actual: number; projected?: number }[] = []
+): { date: string; actual?: number; projected?: number }[] {
+  const data: { date: string; actual?: number; projected?: number }[] = []
   const actualDays = 14
   const projectedDays = 14
 
@@ -62,7 +62,7 @@ function generateTrendData(
     data.push({ date: daysAgo(i), actual: Math.round((decline + noise) * 100) / 100 })
   }
 
-  const lastActual = data[data.length - 1].actual
+  const lastActual = data[data.length - 1].actual ?? 0
   for (let i = 1; i <= projectedDays; i++) {
     const progress = i / projectedDays
     const projected = lastActual + (projectedEndValue - lastActual) * progress
@@ -77,8 +77,8 @@ function generateSpikeData(
   baseValue: number,
   spikeValue: number,
   spikeDayAgo: number,
-): { date: string; actual: number; projected?: number }[] {
-  const data: { date: string; actual: number; projected?: number }[] = []
+): { date: string; actual?: number; projected?: number }[] {
+  const data: { date: string; actual?: number; projected?: number }[] = []
   for (let i = 13; i >= 0; i--) {
     const noise = baseValue * 0.08 * Math.sin(i * 2.1 + 0.7)
     const val = i === spikeDayAgo ? spikeValue : baseValue + noise
@@ -414,8 +414,8 @@ function generateDashboardTrend(
   baseValue: number,
   trendPct: number,
   volatility: number,
-): { date: string; actual: number; projected?: number }[] {
-  const data: { date: string; actual: number; projected?: number }[] = []
+): { date: string; actual?: number; projected?: number }[] {
+  const data: { date: string; actual?: number; projected?: number }[] = []
 
   for (let i = 29; i >= 0; i--) {
     const progress = (29 - i) / 29
@@ -424,7 +424,7 @@ function generateDashboardTrend(
     data.push({ date: daysAgo(i), actual: Math.round((val + noise) * 100) / 100 })
   }
 
-  const lastActual = data[data.length - 1].actual
+  const lastActual = data[data.length - 1].actual ?? 0
   for (let i = 1; i <= 30; i++) {
     const progress = i / 30
     const projected = lastActual * (1 + trendPct * progress)

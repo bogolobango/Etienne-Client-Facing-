@@ -216,7 +216,7 @@ export function calculateScenario(
   locationId: string,
 ): ScenarioResult {
   const baseline = getBaseline(locationId)
-  const locInfo = getLocationInfo(locationId)
+  getLocationInfo(locationId)
 
   // Default staff cost estimate: ~35% of revenue
   const currentStaffCost = Math.round(baseline.monthlyRevenue * 0.35)

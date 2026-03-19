@@ -16,7 +16,6 @@ import {
   Plus,
   ChevronDown,
   ChevronUp,
-  Calendar,
   DollarSign,
   Target,
   BarChart3,
@@ -514,7 +513,7 @@ function ReportBuilderCTA() {
 // ---------------------------------------------------------------------------
 
 export function AutomatedReports() {
-  const { selectedLocation } = useLocationStore()
+  const { selectedLocation: _selectedLocation } = useLocationStore()
 
   return (
     <motion.div

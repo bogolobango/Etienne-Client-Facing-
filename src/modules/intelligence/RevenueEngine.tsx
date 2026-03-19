@@ -2,12 +2,9 @@ import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   DollarSign,
-  TrendingUp,
   AlertTriangle,
   CheckCircle2,
-  XCircle,
   Zap,
-  Clock,
   BarChart3,
   Target,
   Sparkles,

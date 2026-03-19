@@ -109,10 +109,6 @@ export const packageDefinitions: PackageDefinition[] = [
 
 const defMap = new Map(packageDefinitions.map((d) => [d.id, d]))
 
-function getDef(id: string): PackageDefinition {
-  return defMap.get(id)!
-}
-
 // ---------------------------------------------------------------------------
 // 2. Package Sales (25-30 across 5 locations)
 // ---------------------------------------------------------------------------

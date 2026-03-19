@@ -24,7 +24,6 @@ import {
 import { Link } from 'react-router-dom'
 import { useLocationStore } from '@/stores/useLocationStore'
 import {
-  packageDefinitions,
   packageSales,
   revenueReconciliation,
   getPackageDef,
@@ -372,7 +371,7 @@ export function PackageTruth() {
                   color: 'var(--foreground)',
                   boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                 }}
-                formatter={(value: number) => [
+                formatter={(value: number = 0) => [
                   formatCurrency(value),
                 ]}
               />
@@ -585,7 +584,7 @@ export function PackageTruth() {
                   color: 'var(--foreground)',
                   boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                 }}
-                formatter={(value: number) => [formatCurrency(value)]}
+                formatter={(value: number = 0) => [formatCurrency(value)]}
               />
               <Legend
                 verticalAlign="top"

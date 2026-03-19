@@ -97,7 +97,7 @@ function MiniTrendChart({
   unit,
   height = 120,
 }: {
-  data: { date: string; actual: number; projected?: number }[]
+  data: { date: string; actual?: number; projected?: number }[]
   unit?: string
   height?: number
 }) {
@@ -133,7 +133,7 @@ function MiniTrendChart({
             color: 'var(--foreground)',
             fontSize: '12px',
           }}
-          formatter={(value: number, name: string) => [formatVal(value), name === 'actual' ? 'Actual' : 'Projected']}
+          formatter={(value: number = 0, name: string = '') => [formatVal(value), name === 'actual' ? 'Actual' : 'Projected']}
           labelFormatter={(label) => formatDate(label)}
         />
         <Line

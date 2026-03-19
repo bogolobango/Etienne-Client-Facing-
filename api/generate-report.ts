@@ -1,29 +1,27 @@
-import Anthropic from '@anthropic-ai/sdk';
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-export const config = { runtime: 'edge' };
-
-export default async function handler(req: Request) {
   if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 204,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-    });
+    return res.status(204).end();
   }
 
   if (req.method !== 'POST') {
-    return new Response('Method not allowed', { status: 405 });
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    console.error('ANTHROPIC_API_KEY is not set');
+    return res.status(500).json({ error: 'API key not configured' });
   }
 
   try {
-    const { clientName, metrics, locations, benchmarks } = await req.json();
+    const { clientName, metrics, locations, benchmarks } = req.body;
 
     const systemPrompt = `You are a senior operational intelligence consultant at Etienne Agency. You are generating a professional Cross-Location Intelligence Report (Gap Analysis) for a multi-location med spa client.
 
@@ -64,44 +62,98 @@ ${benchmarks}
 
 Generate the full report now.`;
 
-    const stream = await client.messages.stream({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 3000,
-      system: systemPrompt,
-      messages: [{ role: 'user', content: userPrompt }],
+    // Use raw fetch to Claude API for streaming (avoids SDK compatibility issues)
+    const anthropicResponse = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 3000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }],
+        stream: true,
+      }),
     });
 
-    const encoder = new TextEncoder();
-    const readable = new ReadableStream({
-      async start(controller) {
-        try {
-          for await (const event of stream) {
-            if (
-              event.type === 'content_block_delta' &&
-              event.delta.type === 'text_delta'
-            ) {
-              controller.enqueue(encoder.encode(event.delta.text));
+    if (!anthropicResponse.ok) {
+      const errorText = await anthropicResponse.text();
+      console.error('Anthropic API error:', anthropicResponse.status, errorText);
+      return res.status(502).json({ error: `Anthropic API error: ${anthropicResponse.status}` });
+    }
+
+    // Stream the response back to the client
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Transfer-Encoding', 'chunked');
+
+    const reader = anthropicResponse.body as unknown as NodeJS.ReadableStream;
+    const decoder = new TextDecoder();
+    const chunks: Buffer[] = [];
+
+    // Read the SSE stream from Anthropic and extract text deltas
+    let buffer = '';
+
+    await new Promise<void>((resolve, reject) => {
+      reader.on('data', (chunk: Buffer) => {
+        chunks.push(chunk);
+        buffer += decoder.decode(chunk, { stream: true });
+
+        // Parse SSE events from buffer
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || ''; // Keep incomplete line in buffer
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6).trim();
+            if (data === '[DONE]') continue;
+            try {
+              const event = JSON.parse(data);
+              if (event.type === 'content_block_delta' && event.delta?.type === 'text_delta') {
+                res.write(event.delta.text);
+              }
+            } catch {
+              // Skip non-JSON lines
             }
           }
-          controller.close();
-        } catch (err) {
-          controller.error(err);
         }
-      },
+      });
+
+      reader.on('end', () => {
+        // Process any remaining buffer
+        if (buffer) {
+          const lines = buffer.split('\n');
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const data = line.slice(6).trim();
+              if (data === '[DONE]') continue;
+              try {
+                const event = JSON.parse(data);
+                if (event.type === 'content_block_delta' && event.delta?.type === 'text_delta') {
+                  res.write(event.delta.text);
+                }
+              } catch {
+                // Skip
+              }
+            }
+          }
+        }
+        resolve();
+      });
+
+      reader.on('error', reject);
     });
 
-    return new Response(readable, {
-      headers: {
-        'Content-Type': 'text/plain; charset=utf-8',
-        'Cache-Control': 'no-cache',
-        'Access-Control-Allow-Origin': '*',
-      },
-    });
+    return res.end();
   } catch (error: unknown) {
+    console.error('Report generation error:', error);
     const message = error instanceof Error ? error.message : 'Internal server error';
-    return new Response(JSON.stringify({ error: message }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    if (!res.headersSent) {
+      return res.status(500).json({ error: message });
+    }
+    return res.end();
   }
 }

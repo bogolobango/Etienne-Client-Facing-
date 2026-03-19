@@ -258,7 +258,7 @@ export function PackageTruth() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.06 }}
-            className="card-premium p-5"
+            className="card-premium p-4 sm:p-5"
           >
             <div className="flex items-center gap-2 mb-3">
               <card.icon className={cn('w-4 h-4', card.color)} />
@@ -301,7 +301,7 @@ export function PackageTruth() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.08 }}
-        className="card-premium p-6"
+        className="card-premium p-4 sm:p-6"
       >
         <h3 className="text-sm font-medium text-muted-foreground mb-1">
           Reported vs Normalized Revenue (30 Days)
@@ -309,7 +309,7 @@ export function PackageTruth() {
         <p className="text-xs text-muted-foreground mb-5">
           The gap between lines reveals package booking distortion
         </p>
-        <div className="h-[300px]">
+        <div className="h-[200px] md:h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={comparisonChartData}>
               <defs>
@@ -413,7 +413,7 @@ export function PackageTruth() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="card-premium p-6"
+        className="card-premium p-4 sm:p-6"
       >
         <div className="flex items-center gap-2 mb-4">
           <Package className="w-4 h-4 text-primary" />
@@ -547,7 +547,7 @@ export function PackageTruth() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.12 }}
-        className="card-premium p-6"
+        className="card-premium p-4 sm:p-6"
       >
         <h3 className="text-sm font-medium text-muted-foreground mb-1">
           Deferred vs Recognized Revenue by Location
@@ -555,7 +555,7 @@ export function PackageTruth() {
         <p className="text-xs text-muted-foreground mb-5">
           Stacked view of service obligations across locations
         </p>
-        <div className="h-[300px]">
+        <div className="h-[200px] md:h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={locationBreakdown}>
               <XAxis
@@ -620,7 +620,7 @@ export function PackageTruth() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.14 }}
-        className="card-premium p-6 border-destructive/20"
+        className="card-premium p-4 sm:p-6 border-destructive/20"
       >
         <div className="flex items-center gap-2 mb-1">
           <AlertTriangle className="w-4 h-4 text-destructive" />
@@ -696,7 +696,7 @@ export function PackageTruth() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.16 }}
-          className="card-premium p-6"
+          className="card-premium p-4 sm:p-6"
         >
           <div className="flex items-center gap-2 mb-1">
             <CalendarClock className="w-4 h-4 text-primary" />
@@ -733,7 +733,7 @@ export function PackageTruth() {
           </div>
 
           {/* PMS view vs Truth view */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* PMS View */}
             <div>
               <p className="text-xs font-medium text-destructive uppercase tracking-wider mb-3">

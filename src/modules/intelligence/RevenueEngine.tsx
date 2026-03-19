@@ -185,7 +185,7 @@ export function RevenueEngine() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="card-premium p-6"
+        className="card-premium p-4 sm:p-6"
       >
         <div className="flex flex-col lg:flex-row items-start lg:items-center gap-6">
           {/* Left: Big number */}
@@ -246,7 +246,7 @@ export function RevenueEngine() {
         </div>
 
         {/* Legend */}
-        <div className="flex flex-wrap gap-4 mt-4 pt-4 border-t border-border">
+        <div className="flex flex-wrap gap-2 sm:gap-4 mt-4 pt-4 border-t border-border">
           {typeBreakdown.map((entry) => (
             <div key={entry.type} className="flex items-center gap-2 text-sm">
               <div className="w-3 h-3 rounded-full" style={{ backgroundColor: TYPE_COLORS[entry.type] }} />
@@ -290,7 +290,7 @@ export function RevenueEngine() {
       </motion.div>
 
       {/* Opportunity Cards */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <AnimatePresence mode="popLayout">
           {filteredOpps.map((opp, i) => (
             <OpportunityCard
@@ -320,7 +320,7 @@ export function RevenueEngine() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="card-premium p-6"
+        className="card-premium p-4 sm:p-6"
       >
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -332,7 +332,7 @@ export function RevenueEngine() {
           </div>
         </div>
 
-        <div className="h-[350px]">
+        <div className="h-[250px] md:h-[350px]">
           <ResponsiveContainer width="100%" height="100%">
             <ScatterChart margin={{ top: 10, right: 30, bottom: 30, left: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -410,7 +410,7 @@ export function RevenueEngine() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-          className="card-premium p-6"
+          className="card-premium p-4 sm:p-6"
         >
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center">

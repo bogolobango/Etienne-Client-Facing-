@@ -114,7 +114,7 @@ function NetworkStatsBanner() {
   return (
     <motion.div
       variants={fadeUp}
-      className="card-premium p-4 flex flex-wrap items-center justify-between gap-4"
+      className="card-premium p-4 sm:p-6 flex flex-col md:flex-row flex-wrap items-center justify-between gap-4"
     >
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -257,12 +257,12 @@ function RadarSection() {
   }))
 
   return (
-    <motion.div variants={fadeUp} className="card-premium p-6">
+    <motion.div variants={fadeUp} className="card-premium p-4 sm:p-6">
       <h2 className="text-lg font-semibold text-foreground mb-1">Performance Shape</h2>
       <p className="text-xs text-muted-foreground mb-4">
         Your percentile profile vs. network median across all metrics
       </p>
-      <div className="h-[380px]">
+      <div className="h-[250px] sm:h-[320px] md:h-[380px]">
         <ResponsiveContainer width="100%" height="100%">
           <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="72%">
             <PolarGrid stroke="rgba(255,255,255,0.06)" />
@@ -329,12 +329,12 @@ function PercentileHistorySection() {
   })
 
   return (
-    <motion.div variants={fadeUp} className="card-premium p-6">
+    <motion.div variants={fadeUp} className="card-premium p-4 sm:p-6">
       <h2 className="text-lg font-semibold text-foreground mb-1">Percentile Trajectory</h2>
       <p className="text-xs text-muted-foreground mb-4">
         How your standing in the network has changed over the last 12 months
       </p>
-      <div className="h-[320px]">
+      <div className="h-[200px] sm:h-[280px] md:h-[320px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>
             <CartesianGrid stroke="rgba(255,255,255,0.04)" />
@@ -399,11 +399,12 @@ function PeerComparisonTable() {
   }
 
   return (
-    <motion.div variants={fadeUp} className="card-premium p-6 overflow-x-auto">
+    <motion.div variants={fadeUp} className="card-premium p-4 sm:p-6">
       <h2 className="text-lg font-semibold text-foreground mb-1">Peer Comparison</h2>
       <p className="text-xs text-muted-foreground mb-4">
         Your metrics vs. network segments — Northeast region, similar-size locations, and top performers
       </p>
+      <div className="overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-border">
@@ -444,6 +445,7 @@ function PeerComparisonTable() {
           })}
         </tbody>
       </table>
+      </div>
     </motion.div>
   )
 }
@@ -486,7 +488,7 @@ function ImprovementOpportunities() {
   if (opportunities.length === 0) return null
 
   return (
-    <motion.div variants={fadeUp} className="card-premium p-6">
+    <motion.div variants={fadeUp} className="card-premium p-4 sm:p-6">
       <div className="flex items-center gap-2 mb-1">
         <Target className="w-5 h-5 text-primary" />
         <h2 className="text-lg font-semibold text-foreground">Improvement Opportunities</h2>

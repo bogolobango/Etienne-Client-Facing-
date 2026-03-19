@@ -343,7 +343,7 @@ function ReportHistoryTimeline() {
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   return (
-    <motion.div variants={fadeUp} className="card-premium p-6">
+    <motion.div variants={fadeUp} className="card-premium p-4 sm:p-6">
       <h3 className="text-sm font-semibold text-foreground mb-1">Report History</h3>
       <p className="text-xs text-muted-foreground mb-5">Previously delivered intelligence reports</p>
 
@@ -405,7 +405,7 @@ function ReportHistoryTimeline() {
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
-                      className="mt-4 pt-4 border-t border-border grid grid-cols-2 sm:grid-cols-3 gap-3"
+                      className="mt-4 pt-4 border-t border-border grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"
                     >
                       <div>
                         <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Top Opportunity</p>

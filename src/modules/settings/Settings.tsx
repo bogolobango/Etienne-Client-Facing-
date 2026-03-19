@@ -35,7 +35,7 @@ export function Settings() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="card-premium p-6 border-primary/20"
+          className="card-premium p-4 sm:p-6 border-primary/20"
         >
           {/* Top row */}
           <div className="flex items-start justify-between">
@@ -56,7 +56,7 @@ export function Settings() {
           </div>
 
           {/* Info grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-5 border-t border-border">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-5 border-t border-border">
             <div>
               <p className="text-xs text-muted-foreground">Organization</p>
               <p className="text-sm font-medium text-foreground mt-0.5">Etienne Intelligence</p>

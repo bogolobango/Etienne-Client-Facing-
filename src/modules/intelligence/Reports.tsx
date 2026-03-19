@@ -84,7 +84,7 @@ export function Reports() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="card-premium p-6"
+        className="card-premium p-4 sm:p-6"
       >
         <div className="flex items-center gap-2 mb-4">
           <FileText className="w-4 h-4 text-primary" />
@@ -114,7 +114,7 @@ export function Reports() {
       </motion.div>
 
       {/* Key Metrics Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {[
           { label: 'Revenue', value: formatCurrency(weekRevenue), change: revenueChange },
           { label: 'AI Recovered', value: formatCurrency(weekRecovered), change: 15.2 },
@@ -145,7 +145,7 @@ export function Reports() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="card-premium p-6"
+        className="card-premium p-4 sm:p-6"
       >
         <h3 className="text-sm font-medium text-muted-foreground mb-4">Location Breakdown</h3>
         <div className="overflow-x-auto">
@@ -195,7 +195,7 @@ export function Reports() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25 }}
-        className="card-premium p-6"
+        className="card-premium p-4 sm:p-6"
       >
         <h3 className="text-sm font-medium text-muted-foreground mb-4">Past Reports</h3>
         <div className="space-y-2">

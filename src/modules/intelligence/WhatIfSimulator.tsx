@@ -289,7 +289,7 @@ export function WhatIfSimulator() {
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="card-premium p-6 space-y-5">
+            <div className="card-premium p-4 sm:p-6 space-y-5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   {(() => {
@@ -366,7 +366,7 @@ export function WhatIfSimulator() {
                         type="text"
                         value={String(params[param.id] ?? param.defaultValue)}
                         onChange={(e) => handleParamChange(param.id, e.target.value)}
-                        className="w-full rounded-lg border border-border bg-primary/5 text-foreground text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary/40"
+                        className="w-full rounded-lg border border-border bg-primary/5 text-foreground text-base sm:text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary/40"
                       />
                     ) : (
                       <input
@@ -424,7 +424,7 @@ export function WhatIfSimulator() {
                   className="space-y-5 mt-5"
                 >
                   {/* Net Impact Hero */}
-                  <div className="card-premium p-6 text-center">
+                  <div className="card-premium p-4 sm:p-6 text-center">
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
                       Projected Monthly Net Impact
                     </p>
@@ -555,7 +555,7 @@ export function WhatIfSimulator() {
                     <h3 className="text-sm font-semibold text-foreground">
                       Current vs Projected
                     </h3>
-                    <div className="h-64">
+                    <div className="h-40 sm:h-56 md:h-64">
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                           data={comparisonData}

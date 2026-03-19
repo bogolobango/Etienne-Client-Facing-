@@ -61,9 +61,9 @@ export function ConversationInbox() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 h-[calc(100vh-200px)] md:h-[calc(100vh-180px)]">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 h-auto lg:h-[calc(100vh-180px)]">
         {/* Conversation List */}
-        <div className="lg:col-span-2 card-premium flex flex-col overflow-hidden max-h-[50vh] lg:max-h-none">
+        <div className="lg:col-span-2 card-premium flex flex-col overflow-hidden max-h-[40vh] sm:max-h-[50vh] lg:max-h-none">
           {/* Search */}
           <div className="p-3 border-b border-border">
             <div className="relative">
@@ -127,8 +127,8 @@ export function ConversationInbox() {
           {selectedConvo ? (
             <>
               {/* Header */}
-              <div className="p-4 border-b border-border">
-                <div className="flex items-center justify-between">
+              <div className="p-3 sm:p-4 border-b border-border">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                   <div>
                     <p className="text-lg font-medium text-foreground">{selectedConvo.clientName}</p>
                     <div className="flex items-center gap-2 mt-1">
@@ -141,14 +141,14 @@ export function ConversationInbox() {
                     </div>
                   </div>
                   {selectedConvo.status !== 'ai_resolved' && (
-                    <button className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
+                    <button className="px-3 py-1.5 sm:px-4 sm:py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors w-full sm:w-auto">
                       Take Over
                     </button>
                   )}
                 </div>
 
                 {/* AI Summary */}
-                <div className="mt-3 p-3 rounded-lg bg-primary/5 border border-primary/20">
+                <div className="mt-2 sm:mt-3 p-2 sm:p-3 rounded-lg bg-primary/5 border border-primary/20">
                   <div className="flex items-center gap-1.5 mb-1">
                     <Bot className="w-3.5 h-3.5 text-primary" />
                     <span className="text-xs font-medium text-primary">AI Summary</span>
@@ -176,7 +176,7 @@ export function ConversationInbox() {
                       </div>
                     )}
                     <div className={cn(
-                      'max-w-[70%] p-3 rounded-lg text-sm shadow-elevation-sm',
+                      'max-w-[85%] sm:max-w-[70%] p-2 sm:p-3 rounded-lg text-sm shadow-elevation-sm',
                       msg.role === 'client'
                         ? 'bg-primary/[0.06] text-foreground'
                         : msg.role === 'ai'
@@ -204,11 +204,11 @@ export function ConversationInbox() {
 
               {/* Reply box */}
               <div className="p-3 border-t border-border">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 sm:gap-2">
                   <input
                     type="text"
                     placeholder="Type a response or let AI suggest..."
-                    className="flex-1 px-3 py-2 bg-primary/[0.06] border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary/50"
+                    className="flex-1 px-3 py-2 bg-primary/[0.06] border border-border rounded-lg text-base sm:text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary/50"
                   />
                   <button className="p-2 bg-primary rounded-lg hover:bg-primary/90 transition-colors">
                     <Send className="w-4 h-4 text-primary-foreground" />

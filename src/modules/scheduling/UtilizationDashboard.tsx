@@ -98,16 +98,16 @@ export function UtilizationDashboard() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="card-premium p-6"
+        className="card-premium p-3 sm:p-4 md:p-6"
       >
         <h3 className="text-sm font-medium text-muted-foreground mb-4">
           Capacity Heatmap — {selectedLocation === 'all' ? 'All Locations' : locations.find(l => l.id === selectedLocation)?.name}
         </h3>
 
         <div className="overflow-x-auto scroll-fade-x">
-          <div className="min-w-[500px]">
+          <div className="min-w-[400px] sm:min-w-[500px]">
             {/* Hour headers */}
-            <div className="grid gap-1 mb-1" style={{ gridTemplateColumns: '60px repeat(9, 1fr)' }}>
+            <div className="grid gap-1 mb-1" style={{ gridTemplateColumns: '40px repeat(9, 1fr)' }}>
               <div />
               {hours.map((h) => (
                 <div key={h} className="text-center text-xs text-muted-foreground">{h}</div>
@@ -116,7 +116,7 @@ export function UtilizationDashboard() {
 
             {/* Heatmap rows */}
             {days.map((day, dayIdx) => (
-              <div key={day} className="grid gap-1 mb-1" style={{ gridTemplateColumns: '60px repeat(9, 1fr)' }}>
+              <div key={day} className="grid gap-1 mb-1" style={{ gridTemplateColumns: '40px repeat(9, 1fr)' }}>
                 <div className="flex items-center text-xs text-muted-foreground">{day}</div>
                 {heatmapData[dayIdx].map((value, hourIdx) => (
                   <motion.div
@@ -125,7 +125,7 @@ export function UtilizationDashboard() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: (dayIdx * 9 + hourIdx) * 0.01 }}
                     className={cn(
-                      'h-10 rounded-md flex items-center justify-center text-xs font-mono transition-colors',
+                      'h-8 sm:h-10 rounded-md flex items-center justify-center text-[10px] sm:text-xs font-mono transition-colors',
                       value === 0 ? 'bg-primary/[0.06] text-muted-foreground' : getHeatmapColor(value),
                       value >= 65 ? 'text-white font-medium' : 'text-muted-foreground'
                     )}
@@ -139,7 +139,7 @@ export function UtilizationDashboard() {
         </div>
 
         {/* Legend */}
-        <div className="flex items-center gap-4 mt-4">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-4">
           <span className="text-xs text-muted-foreground">Low</span>
           <div className="flex gap-1">
             {['bg-primary/[0.06]', 'bg-warning/30', 'bg-warning/60', 'bg-success/60', 'bg-success'].map((color, i) => (
@@ -150,20 +150,20 @@ export function UtilizationDashboard() {
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Location Utilization */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="card-premium p-6"
+          className="card-premium p-3 sm:p-4 md:p-6"
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-4">Utilization by Location</h3>
-          <div className="h-[250px]">
+          <div className="h-[200px] md:h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={locationUtilization} layout="vertical">
                 <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
-                <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} width={120} />
+                <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} width={90} />
                 <Tooltip
                   contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', color: 'var(--foreground)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   formatter={(value: number = 0) => [`${value}%`, 'Utilization']}
@@ -181,14 +181,14 @@ export function UtilizationDashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="card-premium p-6"
+          className="card-premium p-3 sm:p-4 md:p-6"
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-4">Revenue per Provider Hour</h3>
-          <div className="h-[250px]">
+          <div className="h-[200px] md:h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={revenuePerHour} layout="vertical">
                 <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} tickFormatter={(v) => `$${v}`} />
-                <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} width={120} />
+                <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} width={90} />
                 <Tooltip
                   contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', color: 'var(--foreground)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   formatter={(value: number = 0) => [`$${value}/hr`, 'Revenue']}

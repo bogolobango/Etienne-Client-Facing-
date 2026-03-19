@@ -121,13 +121,13 @@ export function DashboardHome() {
         <>
           {/* Hero Metrics */}
           {loading ? (
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
               {Array.from({ length: 4 }).map((_, i) => (
                 <MetricSkeleton key={i} />
               ))}
             </div>
           ) : (
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
             <MetricCard
               label="Total Revenue"
               value={metrics.revenue}
@@ -169,16 +169,16 @@ export function DashboardHome() {
           )}
 
           {/* Revenue Chart + Alerts */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Revenue Trend */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="lg:col-span-2 card-premium p-6"
+              className="md:col-span-2 lg:col-span-2 card-premium p-4 sm:p-6"
             >
               <h3 className="text-sm font-medium text-muted-foreground mb-4">Revenue Trend (30 days)</h3>
-              <div className="h-[280px]">
+              <div className="h-[200px] md:h-[280px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={chartData}>
                     <defs>
@@ -229,7 +229,7 @@ export function DashboardHome() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="card-premium p-6"
+              className="card-premium p-4 sm:p-6"
             >
               <h3 className="text-sm font-medium text-muted-foreground mb-4">AI Opportunities</h3>
               <div className="space-y-3">
@@ -270,13 +270,13 @@ export function DashboardHome() {
           </div>
 
           {/* Module Health + Activity Feed */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Module Health */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35 }}
-              className="card-premium p-6"
+              className="card-premium p-4 sm:p-6"
             >
               <h3 className="text-sm font-medium text-muted-foreground mb-4">AI Agents</h3>
               <div className="space-y-2">
@@ -291,7 +291,7 @@ export function DashboardHome() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="lg:col-span-2 card-premium p-6"
+              className="md:col-span-2 lg:col-span-2 card-premium p-4 sm:p-6"
             >
               <h3 className="text-sm font-medium text-muted-foreground mb-4">Live Activity</h3>
               <ActivityFeed />
@@ -307,7 +307,7 @@ export function DashboardHome() {
               className="card-premium p-6"
             >
               <h3 className="text-sm font-medium text-muted-foreground mb-4">Location Performance</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
                 {locations.map((loc) => {
                   const locMetrics = getFilteredMetrics(loc.id)
                   return (
@@ -315,7 +315,7 @@ export function DashboardHome() {
                       key={loc.id}
                       className="p-4 rounded-lg border border-border bg-section-alt hover:border-primary/20 transition-all duration-200"
                     >
-                      <p className="text-sm font-medium text-foreground">{loc.name}</p>
+                      <p className="text-sm font-medium text-foreground truncate">{loc.name}</p>
                       <p className="text-xs text-muted-foreground">{loc.city}, {loc.state}</p>
                       <p className="text-xl font-mono font-semibold text-foreground mt-3">
                         {formatCurrency(locMetrics.revenue)}
@@ -336,7 +336,7 @@ export function DashboardHome() {
       ) : (
         /* Staff View */
         <>
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
             <MetricCard
               label="Your Bookings Today"
               value={8}

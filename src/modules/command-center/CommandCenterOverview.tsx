@@ -77,7 +77,7 @@ export function CommandCenterOverview() {
           <p className="text-muted-foreground mt-1">Live conversations needing attention</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3 md:gap-4">
           <MetricCard label="Active Conversations" value={activeConvos.length} delay={0} dataSource="Zenoti" />
           <MetricCard label="Avg Response Time" value={avgResponseTime} format="time" delay={1} dataSource="Zenoti" />
           <MetricCard label="AI Handling" value={aiResolved} delay={2} dataSource="Zenoti" />
@@ -99,7 +99,7 @@ export function CommandCenterOverview() {
             {activeConvos.slice(0, 8).map((convo) => (
               <div
                 key={convo.id}
-                className="flex items-center justify-between p-3 rounded-lg border border-border bg-primary/[0.06] hover:border-primary/20 transition-all duration-200 cursor-pointer"
+                className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg border border-border bg-primary/[0.06] hover:border-primary/20 transition-all duration-200 cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <div className={cn(
@@ -133,7 +133,7 @@ export function CommandCenterOverview() {
         <p className="text-muted-foreground mt-1">Analyzing guest communications across all channels</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
         <MetricCard
           label="Total Conversations"
           value={totalConvos}
@@ -169,7 +169,7 @@ export function CommandCenterOverview() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Channel Breakdown */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -178,7 +178,7 @@ export function CommandCenterOverview() {
           className="card-premium p-6"
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-4">Channel Breakdown</h3>
-          <div className="h-[200px]">
+          <div className="h-[160px] sm:h-[180px] md:h-[200px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -208,7 +208,7 @@ export function CommandCenterOverview() {
               </PieChart>
             </ResponsiveContainer>
           </div>
-          <div className="flex flex-wrap gap-3 mt-2 justify-center">
+          <div className="flex flex-wrap gap-2 sm:gap-3 mt-2 justify-center">
             {channelData.map((ch) => (
               <div key={ch.name} className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: ch.color }} />
@@ -226,7 +226,7 @@ export function CommandCenterOverview() {
           className="card-premium p-6"
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-4">Resolution Breakdown</h3>
-          <div className="h-[200px]">
+          <div className="h-[160px] sm:h-[180px] md:h-[200px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -256,7 +256,7 @@ export function CommandCenterOverview() {
               </PieChart>
             </ResponsiveContainer>
           </div>
-          <div className="flex flex-wrap gap-3 mt-2 justify-center">
+          <div className="flex flex-wrap gap-2 sm:gap-3 mt-2 justify-center">
             {resolutionData.map((r) => (
               <div key={r.name} className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: r.color }} />
@@ -300,7 +300,7 @@ export function CommandCenterOverview() {
             View Details <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
-        <div className="h-[250px]">
+        <div className="h-[180px] sm:h-[220px] md:h-[250px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={weeklyData}>
               <XAxis dataKey="week" axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} />

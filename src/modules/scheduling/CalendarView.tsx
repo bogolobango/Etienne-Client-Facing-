@@ -104,7 +104,7 @@ export function CalendarView() {
         </div>
 
         {/* Time slots */}
-        <div className="max-h-[calc(100vh-360px)] md:max-h-[calc(100vh-320px)] overflow-y-auto scroll-fade-y">
+        <div className="max-h-[calc(100vh-380px)] sm:max-h-[calc(100vh-340px)] md:max-h-[calc(100vh-320px)] overflow-y-auto scroll-fade-y">
           {filteredAppts.length === 0 && (
             <div className="flex flex-col items-center justify-center py-16 text-center">
               <CalendarOff className="w-10 h-10 text-muted-foreground mb-3" />

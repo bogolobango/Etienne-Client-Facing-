@@ -68,7 +68,7 @@ export function IntelligenceOverview() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="card-premium p-6"
+            className="card-premium p-4 sm:p-6"
           >
             <h3 className="text-sm font-medium text-muted-foreground mb-4">AI Suggested Actions</h3>
             <div className="space-y-3">
@@ -89,7 +89,7 @@ export function IntelligenceOverview() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            className="card-premium p-6"
+            className="card-premium p-4 sm:p-6"
           >
             <h3 className="text-sm font-medium text-muted-foreground mb-4">Team Leaderboard</h3>
             <div className="space-y-3">
@@ -131,11 +131,11 @@ export function IntelligenceOverview() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-xl border border-primary/20 bg-gradient-to-r from-primary/5 to-transparent p-5 md:p-8"
+        className="rounded-xl border border-primary/20 bg-gradient-to-r from-primary/5 to-transparent p-4 sm:p-5 md:p-8"
       >
         <p className="text-sm text-primary font-medium mb-2">Revenue Gaps Identified This Month</p>
         <p className="text-3xl md:text-5xl font-mono font-bold text-foreground tracking-tight">{formatCurrency(totalRecovered)}</p>
-        <div className="flex flex-wrap gap-4 md:gap-6 mt-4">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 md:gap-6 mt-4">
           <div>
             <p className="text-xs text-muted-foreground">Response Gap Analysis</p>
             <p className="text-base md:text-lg font-mono text-foreground">{formatCurrency(missedCallRecovery)}</p>
@@ -151,7 +151,7 @@ export function IntelligenceOverview() {
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <MetricCard
           label="Total Revenue"
           value={totalRevenue}
@@ -179,13 +179,13 @@ export function IntelligenceOverview() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Location Comparison */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="lg:col-span-2 card-premium p-6"
+          className="lg:col-span-2 card-premium p-4 sm:p-6"
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-muted-foreground">Location Revenue Comparison</h3>
@@ -193,7 +193,7 @@ export function IntelligenceOverview() {
               Full Scorecard <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
-          <div className="h-[280px]">
+          <div className="h-[200px] md:h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={locationRevenue}>
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} />
@@ -214,7 +214,7 @@ export function IntelligenceOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-          className="card-premium p-6"
+          className="card-premium p-4 sm:p-6"
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-4">AI Opportunities</h3>
           <div className="space-y-3">
@@ -229,12 +229,12 @@ export function IntelligenceOverview() {
       </div>
 
       {/* AI Agents + Quick Links */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="card-premium p-6"
+          className="card-premium p-4 sm:p-6"
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-4">AI Agents</h3>
           <div className="space-y-2">
@@ -248,7 +248,7 @@ export function IntelligenceOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35 }}
-          className="lg:col-span-2 rounded-xl border border-primary/20 bg-primary/5 p-6 cursor-pointer hover:border-primary/40 hover:shadow-elevation-md transition-all duration-200"
+          className="lg:col-span-2 rounded-xl border border-primary/20 bg-primary/5 p-4 sm:p-6 cursor-pointer hover:border-primary/40 hover:shadow-elevation-md transition-all duration-200"
         >
           <Link to="/intelligence/analyst" className="block">
             <div className="flex items-center gap-3 mb-3">
@@ -282,9 +282,9 @@ export function IntelligenceOverview() {
       >
         <Link
           to="/intelligence/gap-analysis"
-          className="block rounded-xl border border-primary/20 bg-gradient-to-r from-primary/5 to-transparent p-6 hover:border-primary/40 hover:shadow-elevation-md transition-all duration-200"
+          className="block rounded-xl border border-primary/20 bg-gradient-to-r from-primary/5 to-transparent p-4 sm:p-6 hover:border-primary/40 hover:shadow-elevation-md transition-all duration-200"
         >
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                 <FileText className="w-6 h-6 text-primary" />

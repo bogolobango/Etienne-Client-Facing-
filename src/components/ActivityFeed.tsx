@@ -68,14 +68,14 @@ export function ActivityFeed({ activities = defaultActivities, maxItems = 8 }: A
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.05, duration: 0.3 }}
-            className="flex items-start gap-3 p-3 rounded-xl hover:bg-primary/[0.06] transition-colors"
+            className="flex items-start gap-2 sm:gap-3 p-2 sm:p-3 rounded-xl hover:bg-primary/[0.06] transition-colors"
           >
             <div className={cn('p-1.5 rounded-lg mt-0.5', colorMap[activity.type])}>
               <Icon className="w-3.5 h-3.5" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm text-foreground leading-snug">{activity.message}</p>
-              <div className="flex items-center gap-2 mt-1">
+              <p className="text-xs sm:text-sm text-foreground leading-snug">{activity.message}</p>
+              <div className="flex items-center gap-1 sm:gap-2 mt-1 flex-wrap">
                 {activity.location && (
                   <span className="text-xs text-muted-foreground">{activity.location}</span>
                 )}

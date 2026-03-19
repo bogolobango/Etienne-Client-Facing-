@@ -60,10 +60,10 @@ export function ChannelPerformance() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="card-premium p-6"
+        className="card-premium p-4 sm:p-6"
       >
         <h3 className="text-sm font-medium text-muted-foreground mb-4">Avg Response Time (90-Day Trend)</h3>
-        <div className="h-[300px]">
+        <div className="h-[200px] sm:h-[250px] md:h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={responseTimeData}>
               <defs>
@@ -89,16 +89,16 @@ export function ChannelPerformance() {
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Calls Answered vs Missed */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="card-premium p-6"
+          className="card-premium p-4 sm:p-6"
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-4">Calls: Answered vs Missed</h3>
-          <div className="h-[250px]">
+          <div className="h-[180px] sm:h-[220px] md:h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={callData}>
                 <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} interval={6} />
@@ -116,10 +116,10 @@ export function ChannelPerformance() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="card-premium p-6"
+          className="card-premium p-4 sm:p-6"
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-4">AI Resolved vs Escalated</h3>
-          <div className="h-[250px]">
+          <div className="h-[180px] sm:h-[220px] md:h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={resolutionData}>
                 <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} interval={6} />

@@ -276,7 +276,7 @@ export function ProviderPnL() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0, ease: 'easeOut' }}
-          className="card-premium p-4 md:p-6"
+          className="card-premium p-4 sm:p-6"
         >
           <div className="flex items-center gap-2 mb-2">
             <DollarSign className="w-4 h-4 text-primary" />
@@ -294,7 +294,7 @@ export function ProviderPnL() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.08, ease: 'easeOut' }}
-          className="card-premium p-4 md:p-6"
+          className="card-premium p-4 sm:p-6"
         >
           <div className="flex items-center gap-2 mb-2">
             <AlertTriangle className="w-4 h-4 text-destructive" />
@@ -312,7 +312,7 @@ export function ProviderPnL() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.16, ease: 'easeOut' }}
-          className="card-premium p-4 md:p-6"
+          className="card-premium p-4 sm:p-6"
         >
           <div className="flex items-center gap-2 mb-2">
             <RefreshCw className="w-4 h-4 text-primary" />
@@ -330,7 +330,7 @@ export function ProviderPnL() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.24, ease: 'easeOut' }}
-          className="card-premium p-4 md:p-6"
+          className="card-premium p-4 sm:p-6"
         >
           <div className="flex items-center gap-2 mb-2">
             <Trophy className="w-4 h-4 text-primary" />
@@ -348,7 +348,7 @@ export function ProviderPnL() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="card-premium p-6"
+        className="card-premium p-4 sm:p-6"
       >
         <h3 className="text-sm font-medium text-muted-foreground mb-4">Provider Comparison</h3>
         <div className="overflow-x-auto">
@@ -467,7 +467,7 @@ export function ProviderPnL() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 + idx * 0.04 }}
-                className="card-premium p-4 min-w-[280px] max-w-[320px] shrink-0"
+                className="card-premium p-4 min-w-[240px] sm:min-w-[280px] max-w-[300px] sm:max-w-[320px] shrink-0"
               >
                 <div className="flex items-start justify-between mb-3">
                   <div>
@@ -538,7 +538,7 @@ export function ProviderPnL() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="card-premium p-6"
+          className="card-premium p-4 sm:p-6"
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-4">
             Cross-Location Intelligence

@@ -268,7 +268,7 @@ export function GapAnalysis() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="card-premium p-8 text-center"
+          className="card-premium p-4 sm:p-6 md:p-8 text-center"
         >
           <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
             <Sparkles className="w-8 h-8 text-primary" />
@@ -297,7 +297,7 @@ export function GapAnalysis() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="card-premium p-8 text-center"
+          className="card-premium p-4 sm:p-6 md:p-8 text-center"
         >
           <Loader2 className="w-8 h-8 text-primary animate-spin mx-auto mb-4" />
           <p className="text-sm text-muted-foreground">Generating gap analysis report...</p>
@@ -308,7 +308,7 @@ export function GapAnalysis() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="card-premium p-6 md:p-8"
+          className="card-premium p-4 sm:p-6 md:p-8"
         >
           <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border">
             <FileText className="w-4 h-4 text-primary" />

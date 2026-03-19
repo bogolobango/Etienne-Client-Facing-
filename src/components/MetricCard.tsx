@@ -96,17 +96,17 @@ export function MetricCard({
       transition={{ duration: 0.5, delay: delay * 0.08, ease: 'easeOut' }}
       onClick={onClick}
       className={cn(
-        'card-premium relative overflow-hidden p-4 md:p-6',
+        'card-premium relative overflow-hidden p-3 sm:p-4 md:p-6',
         onClick && 'cursor-pointer'
       )}
     >
       <div>
         <p className="text-xs md:text-sm text-muted-foreground mb-1 truncate">{label}</p>
-        <p className="text-2xl md:text-3xl font-mono font-semibold tracking-tight text-foreground stat-number">
+        <p className="text-xl sm:text-2xl md:text-3xl font-mono font-semibold tracking-tight text-foreground stat-number">
           {formatValue(displayValue, format)}
         </p>
         {trend !== undefined && (
-          <div className={cn('flex items-center gap-1 mt-2.5 text-sm', trendColor)}>
+          <div className={cn('flex items-center gap-1 mt-2 sm:mt-2.5 text-xs sm:text-sm', trendColor)}>
             {isPositiveTrend ? (
               <TrendingUp className="w-4 h-4" />
             ) : (

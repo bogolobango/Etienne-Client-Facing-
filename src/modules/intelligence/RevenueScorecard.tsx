@@ -86,7 +86,7 @@ export function RevenueScorecard() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="card-premium p-6"
+        className="card-premium p-4 sm:p-6"
       >
         <h3 className="text-sm font-medium text-muted-foreground mb-4">ROI Dashboard: Before EIP vs After EIP</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -136,7 +136,7 @@ export function RevenueScorecard() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.08 }}
-        className="card-premium p-6"
+        className="card-premium p-4 sm:p-6"
       >
         <h3 className="text-sm font-medium text-muted-foreground mb-2">Revenue Leakage Analysis</h3>
         <p className="text-xs text-muted-foreground mb-5">Where revenue is being lost vs. theoretical capacity</p>
@@ -202,10 +202,10 @@ export function RevenueScorecard() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="card-premium p-6"
+        className="card-premium p-4 sm:p-6"
       >
         <h3 className="text-sm font-medium text-muted-foreground mb-4">Revenue Gap Trend (90 Days)</h3>
-        <div className="h-[280px]">
+        <div className="h-[200px] md:h-[280px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={recoveryTrend}>
               <defs>
@@ -231,7 +231,7 @@ export function RevenueScorecard() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.12 }}
-        className="card-premium p-6"
+        className="card-premium p-4 sm:p-6"
       >
         <h3 className="text-sm font-medium text-muted-foreground mb-2">Revenue Disaggregation</h3>
         <p className="text-xs text-muted-foreground mb-5">Package sales vs. individual visits — critical for accurate per-visit metrics</p>
@@ -282,7 +282,7 @@ export function RevenueScorecard() {
               </div>
 
               {/* Legend */}
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
                 {categories.map((cat) => (
                   <div key={cat.label} className="flex items-center gap-2">
                     <div className={cn('w-3 h-3 rounded-sm shrink-0', cat.color)} />
@@ -316,7 +316,7 @@ export function RevenueScorecard() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15 }}
-        className="card-premium p-6"
+        className="card-premium p-4 sm:p-6"
       >
         <h3 className="text-sm font-medium text-muted-foreground mb-4">Location Scorecard</h3>
         <div className="overflow-x-auto">

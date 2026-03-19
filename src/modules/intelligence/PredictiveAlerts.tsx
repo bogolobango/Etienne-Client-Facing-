@@ -591,7 +591,7 @@ export function PredictiveAlerts() {
       </motion.div>
 
       {/* Main content: Alert Cards + Timeline */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Alert Cards */}
         <div className="lg:col-span-2 space-y-3">
           <AnimatePresence mode="popLayout">
@@ -624,7 +624,7 @@ export function PredictiveAlerts() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="card-premium p-5"
+          className="card-premium p-4 sm:p-5"
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-4">Alert Timeline</h3>
           <div className="space-y-0">

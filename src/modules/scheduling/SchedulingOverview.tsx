@@ -72,7 +72,7 @@ export function SchedulingOverview() {
           <p className="text-muted-foreground mt-1">{todayAppts.length} appointments scheduled</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3 md:gap-4">
           <MetricCard label="Today's Appointments" value={todayAppts.length} delay={0} dataSource="Zenoti" />
           <MetricCard label="High Risk No-Shows" value={highRisk.length} delay={1} dataSource="Zenoti" />
           <MetricCard label="Waitlist Matches" value={3} delay={2} dataSource="Zenoti" />
@@ -92,19 +92,19 @@ export function SchedulingOverview() {
           </div>
           <div className="space-y-2">
             {(todayAppts.length > 0 ? todayAppts : filteredAppts.slice(0, 8)).map((appt) => (
-              <div key={appt.id} className="flex items-center gap-4 p-3 rounded-lg border border-border bg-primary/[0.06] hover:border-primary/20 transition-all duration-200">
-                <div className="text-sm font-mono text-muted-foreground w-20 shrink-0">
+              <div key={appt.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 p-2 sm:p-3 rounded-lg border border-border bg-primary/[0.06] hover:border-primary/20 transition-all duration-200">
+                <div className="text-sm font-mono text-muted-foreground w-16 sm:w-20 shrink-0">
                   {appt.startTime}
                 </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-foreground">{appt.clientName}</p>
-                  <p className="text-xs text-muted-foreground">{appt.service} · {appt.provider}</p>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-foreground truncate">{appt.clientName}</p>
+                  <p className="text-xs text-muted-foreground truncate">{appt.service} · {appt.provider}</p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 shrink-0">
                   {appt.noShowRisk === 'high' && (
                     <span className="text-xs px-2 py-0.5 rounded-full text-destructive bg-destructive/10">High Risk</span>
                   )}
-                  <span className="text-sm font-mono text-muted-foreground">{formatCurrency(appt.revenue)}</span>
+                  <span className="text-xs sm:text-sm font-mono text-muted-foreground">{formatCurrency(appt.revenue)}</span>
                 </div>
               </div>
             ))}
@@ -121,7 +121,7 @@ export function SchedulingOverview() {
         <p className="text-muted-foreground mt-1">AI-powered appointment optimization</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
         <MetricCard
           label="Utilization Rate"
           value={avgUtil}
@@ -157,16 +157,16 @@ export function SchedulingOverview() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* No-Show Trend */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="card-premium p-6"
+          className="card-premium p-4 sm:p-6"
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-4">No-Show Rate Trend</h3>
-          <div className="h-[250px]">
+          <div className="h-[200px] md:h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={trendData}>
                 <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} interval={6} />
@@ -187,10 +187,10 @@ export function SchedulingOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-          className="card-premium p-6"
+          className="card-premium p-4 sm:p-6"
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-4">Utilization Rate Trend</h3>
-          <div className="h-[250px]">
+          <div className="h-[200px] md:h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={trendData}>
                 <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} interval={6} />
@@ -208,13 +208,13 @@ export function SchedulingOverview() {
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* High Risk Appointments */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="lg:col-span-2 card-premium p-6"
+          className="md:col-span-2 lg:col-span-2 card-premium p-4 sm:p-6"
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-muted-foreground">High No-Show Risk</h3>
@@ -224,13 +224,13 @@ export function SchedulingOverview() {
           </div>
           <div className="space-y-2">
             {highRisk.map((appt) => (
-              <div key={appt.id} className="flex items-center gap-4 p-3 rounded-lg border border-destructive/20 bg-destructive/5 hover:border-destructive/40 transition-all duration-200">
-                <AlertTriangle className="w-4 h-4 text-destructive shrink-0" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-foreground">{appt.clientName}</p>
-                  <p className="text-xs text-muted-foreground">{appt.service} · {new Date(appt.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} at {appt.startTime}</p>
+              <div key={appt.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 p-2 sm:p-3 rounded-lg border border-destructive/20 bg-destructive/5 hover:border-destructive/40 transition-all duration-200">
+                <AlertTriangle className="w-4 h-4 text-destructive shrink-0 hidden sm:block" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-foreground truncate">{appt.clientName}</p>
+                  <p className="text-xs text-muted-foreground truncate">{appt.service} · {new Date(appt.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} at {appt.startTime}</p>
                 </div>
-                <button className="px-3 py-1.5 text-xs bg-warning/10 text-warning rounded-lg hover:bg-warning/20 transition-colors">
+                <button className="px-3 py-1.5 text-xs bg-warning/10 text-warning rounded-lg hover:bg-warning/20 transition-colors shrink-0 w-full sm:w-auto">
                   Send Reminder
                 </button>
               </div>

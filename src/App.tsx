@@ -15,6 +15,7 @@ import { GapAnalysis } from '@/modules/intelligence/GapAnalysis'
 import { Settings } from '@/modules/settings/Settings'
 import { useState } from 'react'
 import { PasswordGate } from '@/components/PasswordGate'
+import { ScrollToTop } from '@/components/ScrollToTop'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -71,6 +72,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        <ScrollToTop />
         <EIPDataProvider>
           <AuthenticatedApp />
         </EIPDataProvider>

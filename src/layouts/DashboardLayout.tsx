@@ -15,14 +15,9 @@ import {
 } from 'lucide-react'
 import { useLocationStore } from '@/stores/useLocationStore'
 import { ZenotiSyncBadge } from '@/components/ZenotiSyncBadge'
+import { locations as seedLocations } from '@/data/seed'
 
-const locations = [
-  { id: 'soho', name: 'SoHo Flagship' },
-  { id: 'williamsburg', name: 'Williamsburg' },
-  { id: 'hoboken', name: 'Hoboken' },
-  { id: 'white-plains', name: 'White Plains' },
-  { id: 'stamford', name: 'Stamford' },
-]
+const locations = seedLocations.map(({ id, name }) => ({ id, name }))
 
 interface NavItem {
   label: string

@@ -96,7 +96,7 @@ export function Reports() {
         <div className="prose prose-sm max-w-none">
           <p className="text-muted-foreground leading-relaxed">
             This week saw <strong className="text-foreground">{formatCurrency(weekRevenue)}</strong> in total revenue
-            across {selectedLocation === 'all' ? 'all 5 locations' : locations.find(l => l.id === selectedLocation)?.name},
+            across {selectedLocation === 'all' ? `all ${locations.length} locations` : locations.find(l => l.id === selectedLocation)?.name},
             representing a <span className={revenueChange >= 0 ? 'text-primary' : 'text-destructive'}>
               {revenueChange >= 0 ? '+' : ''}{revenueChange.toFixed(1)}%
             </span> change week-over-week. EIP identified <strong className="text-primary">{formatCurrency(weekRecovered)}</strong> in revenue gaps through

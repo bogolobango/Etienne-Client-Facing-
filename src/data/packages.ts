@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------------------
 
 import { daysAgo, daysFromNow } from '@/lib/utils'
+import { locations as seedLocations } from '@/data/seed'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -349,12 +350,6 @@ export function getPackageDef(defId: string): PackageDefinition | undefined {
 }
 
 export function getLocationName(locationId: string): string {
-  const names: Record<string, string> = {
-    'soho': 'SoHo Flagship',
-    'williamsburg': 'Williamsburg',
-    'hoboken': 'Hoboken',
-    'white-plains': 'White Plains',
-    'stamford': 'Stamford',
-  }
-  return names[locationId] ?? locationId
+  const loc = seedLocations.find((l) => l.id === locationId)
+  return loc?.name ?? locationId
 }

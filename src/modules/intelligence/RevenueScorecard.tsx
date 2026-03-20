@@ -25,8 +25,9 @@ export function RevenueScorecard() {
   const avgField = (arr: typeof all, key: keyof typeof all[0]) =>
     arr.length ? arr.reduce((s, m) => s + (m[key] as number), 0) / arr.length : 0
 
-  const beforeRevenue = sumRevenue(beforePeriod) / (beforePeriod.length / (selectedLocation === 'all' ? 5 : 1)) * 30
-  const afterRevenue = sumRevenue(afterPeriod) / (afterPeriod.length / (selectedLocation === 'all' ? 5 : 1)) * 30
+  const locationCount = locations.length
+  const beforeRevenue = sumRevenue(beforePeriod) / (beforePeriod.length / (selectedLocation === 'all' ? locationCount : 1)) * 30
+  const afterRevenue = sumRevenue(afterPeriod) / (afterPeriod.length / (selectedLocation === 'all' ? locationCount : 1)) * 30
 
   const beforeNoShow = avgField(beforePeriod, 'noShowRate')
   const afterNoShow = avgField(afterPeriod, 'noShowRate')

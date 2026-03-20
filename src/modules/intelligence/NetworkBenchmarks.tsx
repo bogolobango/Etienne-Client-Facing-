@@ -28,6 +28,7 @@ import {
 import { Link } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import { useLocationStore } from '@/stores/useLocationStore'
+import { locations as seedLocations } from '@/data/seed'
 import {
   networkBenchmarks,
   percentileHistories,
@@ -464,7 +465,7 @@ function ImprovementOpportunities() {
       // Estimate revenue impact of reaching P75
       let revenueImpact: number
       if (bm.unit === 'currency') {
-        revenueImpact = Math.max(0, gapToP75 * 5) // 5 locations
+        revenueImpact = Math.max(0, gapToP75 * seedLocations.length) // dynamic location count
       } else if (bm.metric === 'utilization') {
         revenueImpact = Math.max(0, gapToP75 * 1800) // each % point = ~$1800/mo across locations
       } else if (bm.metric === 'no_show_rate') {

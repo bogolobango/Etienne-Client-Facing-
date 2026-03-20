@@ -1,5 +1,6 @@
 import type { AIContext } from './ai-context'
 import { INDUSTRY_BENCHMARKS } from '@/data/benchmarks'
+import { locations as seedLocations } from '@/data/seed'
 
 interface ResponseTemplate {
   keywords: string[]
@@ -21,7 +22,7 @@ const templates: ResponseTemplate[] = [
       const bottom = sorted[sorted.length - 1]
       return `## Revenue Analysis — Last 30 Days
 
-*Analyzing your Zenoti revenue data across all 5 centers...*
+*Analyzing your Zenoti revenue data across all ${seedLocations.length} centers...*
 
 **Total revenue: ${fmtCurrency(ctx.totalRevenue)}** across all centers. EIP identified ${fmtCurrency(ctx.totalRecovered)} in revenue at risk.
 
@@ -79,7 +80,7 @@ ${ctx.byLocation.sort((a, b) => b.revenue - a.revenue).map((l) => `| ${l.name ==
       const lowestUtil = [...ctx.byLocation].sort((a, b) => a.utilization - b.utilization)[0]
       return `## This Week's Priority Actions
 
-*Analyzing your Zenoti data across all 5 centers...*
+*Analyzing your Zenoti data across all ${seedLocations.length} centers...*
 
 Based on your current data, here are the **top 5 things to focus on**:
 
@@ -342,7 +343,7 @@ ${sorted.map((l) => `| ${l.name} | ${fmtPct(l.rebookingRate)} | ${l.rebookingRat
     },
   },
   {
-    keywords: ['soho', 'williamsburg', 'hoboken', 'white plains', 'stamford'],
+    keywords: seedLocations.map(l => l.name.toLowerCase()),
     weight: 12,
     generate: (ctx) => {
       const sorted = [...ctx.byLocation].sort((a, b) => b.revenue - a.revenue)
@@ -477,7 +478,7 @@ export function generateAIResponse(prompt: string, ctx: AIContext): string {
 function generateDefaultResponse(ctx: AIContext): string {
   return `## Executive Summary
 
-*Analyzing your Zenoti data across all 5 centers...*
+*Analyzing your Zenoti data across all ${seedLocations.length} centers...*
 
 Here's a snapshot of your business performance:
 

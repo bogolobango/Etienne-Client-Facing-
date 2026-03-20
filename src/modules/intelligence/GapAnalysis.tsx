@@ -1,10 +1,11 @@
 import { useState, useRef, useCallback, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { FileText, Download, Loader2, Sparkles } from 'lucide-react'
+import { FileText, Download, Loader2, Sparkles, Mail } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { cn } from '@/lib/utils'
 import { useLocationStore } from '@/stores/useLocationStore'
+import { useClientStore } from '@/stores/useClientStore'
 import { useEIPData } from '@/contexts/EIPDataContext'
 import { buildAnalystContext } from '@/lib/build-analyst-context'
 import { computeContext, type ComputeContextData } from '@/lib/ai-context'
@@ -79,7 +80,7 @@ function ReportRenderer({ content }: { content: string }) {
   )
 }
 
-function buildLocalReport(selectedLocation: string, data?: ComputeContextData): string {
+function buildLocalReport(selectedLocation: string, clientName: string, data?: ComputeContextData): string {
   const ctx = computeContext(selectedLocation, data)
   const sorted = [...ctx.byLocation].sort((a, b) => b.revenue - a.revenue)
   const worst = sorted[sorted.length - 1]
@@ -91,7 +92,7 @@ function buildLocalReport(selectedLocation: string, data?: ComputeContextData): 
 
   return `# Cross-Location Intelligence Report
 
-## Prepared for: GlowUp Aesthetics
+## Prepared for: ${clientName}
 ## Date: ${now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
 ## Prepared by: Etienne Agency
 
@@ -141,7 +142,7 @@ Your rebook rate (${ctx.avgRebook.toFixed(1)}%) varies significantly across loca
 
 Your performance vs. industry averages (AmSpa 2024/2025, Zenoti Benchmark Report):
 
-| Metric | GlowUp Avg | Industry Avg | Top Performers | Status |
+| Metric | Your Avg | Industry Avg | Top Performers | Status |
 |--------|-----------|-------------|----------------|--------|
 | No-show rate | ${ctx.avgNoShow.toFixed(1)}% | ${INDUSTRY_BENCHMARKS.noShowRate.avg}% | ${INDUSTRY_BENCHMARKS.noShowRate.topPerformer}% | ${ctx.avgNoShow <= INDUSTRY_BENCHMARKS.noShowRate.avg ? '**Above avg**' : 'Below avg'} |
 | Utilization | ${ctx.avgUtil.toFixed(1)}% | ${INDUSTRY_BENCHMARKS.utilizationRate.avg}% | ${INDUSTRY_BENCHMARKS.utilizationRate.topPerformer}% | ${ctx.avgUtil >= INDUSTRY_BENCHMARKS.utilizationRate.avg ? '**Above avg**' : 'Below avg'} |
@@ -170,6 +171,7 @@ Data sourced from Zenoti via API integration. Analysis period: ${thirtyDaysAgo.t
 export function GapAnalysis() {
   const { dailyMetrics, appointments, conversations, opportunities, locations: eipLocations } = useEIPData()
   const { selectedLocation } = useLocationStore()
+  const { clientName } = useClientStore()
   const eipData: ComputeContextData = useMemo(
     () => ({ dailyMetrics, appointments, conversations, opportunities, locations: eipLocations }),
     [dailyMetrics, appointments, conversations, opportunities, eipLocations],
@@ -177,6 +179,11 @@ export function GapAnalysis() {
   const [report, setReport] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [useAI, setUseAI] = useState(true)
+  const [pdfLoading, setPdfLoading] = useState(false)
+  const [emailModalOpen, setEmailModalOpen] = useState(false)
+  const [emailTo, setEmailTo] = useState('')
+  const [emailSending, setEmailSending] = useState(false)
+  const [emailResult, setEmailResult] = useState<{ ok: boolean; msg: string } | null>(null)
   const abortRef = useRef<AbortController | null>(null)
 
   const generateReport = useCallback(async () => {
@@ -194,7 +201,7 @@ export function GapAnalysis() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          clientName: 'GlowUp Aesthetics',
+          clientName,
           metrics,
           locations,
           benchmarks,
@@ -225,7 +232,7 @@ export function GapAnalysis() {
 
       console.warn('Claude API unavailable for report generation, using local template:', error)
       setUseAI(false)
-      const localReport = buildLocalReport(selectedLocation, eipData)
+      const localReport = buildLocalReport(selectedLocation, clientName, eipData)
       setReport(localReport)
     }
 
@@ -238,12 +245,62 @@ export function GapAnalysis() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `gap-analysis-${new Date().toISOString().split('T')[0]}.md`
+    a.download = `${clientName.replace(/\s+/g, '_')}_Gap_Analysis_${new Date().toISOString().split('T')[0]}.md`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
-  }, [report])
+  }, [report, clientName])
+
+  const handlePdfDownload = useCallback(async () => {
+    if (!report) return
+    setPdfLoading(true)
+    try {
+      const { generatePDF } = await import('@/lib/generate-pdf')
+      const blob = await generatePDF(report, clientName)
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${clientName.replace(/\s+/g, '_')}_Gap_Analysis_${new Date().toISOString().split('T')[0]}.pdf`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    } catch (err) {
+      console.error('PDF generation failed:', err)
+    } finally {
+      setPdfLoading(false)
+    }
+  }, [report, clientName])
+
+  const handleSendEmail = useCallback(async () => {
+    if (!report || !emailTo.trim()) return
+    setEmailSending(true)
+    setEmailResult(null)
+    try {
+      const res = await fetch('/api/send-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: emailTo.trim(),
+          clientName,
+          reportMarkdown: report,
+          subject: `${clientName} — Cross-Location Intelligence Report`,
+        }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        setEmailResult({ ok: true, msg: 'Report sent successfully' })
+        setTimeout(() => { setEmailModalOpen(false); setEmailResult(null) }, 2000)
+      } else {
+        setEmailResult({ ok: false, msg: data.error || 'Failed to send email' })
+      }
+    } catch {
+      setEmailResult({ ok: false, msg: 'Email delivery coming soon. Download the PDF instead.' })
+    } finally {
+      setEmailSending(false)
+    }
+  }, [report, emailTo, clientName])
 
   return (
     <div className="space-y-6">
@@ -256,13 +313,30 @@ export function GapAnalysis() {
           <p className="text-muted-foreground mt-0.5">Cross-location intelligence report with revenue gaps, benchmarks, and action plan</p>
         </div>
         {report && (
-          <button
-            onClick={handleDownload}
-            className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors text-sm"
-          >
-            <Download className="w-4 h-4" />
-            Download .md
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePdfDownload}
+              disabled={pdfLoading}
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm disabled:opacity-50"
+            >
+              {pdfLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+              Download PDF
+            </button>
+            <button
+              onClick={() => setEmailModalOpen(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors text-sm"
+            >
+              <Mail className="w-4 h-4" />
+              Email
+            </button>
+            <button
+              onClick={handleDownload}
+              className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors text-sm"
+            >
+              <Download className="w-4 h-4" />
+              .md
+            </button>
+          </div>
         )}
       </div>
 
@@ -337,6 +411,50 @@ export function GapAnalysis() {
             <Sparkles className="w-4 h-4" />
             Regenerate
           </button>
+        </div>
+      )}
+
+      {/* Email Modal */}
+      {emailModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm" onClick={() => setEmailModalOpen(false)}>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="card-premium p-6 w-full max-w-md mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-lg font-semibold text-foreground mb-1">Email Report</h3>
+            <p className="text-xs text-muted-foreground mb-4">Send the gap analysis report to a recipient</p>
+            <input
+              type="email"
+              value={emailTo}
+              onChange={(e) => setEmailTo(e.target.value)}
+              placeholder="recipient@example.com"
+              autoFocus
+              className="w-full px-3 py-2 rounded-lg bg-secondary border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 mb-3"
+            />
+            {emailResult && (
+              <p className={cn('text-xs mb-3', emailResult.ok ? 'text-primary' : 'text-destructive')}>
+                {emailResult.msg}
+              </p>
+            )}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleSendEmail}
+                disabled={emailSending || !emailTo.trim()}
+                className="px-4 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2"
+              >
+                {emailSending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}
+                {emailSending ? 'Sending...' : 'Send'}
+              </button>
+              <button
+                onClick={() => { setEmailModalOpen(false); setEmailResult(null) }}
+                className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </motion.div>
         </div>
       )}
     </div>

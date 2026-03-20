@@ -10,6 +10,7 @@ import { useEIPData } from '@/contexts/EIPDataContext'
 import { computeContext, type ComputeContextData } from '@/lib/ai-context'
 import { buildAnalystContext } from '@/lib/build-analyst-context'
 import { generateAIResponse } from '@/lib/ai-responses'
+import { useClientStore } from '@/stores/useClientStore'
 import type { ChatMessage } from '@/types'
 
 const SUGGESTED_PROMPTS = [
@@ -95,7 +96,7 @@ async function streamFromAPI(
   const response = await fetch('/api/analyst', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ question, metrics, locations, alerts }),
+    body: JSON.stringify({ question, metrics, locations, alerts, clientName: useClientStore.getState().clientName }),
     signal,
   })
 

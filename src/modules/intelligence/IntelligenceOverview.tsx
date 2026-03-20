@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Brain, ArrowRight, FileText } from 'lucide-react'
+import { Brain, ArrowRight, FileText, Package, AlertTriangle, Sparkles } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { MetricCard } from '@/components/MetricCard'
 import { AgentStatusBadge } from '@/components/AgentStatusBadge'
@@ -8,6 +8,45 @@ import { useLocationStore } from '@/stores/useLocationStore'
 import { useEIPData } from '@/contexts/EIPDataContext'
 import { cn, formatCurrency } from '@/lib/utils'
 import { Link } from 'react-router-dom'
+
+const intelligenceTools = [
+  {
+    to: '/intelligence/analyst',
+    label: 'AI Analyst',
+    description: 'Ask questions about your business data',
+    icon: Brain,
+  },
+  {
+    to: '/intelligence/packages',
+    label: 'Package Revenue Truth',
+    description: 'See how package bookings distort your real revenue',
+    icon: Package,
+  },
+  {
+    to: '/intelligence/alerts',
+    label: 'Predictive Alerts',
+    description: 'Proactive warnings before problems become losses',
+    icon: AlertTriangle,
+  },
+  {
+    to: '/intelligence/reports',
+    label: 'Automated Reports',
+    description: 'Weekly briefs and scheduled intelligence reports',
+    icon: FileText,
+  },
+  {
+    to: '/intelligence/simulator',
+    label: 'What-If Simulator',
+    description: 'Model scenarios and see projected revenue impact',
+    icon: Sparkles,
+  },
+  {
+    to: '/gap-analysis',
+    label: 'Gap Analysis Report',
+    description: 'Generate your cross-location intelligence report',
+    icon: FileText,
+  },
+]
 
 export function IntelligenceOverview() {
   const { agentStatuses, dailyMetrics, locations, alerts } = useEIPData()
@@ -42,8 +81,6 @@ export function IntelligenceOverview() {
       recovered: locMetrics.reduce((s, m) => s + m.revenueRecovered, 0),
     }
   })
-
-  // Revenue trend (used for chart rendering)
 
   const topOpportunities = alerts
     .filter((a) => a.type === 'opportunity' && !a.dismissed)
@@ -180,6 +217,37 @@ export function IntelligenceOverview() {
         />
       </div>
 
+      {/* Intelligence Tools Grid */}
+      <div>
+        <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Intelligence Tools</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {intelligenceTools.map((tool, i) => {
+            const Icon = tool.icon
+            return (
+              <motion.div
+                key={tool.to}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 + i * 0.05 }}
+              >
+                <Link
+                  to={tool.to}
+                  className="block card-premium p-5 hover:border-primary/40 hover:shadow-elevation-md transition-all duration-200 h-full"
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
+                      <Icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <h3 className="text-sm font-medium text-foreground">{tool.label}</h3>
+                  </div>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{tool.description}</p>
+                </Link>
+              </motion.div>
+            )
+          })}
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Location Comparison */}
         <motion.div
@@ -190,7 +258,7 @@ export function IntelligenceOverview() {
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-muted-foreground">Location Revenue Comparison</h3>
-            <Link to="/intelligence/scorecard" className="text-sm text-primary hover:underline flex items-center gap-1">
+            <Link to="/performance" className="text-sm text-primary hover:underline flex items-center gap-1">
               Full Scorecard <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -229,77 +297,19 @@ export function IntelligenceOverview() {
         </motion.div>
       </div>
 
-      {/* AI Agents + Quick Links */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="card-premium p-4 sm:p-6"
-        >
-          <h3 className="text-sm font-medium text-muted-foreground mb-4">AI Agents</h3>
-          <div className="space-y-2">
-            {intelAgents.map((agent) => (
-              <AgentStatusBadge key={agent.id} agent={agent} />
-            ))}
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35 }}
-          className="lg:col-span-2 rounded-xl border border-primary/20 bg-primary/5 p-4 sm:p-6 cursor-pointer hover:border-primary/40 hover:shadow-elevation-md transition-all duration-200"
-        >
-          <Link to="/intelligence/analyst" className="block">
-            <div className="flex items-center gap-3 mb-3">
-              <Brain className="w-6 h-6 text-primary" />
-              <h3 className="text-lg font-medium text-foreground">Ask the AI Analyst</h3>
-            </div>
-            <p className="text-sm text-muted-foreground mb-4">
-              Get instant answers about your business performance. Ask questions like:
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {[
-                'Why did revenue change?',
-                'Which location is underperforming?',
-                'What should I focus on?',
-                'Compare my locations',
-              ].map((q) => (
-                <span key={q} className="px-3 py-1.5 text-xs bg-primary/10 text-primary rounded-full border border-primary/20">
-                  {q}
-                </span>
-              ))}
-            </div>
-          </Link>
-        </motion.div>
-      </div>
-
-      {/* Gap Analysis CTA */}
+      {/* AI Agents */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
+        transition={{ delay: 0.3 }}
+        className="card-premium p-4 sm:p-6"
       >
-        <Link
-          to="/intelligence/gap-analysis"
-          className="block rounded-xl border border-primary/20 bg-gradient-to-r from-primary/5 to-transparent p-4 sm:p-6 hover:border-primary/40 hover:shadow-elevation-md transition-all duration-200"
-        >
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                <FileText className="w-6 h-6 text-primary" />
-              </div>
-              <div>
-                <h3 className="text-lg font-medium text-foreground">Generate Gap Analysis Report</h3>
-                <p className="text-sm text-muted-foreground mt-0.5">
-                  Cross-location intelligence report with revenue gaps, benchmarks, and 90-day action plan
-                </p>
-              </div>
-            </div>
-            <ArrowRight className="w-5 h-5 text-primary shrink-0" />
-          </div>
-        </Link>
+        <h3 className="text-sm font-medium text-muted-foreground mb-4">AI Agents</h3>
+        <div className="space-y-2">
+          {intelAgents.map((agent) => (
+            <AgentStatusBadge key={agent.id} agent={agent} />
+          ))}
+        </div>
       </motion.div>
     </div>
   )

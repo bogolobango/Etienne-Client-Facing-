@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   Database, CheckCircle, RefreshCw, XCircle, Loader2,
-  Sparkles, Gem, Globe, Calendar, Phone, DollarSign, ArrowRight, Unplug, Plug,
+  Sparkles, Gem, Globe, Calendar, Phone, DollarSign, ArrowRight, Unplug, Plug, Building2, LogOut,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useZenotiStore, maskApiKey, type ZenotiCredentials } from '@/stores/useZenotiStore'
+import { useClientStore } from '@/stores/useClientStore'
 
 const dataSyncedTags = ['Appointments', 'Guests', 'Invoices', 'Services', 'Opportunities']
 
@@ -32,6 +33,9 @@ export function Settings() {
     setSyncStatus,
     setLastSync,
   } = useZenotiStore()
+
+  const { clientName, setClientName } = useClientStore()
+  const [editingName, setEditingName] = useState(clientName)
 
   // Form state for new connection
   const [showForm, setShowForm] = useState(false)
@@ -130,6 +134,44 @@ export function Settings() {
       <div>
         <h1 className="text-2xl font-semibold text-foreground">Integrations</h1>
         <p className="text-muted-foreground mt-1">Manage data connections and platform integrations</p>
+      </div>
+
+      {/* Client Configuration */}
+      <div>
+        <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
+          Client Configuration
+        </h2>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="card-premium p-4 sm:p-6"
+        >
+          <div className="flex items-center gap-4 mb-4">
+            <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
+              <Building2 className="w-6 h-6 text-primary" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-foreground">Practice Name</h3>
+              <p className="text-sm text-muted-foreground">This name appears in all reports and the AI Analyst</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <input
+              type="text"
+              value={editingName}
+              onChange={(e) => setEditingName(e.target.value)}
+              placeholder="e.g. Skinney MedSpa"
+              className="flex-1 px-3 py-2 rounded-lg bg-secondary border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+            />
+            <button
+              onClick={() => { if (editingName.trim()) setClientName(editingName.trim()) }}
+              disabled={editingName.trim() === clientName}
+              className="px-4 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50"
+            >
+              Save
+            </button>
+          </div>
+        </motion.div>
       </div>
 
       {/* Zenoti Connection Card */}
@@ -385,6 +427,17 @@ export function Settings() {
             )
           })}
         </div>
+      </div>
+
+      {/* Sign Out */}
+      <div className="pt-4 border-t border-border">
+        <button
+          onClick={() => { sessionStorage.removeItem('eip-auth'); window.location.reload() }}
+          className="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg text-destructive hover:bg-destructive/10 transition-colors"
+        >
+          <LogOut className="w-4 h-4" />
+          Sign Out
+        </button>
       </div>
     </div>
   )

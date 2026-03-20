@@ -51,13 +51,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   // Input validation
-  const { question, metrics, locations, alerts } = req.body;
+  const { question, metrics, locations, alerts, clientName } = req.body;
   if (typeof question !== 'string' || question.length === 0 || question.length > 2000) {
     return res.status(400).json({ error: 'Invalid question: must be a string under 2000 characters' });
   }
 
+  const practiceName = (typeof clientName === 'string' && clientName.length > 0) ? clientName : 'GlowUp Aesthetics';
+
   try {
-    const systemPrompt = `You are the Revenue Analyst AI for a multi-location med spa practice called GlowUp Aesthetics. You have access to the following real-time operational data from their Zenoti booking platform.
+    const systemPrompt = `You are the Revenue Analyst AI for a multi-location med spa practice called ${practiceName}. You have access to the following real-time operational data from their Zenoti booking platform.
 
 LOCATION PERFORMANCE (last 30 days):
 ${metrics}

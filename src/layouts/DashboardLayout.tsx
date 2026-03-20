@@ -14,28 +14,31 @@ import {
   PanelLeftClose,
 } from 'lucide-react'
 import { useLocationStore } from '@/stores/useLocationStore'
+import { useClientStore } from '@/stores/useClientStore'
 import { ZenotiSyncBadge } from '@/components/ZenotiSyncBadge'
-import { locations as seedLocations } from '@/data/seed'
+import { useEIPData } from '@/contexts/EIPDataContext'
 
-const locations = seedLocations.map(({ id, name }) => ({ id, name }))
+// locations are derived from EIPDataContext inside LocationSelector
 
 interface NavItem {
   label: string
   path: string
   icon: React.ComponentType<{ className?: string }>
+  badge?: string
   children?: { label: string; path: string }[]
 }
 
 const navItems: NavItem[] = [
   { label: 'Overview', path: '/', icon: LayoutDashboard },
   { label: 'Performance', path: '/performance', icon: BarChart3 },
-  { label: 'Intelligence', path: '/intelligence', icon: Brain },
+  { label: 'Intelligence', path: '/intelligence', icon: Brain, badge: '6 tools' },
   { label: 'Gap Analysis', path: '/gap-analysis', icon: FileText },
   { label: 'Settings', path: '/settings', icon: Settings },
 ]
 
 function LocationSelector() {
   const { selectedLocation, setLocation } = useLocationStore()
+  const { locations } = useEIPData()
 
   return (
     <div className="relative">
@@ -82,6 +85,11 @@ function SidebarItem({ item }: { item: NavItem }) {
       >
         <Icon className="h-5 w-5 shrink-0" />
         <span>{item.label}</span>
+        {item.badge && (
+          <span className="ml-auto text-[10px] font-medium text-muted-foreground bg-primary/[0.08] px-1.5 py-0.5 rounded-full">
+            {item.badge}
+          </span>
+        )}
       </NavLink>
 
       {item.children && isParentActive && (
@@ -142,6 +150,7 @@ export function DashboardLayout() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
   const [desktopCollapsed, setDesktopCollapsed] = useState(false)
   const location = useLocation()
+  const { clientName } = useClientStore()
 
   // Close mobile sidebar on route change
   useEffect(() => {
@@ -239,6 +248,7 @@ export function DashboardLayout() {
           </div>
 
           <div className="flex items-center gap-2 md:gap-4">
+            <span className="hidden md:block text-sm text-muted-foreground font-medium truncate max-w-[200px]">{clientName}</span>
             <div className="hidden md:block"><LocationSelector /></div>
             <div className="hidden md:block"><ZenotiSyncBadge /></div>
 

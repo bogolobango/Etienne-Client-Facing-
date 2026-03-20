@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { AlertTriangle } from 'lucide-react'
+import { AlertTriangle, TrendingUp, TrendingDown } from 'lucide-react'
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { MetricCard } from '@/components/MetricCard'
 import { MetricSkeleton } from '@/components/MetricSkeleton'
-import { AgentStatusBadge } from '@/components/AgentStatusBadge'
-import { ActivityFeed } from '@/components/ActivityFeed'
-import { useAuthStore } from '@/stores/useAuthStore'
 import { useLocationStore } from '@/stores/useLocationStore'
 import { INDUSTRY_BENCHMARKS } from '@/data/benchmarks'
 import { useEIPData } from '@/contexts/EIPDataContext'
@@ -44,29 +41,26 @@ function getFilteredMetrics(locationId: string, dailyMetrics: DailyMetrics[]) {
   const prevNoShow = avg(prev30, 'noShowRate')
   const noShowTrend = prevNoShow ? ((currentNoShow - prevNoShow) / prevNoShow) * 100 : 0
 
-  const currentResponseTime = avg(last30, 'responseTimeAvg')
-  const prevResponseTime = avg(prev30, 'responseTimeAvg')
-  const responseTrend = prevResponseTime
-    ? ((currentResponseTime - prevResponseTime) / prevResponseTime) * 100
-    : 0
-
   const currentUtil = avg(last30, 'utilizationRate')
   const prevUtil = avg(prev30, 'utilizationRate')
   const utilTrend = prevUtil ? ((currentUtil - prevUtil) / prevUtil) * 100 : 0
+
+  // Revenue per provider hour (revenue / providers / work hours)
+  const revPerProviderHour = last30.length
+    ? currentRevenue / (last30.length > 0 ? 30 * 8 : 1)
+    : 0
 
   return {
     revenue: Math.round(currentRevenue),
     revenueTrend,
     noShowRate: currentNoShow,
     noShowTrend,
-    responseTime: currentResponseTime,
-    responseTrend,
     utilization: currentUtil,
     utilTrend,
+    revPerProviderHour: Math.round(revPerProviderHour),
     totalBookings: sum(last30, 'bookings'),
     newClients: sum(last30, 'newClients'),
     revenueRecovered: sum(last30, 'revenueRecovered'),
-    aiResolved: sum(last30, 'aiResolved'),
   }
 }
 
@@ -90,13 +84,12 @@ function getRevenueChartData(locationId: string, dailyMetrics: DailyMetrics[]) {
 }
 
 export function DashboardHome() {
-  const { locations, agentStatuses, dailyMetrics, alerts } = useEIPData()
-  const { role } = useAuthStore()
+  const { locations, dailyMetrics, alerts } = useEIPData()
   const { selectedLocation } = useLocationStore()
   const [loading, setLoading] = useState(true)
   const metrics = getFilteredMetrics(selectedLocation, dailyMetrics)
   const chartData = getRevenueChartData(selectedLocation, dailyMetrics)
-  const activeAlerts = alerts.filter((a) => !a.dismissed).slice(0, 5)
+  const activeAlerts = alerts.filter((a) => !a.dismissed).slice(0, 3)
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: simulate loading transition on location change
@@ -109,305 +102,215 @@ export function DashboardHome() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-semibold text-foreground">
-          {role === 'owner' ? 'Revenue Intelligence' : 'Today\'s Dashboard'}
-        </h1>
+        <h1 className="text-2xl font-semibold text-foreground">Executive Overview</h1>
         <p className="text-muted-foreground mt-1">
-          {role === 'owner'
-            ? `${selectedLocation === 'all' ? 'All Centers' : locations.find(l => l.id === selectedLocation)?.name} — Last 30 Days via Zenoti`
-            : 'Your tasks and performance today'}
+          {selectedLocation === 'all' ? 'All Centers' : locations.find(l => l.id === selectedLocation)?.name} — Last 30 Days
         </p>
       </div>
 
-      {/* Owner View */}
-      {role === 'owner' ? (
-        <>
-          {/* Hero Metrics */}
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <MetricSkeleton key={i} />
-              ))}
-            </div>
-          ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
-            <MetricCard
-              label="Total Revenue"
-              value={metrics.revenue}
-              format="currency"
-              trend={metrics.revenueTrend}
-              trendLabel="vs prev period"
-              delay={0}
-              dataSource="Zenoti"
-            />
-            <MetricCard
-              label="Revenue at Risk"
-              value={metrics.revenueRecovered}
-              format="currency"
-              trend={42.5}
-              trendLabel="by AI"
-              delay={1}
-              dataSource="Zenoti"
-            />
-            <MetricCard
-              label="No-Show Rate"
-              value={metrics.noShowRate}
-              format="percent"
-              trend={metrics.noShowTrend}
-              trendLabel="vs prev period"
-              delay={2}
-              benchmarkLabel={`Industry avg: ${INDUSTRY_BENCHMARKS.noShowRate.avg}% · Top: ${INDUSTRY_BENCHMARKS.noShowRate.topPerformer}%`}
-              dataSource="Zenoti"
-            />
-            <MetricCard
-              label="Avg Response Time"
-              value={metrics.responseTime}
-              format="time"
-              trend={metrics.responseTrend}
-              trendLabel="vs prev period"
-              delay={3}
-              dataSource="Zenoti"
-            />
+      {/* Hero Metrics */}
+      {loading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <MetricSkeleton key={i} />
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+          <MetricCard
+            label="Total Revenue"
+            value={metrics.revenue}
+            format="currency"
+            trend={metrics.revenueTrend}
+            trendLabel="vs prev period"
+            delay={0}
+            dataSource="Zenoti"
+          />
+          <MetricCard
+            label="Utilization Rate"
+            value={metrics.utilization}
+            format="percent"
+            trend={metrics.utilTrend}
+            trendLabel="vs prev period"
+            delay={1}
+            benchmarkLabel={`Industry avg: ${INDUSTRY_BENCHMARKS.utilizationRate.avg}% · Top: ${INDUSTRY_BENCHMARKS.utilizationRate.topPerformer}%`}
+            dataSource="Zenoti"
+          />
+          <MetricCard
+            label="No-Show Rate"
+            value={metrics.noShowRate}
+            format="percent"
+            trend={metrics.noShowTrend}
+            trendLabel="vs prev period"
+            delay={2}
+            benchmarkLabel={`Industry avg: ${INDUSTRY_BENCHMARKS.noShowRate.avg}% · Top: ${INDUSTRY_BENCHMARKS.noShowRate.topPerformer}%`}
+            dataSource="Zenoti"
+          />
+          <MetricCard
+            label="Revenue Recovered"
+            value={metrics.revenueRecovered}
+            format="currency"
+            trend={42.5}
+            trendLabel="identified by EIP"
+            delay={3}
+            dataSource="Zenoti"
+          />
+        </div>
+      )}
+
+      {/* Revenue Chart + Top Alerts */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* Revenue Trend */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="lg:col-span-2 card-premium p-4 sm:p-6"
+        >
+          <h3 className="text-sm font-medium text-muted-foreground mb-4">Revenue Trend (30 days)</h3>
+          <div className="h-[200px] md:h-[280px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={chartData}>
+                <defs>
+                  <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="var(--primary)" stopOpacity={0.15} />
+                    <stop offset="100%" stopColor="var(--primary)" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <XAxis
+                  dataKey="date"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
+                  interval="preserveStartEnd"
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
+                  tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'var(--card)',
+                    border: '1px solid var(--border)',
+                    borderRadius: '12px',
+                    color: 'var(--foreground)',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                  }}
+                  formatter={(value: number = 0) => [formatCurrency(value), 'Revenue']}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="revenue"
+                  stroke="var(--primary)"
+                  strokeWidth={2}
+                  fill="url(#revenueGradient)"
+                  animationDuration={1500}
+                  animationEasing="ease-out"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
-          )}
+        </motion.div>
 
-          {/* Revenue Chart + Alerts */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Revenue Trend */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="md:col-span-2 lg:col-span-2 card-premium p-4 sm:p-6"
-            >
-              <h3 className="text-sm font-medium text-muted-foreground mb-4">Revenue Trend (30 days)</h3>
-              <div className="h-[200px] md:h-[280px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={chartData}>
-                    <defs>
-                      <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="var(--primary)" stopOpacity={0.15} />
-                        <stop offset="100%" stopColor="var(--primary)" stopOpacity={0} />
-                      </linearGradient>
-                    </defs>
-                    <XAxis
-                      dataKey="date"
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
-                      interval="preserveStartEnd"
-                    />
-                    <YAxis
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
-                      tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
-                    />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: 'var(--card)',
-                        border: '1px solid var(--border)',
-                        borderRadius: '12px',
-                        color: 'var(--foreground)',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                      }}
-                      formatter={(value: number = 0) => [formatCurrency(value), 'Revenue']}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="revenue"
-                      stroke="var(--primary)"
-                      strokeWidth={2}
-                      fill="url(#revenueGradient)"
-                      animationDuration={1500}
-                      animationEasing="ease-out"
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </motion.div>
-
-            {/* Alerts */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="card-premium p-4 sm:p-6"
-            >
-              <h3 className="text-sm font-medium text-muted-foreground mb-4">AI Opportunities</h3>
-              <div className="space-y-3">
-                {activeAlerts.map((alert) => (
-                  <div
-                    key={alert.id}
+        {/* Top Alerts */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="card-premium p-4 sm:p-6"
+        >
+          <h3 className="text-sm font-medium text-muted-foreground mb-4">Top Opportunities</h3>
+          <div className="space-y-3">
+            {activeAlerts.map((alert) => (
+              <div
+                key={alert.id}
+                className={cn(
+                  'p-3 rounded-lg border transition-all duration-200',
+                  alert.type === 'critical'
+                    ? 'border-destructive/20 bg-destructive/5'
+                    : alert.type === 'warning'
+                    ? 'border-warning/20 bg-warning/5'
+                    : 'border-primary/20 bg-primary/5'
+                )}
+              >
+                <div className="flex items-start gap-2">
+                  <AlertTriangle
                     className={cn(
-                      'p-3 rounded-lg border transition-all duration-200 cursor-pointer',
+                      'w-4 h-4 mt-0.5 shrink-0',
                       alert.type === 'critical'
-                        ? 'border-destructive/20 bg-destructive/5 hover:border-destructive/40'
+                        ? 'text-destructive'
                         : alert.type === 'warning'
-                        ? 'border-warning/20 bg-warning/5 hover:border-warning/40'
-                        : 'border-primary/20 bg-primary/5 hover:border-primary/40'
+                        ? 'text-warning'
+                        : 'text-primary'
                     )}
-                  >
-                    <div className="flex items-start gap-2">
-                      <AlertTriangle
-                        className={cn(
-                          'w-4 h-4 mt-0.5 shrink-0',
-                          alert.type === 'critical'
-                            ? 'text-destructive'
-                            : alert.type === 'warning'
-                            ? 'text-warning'
-                            : 'text-primary'
-                        )}
-                      />
-                      <div>
-                        <p className="text-sm text-foreground leading-snug">{alert.title}</p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Impact: {formatCurrency(alert.impact)}
-                        </p>
-                      </div>
-                    </div>
+                  />
+                  <div>
+                    <p className="text-sm text-foreground leading-snug">{alert.title}</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Impact: {formatCurrency(alert.impact)}
+                    </p>
                   </div>
-                ))}
+                </div>
               </div>
-            </motion.div>
+            ))}
           </div>
+        </motion.div>
+      </div>
 
-          {/* Module Health + Activity Feed */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Module Health */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-              className="card-premium p-4 sm:p-6"
-            >
-              <h3 className="text-sm font-medium text-muted-foreground mb-4">AI Agents</h3>
-              <div className="space-y-2">
-                {agentStatuses.map((agent) => (
-                  <AgentStatusBadge key={agent.id} agent={agent} />
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Activity Feed */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="md:col-span-2 lg:col-span-2 card-premium p-4 sm:p-6"
-            >
-              <h3 className="text-sm font-medium text-muted-foreground mb-4">Live Activity</h3>
-              <ActivityFeed />
-            </motion.div>
-          </div>
-
-          {/* Location Comparison */}
-          {selectedLocation === 'all' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.45 }}
-              className="card-premium p-6"
-            >
-              <h3 className="text-sm font-medium text-muted-foreground mb-4">Location Performance</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
+      {/* Location Comparison Table */}
+      {selectedLocation === 'all' && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          className="card-premium p-4 sm:p-6"
+        >
+          <h3 className="text-sm font-medium text-muted-foreground mb-4">Cross-Location Comparison</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left text-xs text-muted-foreground font-medium pb-3 pr-4">Location</th>
+                  <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">Revenue</th>
+                  <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">Utilization</th>
+                  <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">No-Show %</th>
+                  <th className="text-right text-xs text-muted-foreground font-medium pb-3 pl-4">New Clients</th>
+                </tr>
+              </thead>
+              <tbody>
                 {locations.map((loc) => {
                   const locMetrics = getFilteredMetrics(loc.id, dailyMetrics)
+                  const networkAvgRevenue = metrics.revenue / locations.length
+                  const revDiff = networkAvgRevenue > 0
+                    ? ((locMetrics.revenue - networkAvgRevenue) / networkAvgRevenue) * 100
+                    : 0
+                  const isAbove = revDiff >= 0
+
                   return (
-                    <div
-                      key={loc.id}
-                      className="p-4 rounded-lg border border-border bg-section-alt hover:border-primary/20 transition-all duration-200"
-                    >
-                      <p className="text-sm font-medium text-foreground truncate">{loc.name}</p>
-                      <p className="text-xs text-muted-foreground">{loc.city}, {loc.state}</p>
-                      <p className="text-xl font-mono font-semibold text-foreground mt-3">
-                        {formatCurrency(locMetrics.revenue)}
-                      </p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-xs text-muted-foreground">Util:</span>
-                        <span className="text-xs font-mono text-primary">
-                          {locMetrics.utilization.toFixed(0)}%
-                        </span>
-                      </div>
-                    </div>
+                    <tr key={loc.id} className="border-b border-border last:border-b-0 hover:bg-primary/[0.06] transition-colors">
+                      <td className="py-3 pr-4">
+                        <p className="text-sm font-medium text-foreground">{loc.name}</p>
+                        <p className="text-xs text-muted-foreground">{loc.city}, {loc.state}</p>
+                      </td>
+                      <td className="text-right py-3 px-4">
+                        <p className="font-mono text-sm text-foreground">{formatCurrency(locMetrics.revenue)}</p>
+                        <div className={cn('flex items-center justify-end gap-1 text-xs', isAbove ? 'text-primary' : 'text-destructive')}>
+                          {isAbove ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                          <span>{isAbove ? '+' : ''}{revDiff.toFixed(1)}%</span>
+                        </div>
+                      </td>
+                      <td className="text-right py-3 px-4 font-mono text-sm text-foreground">{locMetrics.utilization.toFixed(1)}%</td>
+                      <td className="text-right py-3 px-4 font-mono text-sm text-foreground">{locMetrics.noShowRate.toFixed(1)}%</td>
+                      <td className="text-right py-3 pl-4 font-mono text-sm text-foreground">{locMetrics.newClients}</td>
+                    </tr>
                   )
                 })}
-              </div>
-            </motion.div>
-          )}
-        </>
-      ) : (
-        /* Staff View */
-        <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
-            <MetricCard
-              label="Your Bookings Today"
-              value={8}
-              format="number"
-              delay={0}
-            />
-            <MetricCard
-              label="Conversion Rate"
-              value={78}
-              format="percent"
-              trend={5.2}
-              delay={1}
-            />
-            <MetricCard
-              label="Pending Follow-ups"
-              value={5}
-              format="number"
-              delay={2}
-            />
-            <MetricCard
-              label="AI Suggestions"
-              value={3}
-              format="number"
-              delay={3}
-            />
+              </tbody>
+            </table>
           </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {/* Today's Tasks */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="card-premium p-6"
-            >
-              <h3 className="text-sm font-medium text-muted-foreground mb-4">Today's Tasks</h3>
-              <div className="space-y-3">
-                {[
-                  { task: 'Follow up with Sarah M. — interested in Body Contouring', priority: 'urgent' },
-                  { task: 'Confirm 3 PM Botox appointment with James R.', priority: 'pending' },
-                  { task: 'Review AI-generated treatment recommendations', priority: 'ai_handling' },
-                  { task: 'Call back Maria L. — asked about package pricing', priority: 'pending' },
-                  { task: 'Check in on waitlist patients for tomorrow', priority: 'ai_handling' },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 p-3 rounded-lg border border-border bg-secondary hover:border-primary/20 transition-all duration-200">
-                    <div className={cn(
-                      'w-2 h-2 rounded-full shrink-0',
-                      item.priority === 'urgent' ? 'bg-destructive' :
-                      item.priority === 'pending' ? 'bg-warning' : 'bg-primary'
-                    )} />
-                    <p className="text-sm text-foreground">{item.task}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Activity Feed */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="card-premium p-6"
-            >
-              <h3 className="text-sm font-medium text-muted-foreground mb-4">Recent Activity</h3>
-              <ActivityFeed maxItems={6} />
-            </motion.div>
-          </div>
-        </>
+        </motion.div>
       )}
     </div>
   )

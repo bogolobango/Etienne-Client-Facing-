@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Send, Brain, Sparkles, RefreshCw, Wifi, WifiOff } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Send, Brain, Sparkles, RefreshCw, Wifi, WifiOff } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { cn } from '@/lib/utils'
@@ -14,12 +13,12 @@ import { generateAIResponse } from '@/lib/ai-responses'
 import type { ChatMessage } from '@/types'
 
 const SUGGESTED_PROMPTS = [
-  { label: 'Which center is underperforming this month?', icon: '📍' },
-  { label: 'How much revenue are we losing to no-shows?', icon: '💰' },
-  { label: 'Compare SoHo vs Williamsburg performance', icon: '📊' },
-  { label: 'What should I focus on this week?', icon: '🎯' },
-  { label: 'Where are the biggest revenue gaps right now?', icon: '🔮' },
-  { label: 'Which provider has the best rebooking rate?', icon: '⭐' },
+  { label: 'Which locations are underperforming vs network average?', icon: '📍' },
+  { label: 'What is our total revenue leakage across all centers?', icon: '💰' },
+  { label: 'Compare utilization rates across locations', icon: '📊' },
+  { label: 'What should I prioritize for this month\'s business review?', icon: '🎯' },
+  { label: 'Where are the biggest cross-location gaps?', icon: '🔮' },
+  { label: 'Which providers are driving the most revenue per hour?', icon: '⭐' },
 ]
 
 function MarkdownRenderer({ content }: { content: string }) {
@@ -244,16 +243,13 @@ export function AIAnalyst() {
   return (
     <div className="flex flex-col h-[calc(100vh-160px)] sm:h-[calc(100vh-140px)] md:h-[calc(100vh-120px)]">
       <div className="flex items-center gap-3 mb-4">
-        <Link to="/intelligence" className="p-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors">
-          <ArrowLeft className="w-5 h-5" />
-        </Link>
         <div className="flex-1">
           <div className="flex items-center gap-2">
             <Brain className="w-5 h-5 text-primary" />
-            <h1 className="text-2xl font-semibold text-foreground">AI Revenue Analyst</h1>
+            <h1 className="text-2xl font-semibold text-foreground">Intelligence</h1>
           </div>
           <div className="flex items-center gap-2 mt-0.5">
-            <p className="text-muted-foreground">Powered by Claude — Ask anything about your business</p>
+            <p className="text-muted-foreground">Ask anything about your portfolio — powered by Claude</p>
             {usingAPI ? (
               <span className="flex items-center gap-1 text-xs text-primary">
                 <Wifi className="w-3 h-3" />
@@ -300,10 +296,10 @@ export function AIAnalyst() {
                   <Sparkles className="w-8 h-8 text-primary" />
                 </div>
                 <h2 className="text-xl font-semibold text-foreground mb-2">
-                  Your AI Revenue Analyst
+                  Ask About Your Portfolio
                 </h2>
                 <p className="text-sm text-muted-foreground mb-8">
-                  I analyze your Zenoti data across all 5 centers — appointments, guests, invoices, and opportunities — to surface revenue gaps you'd otherwise miss.
+                  I analyze operational data across all your centers to surface cross-location patterns, revenue gaps, and benchmarking insights.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

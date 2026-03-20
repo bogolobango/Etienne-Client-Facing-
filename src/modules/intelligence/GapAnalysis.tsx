@@ -1,7 +1,6 @@
 import { useState, useRef, useCallback, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowLeft, FileText, Download, Loader2, Sparkles } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { FileText, Download, Loader2, Sparkles } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { cn } from '@/lib/utils'
@@ -249,15 +248,12 @@ export function GapAnalysis() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link to="/intelligence" className="p-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors">
-          <ArrowLeft className="w-5 h-5" />
-        </Link>
         <div className="flex-1">
           <div className="flex items-center gap-2">
             <FileText className="w-5 h-5 text-primary" />
-            <h1 className="text-2xl font-semibold text-foreground">Gap Analysis Report</h1>
+            <h1 className="text-2xl font-semibold text-foreground">Gap Analysis</h1>
           </div>
-          <p className="text-muted-foreground mt-0.5">Cross-location intelligence report — $2,500 deliverable</p>
+          <p className="text-muted-foreground mt-0.5">Cross-location intelligence report with revenue gaps, benchmarks, and action plan</p>
         </div>
         {report && (
           <button

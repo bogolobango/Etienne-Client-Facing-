@@ -1,20 +1,18 @@
-import { useState, useEffect, useMemo } from 'react'
-import { Outlet, NavLink, useLocation, Navigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Outlet, NavLink, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard,
-  Phone,
-  Calendar,
+  BarChart3,
   Brain,
+  FileText,
   Settings,
   Bell,
   ChevronDown,
   User,
   Menu,
   PanelLeftClose,
-  Building2,
 } from 'lucide-react'
-import { useAuthStore } from '@/stores/useAuthStore'
 import { useLocationStore } from '@/stores/useLocationStore'
 import { ZenotiSyncBadge } from '@/components/ZenotiSyncBadge'
 
@@ -34,40 +32,10 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: 'Home', path: '/', icon: LayoutDashboard },
-  {
-    label: 'Conversations', path: '/command-center', icon: Phone,
-    children: [
-      { label: 'Inbox', path: '/command-center/inbox' },
-      { label: 'Performance', path: '/command-center/performance' },
-    ],
-  },
-  {
-    label: 'Smart Schedule', path: '/scheduling', icon: Calendar,
-    children: [
-      { label: 'Calendar', path: '/scheduling/calendar' },
-      { label: 'Utilization', path: '/scheduling/utilization' },
-    ],
-  },
-  {
-    label: 'Revenue Intel', path: '/intelligence', icon: Brain,
-    children: [
-      { label: 'Scorecard', path: '/intelligence/scorecard' },
-      { label: 'AI Analyst', path: '/intelligence/analyst' },
-      { label: 'Gap Analysis', path: '/intelligence/gap-analysis' },
-      { label: 'Provider P&L', path: '/intelligence/providers' },
-      { label: 'Revenue Engine', path: '/intelligence/revenue-engine' },
-      { label: 'Package Truth', path: '/intelligence/packages' },
-      { label: 'Predictive Alerts', path: '/intelligence/predictive-alerts' },
-      { label: 'What-If Simulator', path: '/intelligence/simulator' },
-      { label: 'Benchmarks', path: '/intelligence/benchmarks' },
-      { label: 'Auto Reports', path: '/intelligence/automated-reports' },
-      { label: 'Reports', path: '/intelligence/reports' },
-    ],
-  },
-  {
-    label: 'Brands', path: '/brands', icon: Building2,
-  },
+  { label: 'Overview', path: '/', icon: LayoutDashboard },
+  { label: 'Performance', path: '/performance', icon: BarChart3 },
+  { label: 'Intelligence', path: '/intelligence', icon: Brain },
+  { label: 'Gap Analysis', path: '/gap-analysis', icon: FileText },
   { label: 'Settings', path: '/settings', icon: Settings },
 ]
 
@@ -91,34 +59,6 @@ function LocationSelector() {
   )
 }
 
-function RoleToggle() {
-  const { role, toggleRole } = useAuthStore()
-
-  return (
-    <div className="flex h-9 items-center rounded-full border border-border bg-secondary p-1">
-      <button
-        onClick={() => role !== 'owner' && toggleRole()}
-        className={`relative rounded-full px-4 py-1 text-sm font-medium transition-all duration-200 ${
-          role === 'owner'
-            ? 'bg-primary text-primary-foreground shadow-[0_2px_8px_rgba(0,212,170,0.35)]'
-            : 'text-muted-foreground hover:text-foreground'
-        }`}
-      >
-        Owner
-      </button>
-      <button
-        onClick={() => role !== 'staff' && toggleRole()}
-        className={`relative rounded-full px-4 py-1 text-sm font-medium transition-all duration-200 ${
-          role === 'staff'
-            ? 'bg-primary text-primary-foreground shadow-[0_2px_8px_rgba(0,212,170,0.35)]'
-            : 'text-muted-foreground hover:text-foreground'
-        }`}
-      >
-        Staff
-      </button>
-    </div>
-  )
-}
 
 function SidebarItem({ item }: { item: NavItem }) {
   const { pathname } = useLocation()
@@ -173,17 +113,7 @@ function SidebarItem({ item }: { item: NavItem }) {
   )
 }
 
-const STAFF_HIDDEN_PATHS = ['/intelligence', '/settings', '/brands']
-
 function SidebarContent({ onClose, showClose }: { onClose?: () => void; showClose?: boolean }) {
-  const { role } = useAuthStore()
-
-  const visibleNav = useMemo(() => {
-    if (role === 'staff') {
-      return navItems.filter((item) => !STAFF_HIDDEN_PATHS.includes(item.path))
-    }
-    return navItems
-  }, [role])
 
   return (
     <>
@@ -205,7 +135,7 @@ function SidebarContent({ onClose, showClose }: { onClose?: () => void; showClos
 
       {/* Navigation */}
       <nav className="flex flex-1 flex-col gap-1 overflow-y-auto scroll-fade-y px-3 py-4">
-        {visibleNav.map((item) => (
+        {navItems.map((item) => (
           <SidebarItem key={item.path} item={item} />
         ))}
       </nav>
@@ -217,8 +147,6 @@ export function DashboardLayout() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
   const [desktopCollapsed, setDesktopCollapsed] = useState(false)
   const location = useLocation()
-  const { role } = useAuthStore()
-  const { setLocation } = useLocationStore()
 
   // Close mobile sidebar on route change
   useEffect(() => {
@@ -237,23 +165,6 @@ export function DashboardLayout() {
       document.body.style.overflow = ''
     }
   }, [mobileSidebarOpen])
-
-  // Force staff to SoHo location
-  useEffect(() => {
-    if (role === 'staff') {
-      setLocation('soho')
-    }
-  }, [role, setLocation])
-
-  // Redirect staff from restricted routes
-  const isRestricted = role === 'staff' && (
-    location.pathname.startsWith('/intelligence') ||
-    location.pathname.startsWith('/settings') ||
-    location.pathname.startsWith('/brands')
-  )
-  if (isRestricted) {
-    return <Navigate to="/" replace />
-  }
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-background">
@@ -283,10 +194,9 @@ export function DashboardLayout() {
             >
               <SidebarContent onClose={() => setMobileSidebarOpen(false)} showClose />
 
-              {/* Mobile-only: Location & Role controls */}
-              <div className="border-t border-border px-3 py-3 space-y-3">
+              {/* Mobile-only: Location control */}
+              <div className="border-t border-border px-3 py-3">
                 <LocationSelector />
-                <RoleToggle />
               </div>
             </motion.aside>
           </>
@@ -335,7 +245,6 @@ export function DashboardLayout() {
 
           <div className="flex items-center gap-2 md:gap-4">
             <div className="hidden md:block"><LocationSelector /></div>
-            <div className="hidden md:block"><RoleToggle /></div>
             <div className="hidden md:block"><ZenotiSyncBadge /></div>
 
             <button className="relative rounded-full p-2 text-muted-foreground transition-all hover:bg-primary/[0.08] hover:text-foreground">
@@ -350,15 +259,6 @@ export function DashboardLayout() {
             </button>
           </div>
         </header>
-
-        {/* Staff banner */}
-        {role === 'staff' && (
-          <div className="shrink-0 px-4 md:px-6 py-2 bg-primary/[0.06] border-b border-primary/10">
-            <p className="text-xs text-muted-foreground">
-              Viewing as <span className="text-primary font-medium">Staff</span> — SoHo Flagship
-            </p>
-          </div>
-        )}
 
         {/* Content area */}
         <main className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6">

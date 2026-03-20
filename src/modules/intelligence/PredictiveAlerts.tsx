@@ -176,6 +176,7 @@ function AlertCard({
   onAcknowledge: (id: string) => void
   onResolve: (id: string) => void
 }) {
+  const { locations } = useEIPData()
   const sev = severityConfig[alert.severity]
   const typeInfo = typeConfig[alert.type]
   const SeverityIcon = sev.icon
@@ -344,6 +345,7 @@ function AlertCard({
 // ---------------------------------------------------------------------------
 
 function TimelineEntry({ alert }: { alert: PredictiveAlert }) {
+  const { locations } = useEIPData()
   const sev = severityConfig[alert.severity]
   return (
     <div className="flex gap-3 items-start">
@@ -376,7 +378,6 @@ function TimelineEntry({ alert }: { alert: PredictiveAlert }) {
 // ---------------------------------------------------------------------------
 
 export function PredictiveAlerts() {
-  const { locations } = useEIPData()
   const { selectedLocation } = useLocationStore()
 
   // Local state for alert statuses

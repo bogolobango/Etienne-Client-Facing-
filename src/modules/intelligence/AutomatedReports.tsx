@@ -513,7 +513,7 @@ function ReportBuilderCTA() {
 // ---------------------------------------------------------------------------
 
 export function AutomatedReports() {
-  const { selectedLocation: _selectedLocation } = useLocationStore()
+  useLocationStore() // subscribe for re-render on location change
 
   return (
     <motion.div

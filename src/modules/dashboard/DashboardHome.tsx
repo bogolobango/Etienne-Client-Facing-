@@ -99,6 +99,7 @@ export function DashboardHome() {
   const activeAlerts = alerts.filter((a) => !a.dismissed).slice(0, 5)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: simulate loading transition on location change
     setLoading(true)
     const t = setTimeout(() => setLoading(false), 600)
     return () => clearTimeout(t)
@@ -311,7 +312,7 @@ export function DashboardHome() {
               <h3 className="text-sm font-medium text-muted-foreground mb-4">Location Performance</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
                 {locations.map((loc) => {
-                  const locMetrics = getFilteredMetrics(loc.id)
+                  const locMetrics = getFilteredMetrics(loc.id, dailyMetrics)
                   return (
                     <div
                       key={loc.id}

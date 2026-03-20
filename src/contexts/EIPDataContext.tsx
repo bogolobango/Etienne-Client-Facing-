@@ -8,6 +8,7 @@
 // Usage: replace `import { X } from '@/data/seed'` with
 //        `const { X } = useEIPData()`
 // ================================================================
+/* eslint-disable react-refresh/only-export-components */
 
 import { createContext, useContext, type ReactNode } from 'react'
 import { useZenotiStore } from '@/stores/useZenotiStore'

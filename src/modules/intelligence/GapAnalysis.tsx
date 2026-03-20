@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowLeft, FileText, Download, Loader2, Sparkles } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -171,7 +171,10 @@ Data sourced from Zenoti via API integration. Analysis period: ${thirtyDaysAgo.t
 export function GapAnalysis() {
   const { dailyMetrics, appointments, conversations, opportunities, locations: eipLocations } = useEIPData()
   const { selectedLocation } = useLocationStore()
-  const eipData: ComputeContextData = { dailyMetrics, appointments, conversations, opportunities, locations: eipLocations }
+  const eipData: ComputeContextData = useMemo(
+    () => ({ dailyMetrics, appointments, conversations, opportunities, locations: eipLocations }),
+    [dailyMetrics, appointments, conversations, opportunities, eipLocations],
+  )
   const [report, setReport] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [useAI, setUseAI] = useState(true)
@@ -228,7 +231,7 @@ export function GapAnalysis() {
     }
 
     setIsGenerating(false)
-  }, [selectedLocation])
+  }, [selectedLocation, eipData])
 
   const handleDownload = useCallback(() => {
     if (!report) return

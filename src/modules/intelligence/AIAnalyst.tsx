@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Send, Brain, Sparkles, RefreshCw, Wifi, WifiOff } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -122,7 +122,10 @@ export function AIAnalyst() {
   const { dailyMetrics, appointments, conversations, opportunities, locations } = useEIPData()
   const { messages, isLoading, addMessage, updateLastMessage, setLoading, clearMessages } = useChatStore()
   const { selectedLocation } = useLocationStore()
-  const eipData: ComputeContextData = { dailyMetrics, appointments, conversations, opportunities, locations }
+  const eipData: ComputeContextData = useMemo(
+    () => ({ dailyMetrics, appointments, conversations, opportunities, locations }),
+    [dailyMetrics, appointments, conversations, opportunities, locations],
+  )
   const [input, setInput] = useState('')
   const [usingAPI, setUsingAPI] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -236,7 +239,7 @@ export function AIAnalyst() {
         }, 12)
       }
     }
-  }, [isLoading, addMessage, updateLastMessage, setLoading, selectedLocation])
+  }, [isLoading, addMessage, updateLastMessage, setLoading, selectedLocation, eipData])
 
   return (
     <div className="flex flex-col h-[calc(100vh-160px)] sm:h-[calc(100vh-140px)] md:h-[calc(100vh-120px)]">

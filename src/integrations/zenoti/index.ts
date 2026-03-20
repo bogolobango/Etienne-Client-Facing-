@@ -5,8 +5,6 @@
 // Client & auth
 export {
   zenotiRequest,
-  getAccessToken,
-  clearAccessToken,
   ZenotiApiError,
   ZenotiAuthError,
   type ZenotiConfig,

@@ -101,7 +101,7 @@ export function ProviderPnL() {
         appointments: agg.totalAppointments,
       }
     })
-  }, [selectedLocation])
+  }, [selectedLocation, locations])
 
   // Sort
   const sortedRows = useMemo(() => {
@@ -241,8 +241,9 @@ export function ProviderPnL() {
     }
   }
 
-  const SortHeader = ({ label, field }: { label: string; field: SortKey }) => (
+  const renderSortHeader = (label: string, field: SortKey) => (
     <th
+      key={field}
       onClick={() => handleSort(field)}
       className="text-right text-xs text-muted-foreground font-medium pb-3 px-3 cursor-pointer select-none hover:text-foreground transition-colors whitespace-nowrap"
     >
@@ -374,12 +375,12 @@ export function ProviderPnL() {
                     <ArrowUpDown className={cn('w-3 h-3', sortKey === 'location' ? 'text-primary' : 'text-muted-foreground/40')} />
                   </span>
                 </th>
-                <SortHeader label="Revenue" field="revenue" />
-                <SortHeader label="Rev/Hour" field="revPerHour" />
-                <SortHeader label="Utilization" field="utilization" />
-                <SortHeader label="Rebook %" field="rebook" />
-                <SortHeader label="No-Show %" field="noShow" />
-                <SortHeader label="Appts" field="appointments" />
+                {renderSortHeader('Revenue', 'revenue')}
+                {renderSortHeader('Rev/Hour', 'revPerHour')}
+                {renderSortHeader('Utilization', 'utilization')}
+                {renderSortHeader('Rebook %', 'rebook')}
+                {renderSortHeader('No-Show %', 'noShow')}
+                {renderSortHeader('Appts', 'appointments')}
               </tr>
             </thead>
             <tbody>

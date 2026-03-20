@@ -171,7 +171,7 @@ export function WhatIfSimulator() {
         ...prev,
       ])
     }, 800)
-  }, [activeTemplate, params, simLocation])
+  }, [activeTemplate, params, simLocation, locations])
 
   // Reset
   const handleReset = useCallback(() => {

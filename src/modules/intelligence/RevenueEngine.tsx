@@ -148,6 +148,7 @@ export function RevenueEngine() {
   }, [activeOpps])
 
   // Scatter data for impact vs effort
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization -- intentional: simple derived data
   const scatterData = useMemo(() => {
     return activeOpps.map((o) => ({
       x: EFFORT_NUMERIC[o.effort],
@@ -509,6 +510,7 @@ function OpportunityCard({
   onImplement: () => void
   onDismiss: () => void
 }) {
+  const { locations } = useEIPData()
   const confidenceCfg = CONFIDENCE_CONFIG[opp.confidence]
   const effortCfg = EFFORT_CONFIG[opp.effort]
   const statusCfg = STATUS_CONFIG[opp.status]

@@ -508,7 +508,7 @@ function BrandRankingsTable({ allMetrics }: { allMetrics: BrandMetrics[] }) {
       result[bm.brand.id] = points
     }
     return result
-  }, [allMetrics])
+  }, [allMetrics, dailyMetrics])
 
   const ranked = [...allMetrics].sort((a, b) => b.revenue - a.revenue)
 
@@ -709,7 +709,7 @@ function RollUpSummary({ allMetrics }: { allMetrics: BrandMetrics[] }) {
 // ---------------------------------------------------------------------------
 
 export function BrandOverview() {
-  const { dailyMetrics, locations } = useEIPData()
+  const { dailyMetrics } = useEIPData()
   const { brands, selectedBrand, setBrand } = useBrandStore()
 
   const allMetrics = useMemo(

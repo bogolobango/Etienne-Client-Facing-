@@ -121,12 +121,12 @@ export function MetricCard({
           </div>
         )}
         {benchmarkLabel && (
-          <p className="text-[10px] text-muted-foreground/60 mt-1.5">
+          <p className="text-[11px] text-muted-foreground/80 mt-2">
             {benchmarkLabel}
           </p>
         )}
         {dataSource && (
-          <p className="text-[10px] text-muted-foreground/50 mt-1 tracking-wide uppercase">
+          <p className="text-[10px] text-muted-foreground/40 mt-1 tracking-wide uppercase">
             via {dataSource}
           </p>
         )}

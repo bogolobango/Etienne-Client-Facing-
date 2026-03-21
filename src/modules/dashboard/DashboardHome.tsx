@@ -94,7 +94,7 @@ export function DashboardHome() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: simulate loading transition on location change
     setLoading(true)
-    const t = setTimeout(() => setLoading(false), 600)
+    const t = setTimeout(() => setLoading(false), 350)
     return () => clearTimeout(t)
   }, [selectedLocation])
 
@@ -223,6 +223,9 @@ export function DashboardHome() {
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-4">Top Opportunities</h3>
           <div className="space-y-3">
+            {activeAlerts.length === 0 && (
+              <p className="text-sm text-muted-foreground py-6 text-center">No active opportunities right now.</p>
+            )}
             {activeAlerts.map((alert) => (
               <div
                 key={alert.id}

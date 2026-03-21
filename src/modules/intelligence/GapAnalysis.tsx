@@ -1,8 +1,9 @@
 import { useState, useRef, useCallback, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { FileText, Download, Loader2, Sparkles, Mail } from 'lucide-react'
+import { FileText, Download, Loader2, Sparkles, Mail, ArrowLeft } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { Link } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import { useLocationStore } from '@/stores/useLocationStore'
 import { useClientStore } from '@/stores/useClientStore'
@@ -307,6 +308,12 @@ export function GapAnalysis() {
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="flex-1">
           <div className="flex items-center gap-2">
+            <Link
+              to="/intelligence"
+              className="p-2 -ml-2 rounded-lg hover:bg-primary/[0.05] text-muted-foreground transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </Link>
             <FileText className="w-5 h-5 text-primary" />
             <h1 className="text-xl sm:text-2xl font-semibold text-foreground">Gap Analysis</h1>
           </div>

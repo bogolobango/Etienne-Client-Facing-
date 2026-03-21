@@ -151,6 +151,8 @@ export function DashboardLayout() {
   const [desktopCollapsed, setDesktopCollapsed] = useState(false)
   const location = useLocation()
   const { clientName } = useClientStore()
+  const { alerts } = useEIPData()
+  const activeAlertCount = alerts.filter((a) => !a.dismissed).length
 
   // Close mobile sidebar on route change
   useEffect(() => {
@@ -254,9 +256,11 @@ export function DashboardLayout() {
 
             <button className="relative rounded-full p-2 text-muted-foreground transition-all hover:bg-primary/[0.08] hover:text-foreground">
               <Bell className="h-5 w-5" />
-              <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground shadow-[0_2px_8px_rgba(0,212,170,0.4)]">
-                3
-              </span>
+              {activeAlertCount > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground shadow-[0_2px_8px_rgba(0,212,170,0.4)]">
+                  {activeAlertCount > 9 ? '9+' : activeAlertCount}
+                </span>
+              )}
             </button>
 
             <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/[0.08] text-muted-foreground ring-1 ring-primary/15 transition-all hover:ring-primary/40 hover:text-foreground">

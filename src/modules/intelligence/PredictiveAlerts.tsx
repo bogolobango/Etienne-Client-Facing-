@@ -462,7 +462,7 @@ export function PredictiveAlerts() {
         animate={{ opacity: 1, y: 0 }}
         className="flex flex-wrap items-center gap-3"
       >
-        <div
+        <button
           className={cn(
             'flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm font-medium cursor-pointer transition-all',
             severityFilter === 'critical'
@@ -473,8 +473,8 @@ export function PredictiveAlerts() {
         >
           <AlertTriangle className="w-3.5 h-3.5" />
           Critical: {criticalCount}
-        </div>
-        <div
+        </button>
+        <button
           className={cn(
             'flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm font-medium cursor-pointer transition-all',
             severityFilter === 'warning'
@@ -485,8 +485,8 @@ export function PredictiveAlerts() {
         >
           <AlertCircle className="w-3.5 h-3.5" />
           Warning: {warningCount}
-        </div>
-        <div
+        </button>
+        <button
           className={cn(
             'flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm font-medium cursor-pointer transition-all',
             severityFilter === 'info'
@@ -497,7 +497,7 @@ export function PredictiveAlerts() {
         >
           <Info className="w-3.5 h-3.5" />
           Info: {infoCount}
-        </div>
+        </button>
 
         <div className="ml-auto text-xs sm:text-sm text-muted-foreground">
           Active impact: <span className="font-mono text-foreground font-medium">{formatCurrency(totalImpact)}</span>/mo

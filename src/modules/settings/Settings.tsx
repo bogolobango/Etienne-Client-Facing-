@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   Database, CheckCircle, RefreshCw, XCircle, Loader2,
-  Sparkles, Gem, Globe, Calendar, Phone, DollarSign, ArrowRight, Unplug, Plug, Building2, LogOut,
+  Sparkles, Gem, Globe, Calendar, Phone, DollarSign, Unplug, Plug, Building2, LogOut,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useZenotiStore, maskApiKey, type ZenotiCredentials } from '@/stores/useZenotiStore'
@@ -36,6 +36,7 @@ export function Settings() {
 
   const { clientName, setClientName } = useClientStore()
   const [editingName, setEditingName] = useState(clientName)
+  const [nameSaved, setNameSaved] = useState(false)
 
   // Form state for new connection
   const [showForm, setShowForm] = useState(false)
@@ -132,8 +133,8 @@ export function Settings() {
   return (
     <div className="space-y-6 max-w-4xl">
       <div>
-        <h1 className="text-xl sm:text-2xl font-semibold text-foreground">Integrations</h1>
-        <p className="text-muted-foreground mt-1">Manage data connections and platform integrations</p>
+        <h1 className="text-xl sm:text-2xl font-semibold text-foreground">Settings</h1>
+        <p className="text-muted-foreground mt-1">Client configuration, data connections, and integrations</p>
       </div>
 
       {/* Client Configuration */}
@@ -164,11 +165,17 @@ export function Settings() {
               className="flex-1 px-3 py-2 rounded-lg bg-secondary border border-border text-base sm:text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
             />
             <button
-              onClick={() => { if (editingName.trim()) setClientName(editingName.trim()) }}
+              onClick={() => {
+                if (editingName.trim()) {
+                  setClientName(editingName.trim())
+                  setNameSaved(true)
+                  setTimeout(() => setNameSaved(false), 2000)
+                }
+              }}
               disabled={editingName.trim() === clientName}
               className="px-4 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50 shrink-0"
             >
-              Save
+              {nameSaved ? 'Saved!' : 'Save'}
             </button>
           </div>
         </motion.div>
@@ -413,15 +420,9 @@ export function Settings() {
                   </div>
                 </div>
                 <div className="mt-auto pt-3 border-t border-border">
-                  {integration.status === 'available' ? (
-                    <button className="text-sm text-primary font-medium hover:underline flex items-center gap-1">
-                      Connect <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  ) : (
-                    <span className="text-xs px-2.5 py-1 rounded-full bg-muted text-muted-foreground font-medium">
-                      Coming Soon
-                    </span>
-                  )}
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-muted text-muted-foreground font-medium">
+                    Coming Soon
+                  </span>
                 </div>
               </motion.div>
             )

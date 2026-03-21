@@ -326,6 +326,32 @@ export function Performance() {
                       </tr>
                     )
                   })}
+                  {/* Totals row */}
+                  <tr className="bg-primary/[0.04]">
+                    <td className="py-3 pr-4">
+                      <p className="text-sm font-semibold text-foreground">Network Total</p>
+                      <p className="text-xs text-muted-foreground">{locationScores.length} locations</p>
+                    </td>
+                    <td className="text-right py-3 px-4 font-mono text-sm font-semibold text-foreground">
+                      {formatCurrency(locationScores.reduce((s, l) => s + l.revenue, 0))}
+                    </td>
+                    <td className="text-right py-3 px-4 font-mono text-sm text-muted-foreground">—</td>
+                    <td className="text-right py-3 px-4 font-mono text-sm text-foreground">
+                      {networkAvg.utilization.toFixed(1)}%
+                    </td>
+                    <td className="text-right py-3 px-4 font-mono text-sm text-foreground">
+                      {networkAvg.noShowRate.toFixed(1)}%
+                    </td>
+                    <td className="text-right py-3 px-4 font-mono text-sm text-foreground">
+                      {networkAvg.rebookRate.toFixed(1)}%
+                    </td>
+                    <td className="text-right py-3 px-4 font-mono text-sm text-primary font-semibold">
+                      {formatCurrency(locationScores.reduce((s, l) => s + l.recovered, 0))}
+                    </td>
+                    <td className="text-right py-3 pl-4 font-mono text-sm text-foreground font-semibold">
+                      {locationScores.reduce((s, l) => s + l.newClients, 0)}
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>

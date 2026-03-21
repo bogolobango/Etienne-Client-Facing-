@@ -11,6 +11,8 @@ import { computeContext, type ComputeContextData } from '@/lib/ai-context'
 import { buildAnalystContext } from '@/lib/build-analyst-context'
 import { generateAIResponse } from '@/lib/ai-responses'
 import { useClientStore } from '@/stores/useClientStore'
+import { useAnalytics } from '@/hooks/useAnalytics'
+import type { AnalyticsResult } from '@/lib/analytics/types'
 import type { ChatMessage } from '@/types'
 
 const SUGGESTED_PROMPTS = [
@@ -90,8 +92,9 @@ async function streamFromAPI(
   onChunk: (text: string) => void,
   signal: AbortSignal,
   data?: ComputeContextData,
+  analytics?: AnalyticsResult,
 ): Promise<boolean> {
-  const { metrics, locations, alerts } = buildAnalystContext(selectedLocation, data)
+  const { metrics, locations, alerts } = buildAnalystContext(selectedLocation, data, analytics)
 
   const response = await fetch('/api/analyst', {
     method: 'POST',
@@ -122,6 +125,7 @@ export function AIAnalyst() {
   const { dailyMetrics, appointments, conversations, opportunities, locations } = useEIPData()
   const { messages, isLoading, addMessage, updateLastMessage, setLoading, clearMessages } = useChatStore()
   const { selectedLocation } = useLocationStore()
+  const analyticsResult = useAnalytics()
   const eipData: ComputeContextData = useMemo(
     () => ({ dailyMetrics, appointments, conversations, opportunities, locations }),
     [dailyMetrics, appointments, conversations, opportunities, locations],
@@ -186,6 +190,7 @@ export function AIAnalyst() {
         },
         abortController.signal,
         eipData,
+        analyticsResult,
       )
 
       setUsingAPI(true)

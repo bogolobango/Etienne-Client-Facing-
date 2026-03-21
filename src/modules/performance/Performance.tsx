@@ -16,6 +16,7 @@ import {
 import { useLocationStore } from '@/stores/useLocationStore'
 import { useEIPData } from '@/contexts/EIPDataContext'
 import { INDUSTRY_BENCHMARKS } from '@/data/benchmarks'
+import { computeLeakage } from '@/lib/analytics/leakage-model'
 import {
   getProvidersByLocation,
   getAggregatedProviderMetrics,
@@ -54,7 +55,7 @@ type TabId = typeof TABS[number]['id']
 // Component
 // ---------------------------------------------------------------------------
 export function Performance() {
-  const { dailyMetrics, locations } = useEIPData()
+  const { dailyMetrics, locations, appointments, clients, services } = useEIPData()
   const { selectedLocation } = useLocationStore()
   const [activeTab, setActiveTab] = useState<TabId>('locations')
   const [sortKey, setSortKey] = useState<SortKey>('revenue')
@@ -179,38 +180,37 @@ export function Performance() {
   // Revenue leakage data
   // ---------------------------------------------------------------------------
   const leakageData = useMemo(() => {
+    const leakage = computeLeakage(appointments, clients, dailyMetrics, locations, services, selectedLocation)
+
+    const colors = [
+      'bg-destructive/60', 'bg-destructive/40', 'bg-warning/50',
+      'bg-warning/30', 'bg-orange-500/40', 'bg-amber-500/30',
+    ]
+
     const filtered = dailyMetrics.filter((m) => {
       const d = new Date(m.date)
       const now = new Date()
       return (now.getTime() - d.getTime()) / 86400000 <= 30 &&
         (selectedLocation === 'all' || m.locationId === selectedLocation)
     })
-
-    const actualRevenue = filtered.reduce((s, m) => s + m.revenue, 0)
-    const totalNoShows = filtered.reduce((s, m) => s + m.noShows, 0)
-    const avgUtil = filtered.length ? filtered.reduce((s, m) => s + m.utilizationRate, 0) / filtered.length : 0
     const totalRecovered = filtered.reduce((s, m) => s + m.revenueRecovered, 0)
-
-    const noShowLoss = Math.round(totalNoShows * INDUSTRY_BENCHMARKS.avgTicket.avg)
-    const afterHoursLoss = Math.round(actualRevenue * 0.08)
-    const utilizationGap = Math.round(actualRevenue * ((0.80 - avgUtil / 100) / 0.80) * 0.4)
-    const retentionLoss = Math.round(actualRevenue * 0.06)
-    const totalLeakage = noShowLoss + afterHoursLoss + utilizationGap + retentionLoss
-    const theoreticalRevenue = actualRevenue + totalLeakage
 
     return {
       items: [
-        { label: 'Total Capacity Revenue', value: theoreticalRevenue, isTotal: true, color: 'bg-primary/20' },
-        { label: 'No-Show Losses', value: -noShowLoss, isTotal: false, color: 'bg-destructive/60' },
-        { label: 'After-Hours Misses', value: -afterHoursLoss, isTotal: false, color: 'bg-destructive/40' },
-        { label: 'Utilization Gap', value: -utilizationGap, isTotal: false, color: 'bg-warning/50' },
-        { label: 'Retention Failures', value: -retentionLoss, isTotal: false, color: 'bg-warning/30' },
-        { label: 'Actual Revenue', value: actualRevenue, isTotal: true, color: 'bg-primary' },
+        { label: 'Total Capacity Revenue', value: leakage.theoreticalRevenue, isTotal: true, color: 'bg-primary/20', computation: '' },
+        ...leakage.categories.map((cat, i) => ({
+          label: cat.name,
+          value: -cat.amount,
+          isTotal: false,
+          color: colors[i % colors.length],
+          computation: cat.computation,
+        })),
+        { label: 'Actual Revenue', value: leakage.actualRevenue, isTotal: true, color: 'bg-primary', computation: '' },
       ],
-      maxVal: theoreticalRevenue,
+      maxVal: leakage.theoreticalRevenue,
       totalRecovered,
     }
-  }, [dailyMetrics, selectedLocation])
+  }, [appointments, clients, dailyMetrics, locations, services, selectedLocation])
 
   return (
     <div className="space-y-6">
@@ -386,24 +386,29 @@ export function Performance() {
           className="card-premium p-4 sm:p-6"
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-2">Revenue Leakage Analysis</h3>
-          <p className="text-xs text-muted-foreground mb-5">Where revenue is being lost vs. theoretical capacity</p>
+          <p className="text-xs text-muted-foreground mb-5">Where revenue is being lost vs. theoretical capacity — computed from actual appointment data</p>
           <div className="space-y-2.5">
             {leakageData.items.map((item) => (
-              <div key={item.label} className="flex items-center gap-3">
-                <div className="w-40 shrink-0 text-right">
-                  <p className={cn('text-xs', item.isTotal ? 'font-medium text-foreground' : 'text-muted-foreground')}>{item.label}</p>
+              <div key={item.label} className="group">
+                <div className="flex items-center gap-3">
+                  <div className="w-40 shrink-0 text-right">
+                    <p className={cn('text-xs', item.isTotal ? 'font-medium text-foreground' : 'text-muted-foreground')}>{item.label}</p>
+                  </div>
+                  <div className="flex-1 h-7 bg-primary/[0.06] rounded overflow-hidden relative">
+                    <div
+                      className={cn('h-full rounded transition-all', item.color)}
+                      style={{ width: `${leakageData.maxVal > 0 ? (Math.abs(item.value) / leakageData.maxVal) * 100 : 0}%` }}
+                    />
+                  </div>
+                  <div className="w-24 shrink-0 text-right">
+                    <span className={cn('text-sm font-mono', item.isTotal ? 'text-foreground font-semibold' : 'text-destructive')}>
+                      {item.value < 0 ? '-' : ''}{formatCurrency(Math.abs(item.value))}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex-1 h-7 bg-primary/[0.06] rounded overflow-hidden relative">
-                  <div
-                    className={cn('h-full rounded transition-all', item.color)}
-                    style={{ width: `${(Math.abs(item.value) / leakageData.maxVal) * 100}%` }}
-                  />
-                </div>
-                <div className="w-24 shrink-0 text-right">
-                  <span className={cn('text-sm font-mono', item.isTotal ? 'text-foreground font-semibold' : 'text-destructive')}>
-                    {item.value < 0 ? '-' : ''}{formatCurrency(Math.abs(item.value))}
-                  </span>
-                </div>
+                {item.computation && (
+                  <p className="ml-[calc(10rem+0.75rem)] text-[10px] text-muted-foreground/70 mt-0.5 italic">{item.computation}</p>
+                )}
               </div>
             ))}
             <p className="text-xs text-primary mt-4 pt-3 border-t border-border">

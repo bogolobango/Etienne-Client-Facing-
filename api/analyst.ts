@@ -81,7 +81,13 @@ Rules:
 - Never say you don't have access to data — you DO have access via the metrics above
 - Format currency with $ and commas
 - Use bold for key numbers and location names
-- Include actionable recommendations with estimated dollar impact where possible`;
+- Include actionable recommendations with estimated dollar impact where possible
+- When citing a leakage number, ALWAYS explain the computation (e.g., "87 no-shows × $394 avg revenue = $34,278")
+- When discussing at-risk clients, reference specific names and lifetime values
+- When comparing providers, use margin (revenue minus cost), not just revenue
+- Use normalizedRevenue for cross-location comparisons, not raw reported revenue
+- Cite benchmark segments (e.g., "among 4-15 location urban med spas, top quartile is 12%")
+- When asked "how did you calculate that?", reference the computation string for the relevant metric`;
 
     const anthropicResponse = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',

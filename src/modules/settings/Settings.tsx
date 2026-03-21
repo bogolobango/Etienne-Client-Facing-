@@ -132,7 +132,7 @@ export function Settings() {
   return (
     <div className="space-y-6 max-w-4xl">
       <div>
-        <h1 className="text-2xl font-semibold text-foreground">Integrations</h1>
+        <h1 className="text-xl sm:text-2xl font-semibold text-foreground">Integrations</h1>
         <p className="text-muted-foreground mt-1">Manage data connections and platform integrations</p>
       </div>
 
@@ -155,18 +155,18 @@ export function Settings() {
               <p className="text-sm text-muted-foreground">This name appears in all reports and the AI Analyst</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
             <input
               type="text"
               value={editingName}
               onChange={(e) => setEditingName(e.target.value)}
               placeholder="e.g. Skinney MedSpa"
-              className="flex-1 px-3 py-2 rounded-lg bg-secondary border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+              className="flex-1 px-3 py-2 rounded-lg bg-secondary border border-border text-base sm:text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
             />
             <button
               onClick={() => { if (editingName.trim()) setClientName(editingName.trim()) }}
               disabled={editingName.trim() === clientName}
-              className="px-4 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50"
+              className="px-4 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50 shrink-0"
             >
               Save
             </button>
@@ -261,7 +261,7 @@ export function Settings() {
             )}
 
             {/* Bottom action buttons */}
-            <div className="flex items-center gap-3 mt-5 pt-4 border-t border-border">
+            <div className="flex items-center gap-2 sm:gap-3 mt-5 pt-4 border-t border-border flex-wrap">
               <button
                 onClick={handleResync}
                 disabled={syncStatus === 'syncing'}
@@ -392,7 +392,7 @@ export function Settings() {
       {/* Available Integrations */}
       <div>
         <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Available Integrations</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {availableIntegrations.map((integration, i) => {
             const Icon = integration.icon
             return (

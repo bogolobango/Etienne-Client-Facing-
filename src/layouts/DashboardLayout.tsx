@@ -226,7 +226,7 @@ export function DashboardLayout() {
       {/* Main column */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Topbar */}
-        <header className="flex h-14 md:h-16 shrink-0 items-center justify-between border-b border-border bg-background/95 backdrop-blur-sm px-3 md:px-6 z-10">
+        <header className="flex h-14 md:h-16 shrink-0 items-center justify-between border-b border-border bg-background/95 backdrop-blur-sm px-3 sm:px-4 md:px-6 z-10">
           <div className="flex items-center gap-2">
             {/* Mobile: hamburger */}
             <button

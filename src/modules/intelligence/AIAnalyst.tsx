@@ -247,15 +247,15 @@ export function AIAnalyst() {
   }, [isLoading, addMessage, updateLastMessage, setLoading, selectedLocation, eipData])
 
   return (
-    <div className="flex flex-col h-[calc(100vh-160px)] sm:h-[calc(100vh-140px)] md:h-[calc(100vh-120px)]">
+    <div className="flex flex-col h-[calc(100dvh-160px)] sm:h-[calc(100dvh-140px)] md:h-[calc(100dvh-120px)]">
       <div className="flex items-center gap-3 mb-4">
         <div className="flex-1">
           <div className="flex items-center gap-2">
             <Brain className="w-5 h-5 text-primary" />
-            <h1 className="text-2xl font-semibold text-foreground">Intelligence</h1>
+            <h1 className="text-xl sm:text-2xl font-semibold text-foreground">Intelligence</h1>
           </div>
-          <div className="flex items-center gap-2 mt-0.5">
-            <p className="text-muted-foreground">Ask anything about your portfolio — powered by Claude</p>
+          <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+            <p className="text-sm sm:text-base text-muted-foreground">Ask anything about your portfolio — powered by Claude</p>
             {usingAPI ? (
               <span className="flex items-center gap-1 text-xs text-primary">
                 <Wifi className="w-3 h-3" />
@@ -340,7 +340,7 @@ export function AIAnalyst() {
                     </div>
                   )}
                   <div className={cn(
-                    'max-w-[90%] sm:max-w-[80%] rounded-lg p-4',
+                    'max-w-[90%] sm:max-w-[80%] rounded-lg p-3 sm:p-4',
                     msg.role === 'user'
                       ? 'bg-primary/10 text-foreground'
                       : 'bg-primary/[0.06] text-foreground'

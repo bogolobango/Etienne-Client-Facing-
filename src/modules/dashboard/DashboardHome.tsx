@@ -102,7 +102,7 @@ export function DashboardHome() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-semibold text-foreground">Executive Overview</h1>
+        <h1 className="text-xl sm:text-2xl font-semibold text-foreground">Executive Overview</h1>
         <p className="text-muted-foreground mt-1">
           {selectedLocation === 'all' ? 'All Centers' : locations.find(l => l.id === selectedLocation)?.name} — Last 30 Days
         </p>
@@ -159,7 +159,7 @@ export function DashboardHome() {
       )}
 
       {/* Revenue Chart + Top Alerts */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4">
         {/* Revenue Trend */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -168,7 +168,7 @@ export function DashboardHome() {
           className="lg:col-span-2 card-premium p-4 sm:p-6"
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-4">Revenue Trend (30 days)</h3>
-          <div className="h-[200px] md:h-[280px]">
+          <div className="h-[200px] sm:h-[240px] md:h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData}>
                 <defs>
@@ -268,8 +268,8 @@ export function DashboardHome() {
           className="card-premium p-4 sm:p-6"
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-4">Cross-Location Comparison</h3>
-          <div className="overflow-x-auto">
-            <table className="w-full">
+          <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+            <table className="w-full min-w-[500px]">
               <thead>
                 <tr className="border-b border-border">
                   <th className="text-left text-xs text-muted-foreground font-medium pb-3 pr-4">Location</th>

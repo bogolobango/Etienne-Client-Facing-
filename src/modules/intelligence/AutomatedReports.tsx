@@ -90,7 +90,7 @@ function WeeklyBriefPreview() {
   return (
     <motion.div variants={fadeUp} className="card-premium overflow-hidden">
       {/* Email-style header */}
-      <div className="bg-primary/[0.08] border-b border-primary/20 px-6 py-4 flex items-center justify-between">
+      <div className="bg-primary/[0.08] border-b border-primary/20 px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
             <Mail className="w-4 h-4 text-primary" />
@@ -107,7 +107,7 @@ function WeeklyBriefPreview() {
         </span>
       </div>
 
-      <div className="p-6 space-y-6">
+      <div className="p-4 sm:p-6 space-y-6">
         {/* Wins */}
         <div>
           <h4 className="text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-3 flex items-center gap-2">
@@ -263,8 +263,8 @@ function ScheduledReportsTable() {
         <h3 className="text-sm font-semibold text-foreground">Scheduled Reports</h3>
         <p className="text-xs text-muted-foreground mt-0.5">Manage automated report delivery</p>
       </div>
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+      <div className="overflow-x-auto -mx-6 px-6">
+        <table className="w-full text-sm min-w-[700px]">
           <thead>
             <tr className="border-b border-border text-left">
               <th className="px-6 py-3 text-xs font-medium text-muted-foreground">Report</th>
@@ -462,7 +462,7 @@ function ReportBuilderCTA() {
 
   return (
     <motion.div variants={fadeUp} className="card-premium overflow-hidden">
-      <div className="p-6 flex flex-col lg:flex-row lg:items-center gap-6">
+      <div className="p-4 sm:p-6 flex flex-col lg:flex-row lg:items-center gap-4 sm:gap-6">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
             <Plus className="w-5 h-5 text-primary" />
@@ -531,7 +531,7 @@ export function AutomatedReports() {
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Intelligence Reports</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold text-foreground">Intelligence Reports</h1>
           <p className="text-muted-foreground mt-0.5">Automated insights delivered to your inbox</p>
         </div>
       </motion.div>

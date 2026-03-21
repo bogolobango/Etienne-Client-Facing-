@@ -304,34 +304,34 @@ export function GapAnalysis() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="flex-1">
           <div className="flex items-center gap-2">
             <FileText className="w-5 h-5 text-primary" />
-            <h1 className="text-2xl font-semibold text-foreground">Gap Analysis</h1>
+            <h1 className="text-xl sm:text-2xl font-semibold text-foreground">Gap Analysis</h1>
           </div>
-          <p className="text-muted-foreground mt-0.5">Cross-location intelligence report with revenue gaps, benchmarks, and action plan</p>
+          <p className="text-sm text-muted-foreground mt-0.5">Cross-location intelligence report with revenue gaps, benchmarks, and action plan</p>
         </div>
         {report && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <button
               onClick={handlePdfDownload}
               disabled={pdfLoading}
-              className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm disabled:opacity-50"
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm disabled:opacity-50"
             >
               {pdfLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-              Download PDF
+              <span className="hidden sm:inline">Download</span> PDF
             </button>
             <button
               onClick={() => setEmailModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors text-sm"
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors text-sm"
             >
               <Mail className="w-4 h-4" />
               Email
             </button>
             <button
               onClick={handleDownload}
-              className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors text-sm"
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors text-sm"
             >
               <Download className="w-4 h-4" />
               .md
@@ -420,7 +420,7 @@ export function GapAnalysis() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="card-premium p-6 w-full max-w-md mx-4"
+            className="card-premium p-4 sm:p-6 w-full max-w-sm sm:max-w-md mx-4"
             onClick={(e) => e.stopPropagation()}
           >
             <h3 className="text-lg font-semibold text-foreground mb-1">Email Report</h3>

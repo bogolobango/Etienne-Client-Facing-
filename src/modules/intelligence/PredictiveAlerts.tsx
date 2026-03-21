@@ -298,7 +298,7 @@ function AlertCard({
               </div>
 
               {/* Metric summary */}
-              <div className="flex items-center gap-6 text-sm">
+              <div className="flex items-center gap-3 sm:gap-6 text-sm flex-wrap">
                 <div>
                   <span className="text-muted-foreground">Current: </span>
                   <span className="font-mono text-foreground">{alert.currentValue}</span>
@@ -449,7 +449,7 @@ export function PredictiveAlerts() {
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Predictive Alerts</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold text-foreground">Predictive Alerts</h1>
           <p className="text-muted-foreground mt-0.5">
             AI-detected trends, anomalies, and forecasts before they impact revenue
           </p>
@@ -499,8 +499,8 @@ export function PredictiveAlerts() {
           Info: {infoCount}
         </div>
 
-        <div className="ml-auto text-sm text-muted-foreground">
-          Total active impact: <span className="font-mono text-foreground font-medium">{formatCurrency(totalImpact)}</span>/mo
+        <div className="ml-auto text-xs sm:text-sm text-muted-foreground">
+          Active impact: <span className="font-mono text-foreground font-medium">{formatCurrency(totalImpact)}</span>/mo
         </div>
       </motion.div>
 
@@ -593,7 +593,7 @@ export function PredictiveAlerts() {
       </motion.div>
 
       {/* Main content: Alert Cards + Timeline */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Alert Cards */}
         <div className="lg:col-span-2 space-y-3">
           <AnimatePresence mode="popLayout">

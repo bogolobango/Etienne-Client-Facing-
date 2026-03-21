@@ -182,7 +182,7 @@ export function PackageTruth() {
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">
+          <h1 className="text-xl sm:text-2xl font-semibold text-foreground">
             Package Revenue Truth Engine
           </h1>
           <p className="text-muted-foreground mt-0.5">
@@ -222,7 +222,7 @@ export function PackageTruth() {
       {/* ---------------------------------------------------------------- */}
       {/* Revenue Variance Dashboard — 3 metric cards */}
       {/* ---------------------------------------------------------------- */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
         {[
           {
             label: 'Reported vs Normalized Revenue',
@@ -309,7 +309,7 @@ export function PackageTruth() {
         <p className="text-xs text-muted-foreground mb-5">
           The gap between lines reveals package booking distortion
         </p>
-        <div className="h-[200px] md:h-[300px]">
+        <div className="h-[200px] sm:h-[250px] md:h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={comparisonChartData}>
               <defs>
@@ -424,8 +424,8 @@ export function PackageTruth() {
             {activeSales.length} active
           </span>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
+        <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+          <table className="w-full min-w-[800px]">
             <thead>
               <tr className="border-b border-border">
                 {[
@@ -555,7 +555,7 @@ export function PackageTruth() {
         <p className="text-xs text-muted-foreground mb-5">
           Stacked view of service obligations across locations
         </p>
-        <div className="h-[200px] md:h-[300px]">
+        <div className="h-[200px] sm:h-[250px] md:h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={locationBreakdown}>
               <XAxis
@@ -733,7 +733,7 @@ export function PackageTruth() {
           </div>
 
           {/* PMS view vs Truth view */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {/* PMS View */}
             <div>
               <p className="text-xs font-medium text-destructive uppercase tracking-wider mb-3">

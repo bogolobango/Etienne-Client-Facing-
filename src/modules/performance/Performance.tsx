@@ -216,14 +216,14 @@ export function Performance() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-semibold text-foreground">Performance</h1>
+        <h1 className="text-xl sm:text-2xl font-semibold text-foreground">Performance</h1>
         <p className="text-muted-foreground mt-1">
           Cross-location benchmarking and provider analytics
         </p>
       </div>
 
       {/* Tab Navigation */}
-      <div className="flex gap-1 p-1 rounded-lg bg-secondary border border-border w-fit">
+      <div className="flex gap-1 p-1 rounded-lg bg-secondary border border-border w-fit overflow-x-auto max-w-full">
         {TABS.map((tab) => (
           <button
             key={tab.id}
@@ -250,7 +250,7 @@ export function Performance() {
             className="card-premium p-4 sm:p-6"
           >
             <h3 className="text-sm font-medium text-muted-foreground mb-4">Revenue by Location</h3>
-            <div className="h-[250px] md:h-[300px]">
+            <div className="h-[220px] sm:h-[250px] md:h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={locationChartData}>
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} />
@@ -274,18 +274,18 @@ export function Performance() {
             className="card-premium p-4 sm:p-6"
           >
             <h3 className="text-sm font-medium text-muted-foreground mb-4">Location Scorecard</h3>
-            <div className="overflow-x-auto">
-              <table className="w-full">
+            <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+              <table className="w-full min-w-[700px]">
                 <thead>
                   <tr className="border-b border-border">
                     <th className="text-left text-xs text-muted-foreground font-medium pb-3 pr-4">Location</th>
                     <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">Revenue</th>
-                    <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">vs Network Avg</th>
-                    <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">Utilization</th>
-                    <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">No-Show %</th>
-                    <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">Rebook %</th>
+                    <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">vs Avg</th>
+                    <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">Util.</th>
+                    <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">No-Show</th>
+                    <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">Rebook</th>
                     <th className="text-right text-xs text-muted-foreground font-medium pb-3 px-4">Recovered</th>
-                    <th className="text-right text-xs text-muted-foreground font-medium pb-3 pl-4">New Clients</th>
+                    <th className="text-right text-xs text-muted-foreground font-medium pb-3 pl-4">New</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -344,17 +344,17 @@ export function Performance() {
           className="card-premium p-4 sm:p-6"
         >
           <h3 className="text-sm font-medium text-muted-foreground mb-4">Provider Performance</h3>
-          <div className="overflow-x-auto">
-            <table className="w-full">
+          <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+            <table className="w-full min-w-[650px]">
               <thead>
                 <tr className="border-b border-border">
                   {renderSortHeader('Provider', 'name', 'left')}
                   {renderSortHeader('Location', 'location', 'left')}
                   {renderSortHeader('Revenue', 'revenue')}
-                  {renderSortHeader('Rev/Hour', 'revPerHour')}
-                  {renderSortHeader('Utilization', 'utilization')}
-                  {renderSortHeader('Rebook %', 'rebook')}
-                  {renderSortHeader('No-Show %', 'noShow')}
+                  {renderSortHeader('Rev/Hr', 'revPerHour')}
+                  {renderSortHeader('Util.', 'utilization')}
+                  {renderSortHeader('Rebook', 'rebook')}
+                  {renderSortHeader('No-Show', 'noShow')}
                 </tr>
               </thead>
               <tbody>
@@ -390,8 +390,8 @@ export function Performance() {
           <div className="space-y-2.5">
             {leakageData.items.map((item) => (
               <div key={item.label} className="group">
-                <div className="flex items-center gap-3">
-                  <div className="w-40 shrink-0 text-right">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-28 sm:w-40 shrink-0 text-right">
                     <p className={cn('text-xs', item.isTotal ? 'font-medium text-foreground' : 'text-muted-foreground')}>{item.label}</p>
                   </div>
                   <div className="flex-1 h-7 bg-primary/[0.06] rounded overflow-hidden relative">
@@ -400,7 +400,7 @@ export function Performance() {
                       style={{ width: `${leakageData.maxVal > 0 ? (Math.abs(item.value) / leakageData.maxVal) * 100 : 0}%` }}
                     />
                   </div>
-                  <div className="w-24 shrink-0 text-right">
+                  <div className="w-20 sm:w-24 shrink-0 text-right">
                     <span className={cn('text-sm font-mono', item.isTotal ? 'text-foreground font-semibold' : 'text-destructive')}>
                       {item.value < 0 ? '-' : ''}{formatCurrency(Math.abs(item.value))}
                     </span>
